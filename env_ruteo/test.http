@@ -1,0 +1,42 @@
+### GET todos los destinos
+GET http://127.0.0.1:8000/ruteo/destinos/all
+
+###
+### GET destino por ID
+GET http://127.0.0.1:8000/ruteo/destinos/7
+
+###
+### POST crear destino
+POST http://127.0.0.1:8000/ruteo/destinos/add
+Content-Type: application/json
+
+{
+    "nom_destino": "Lima",
+    "descripcion": "Hermoso lago para deportes acuaticos",
+    "id_ciudad": 1,
+    "tipo_destino": "natural",
+    "imagen_url": "https://imagen.com/calima.jpg",
+    "latitud": 3.9167,
+    "longitud": -76.5,
+    "activo": true
+}
+
+###
+### PUT actualizar destino
+PUT http://127.0.0.1:8000/ruteo/destinos/update/7
+Content-Type: application/json
+
+{
+    "nom_destino": "machupicho",
+    "descripcion": "Lago ideal para deportes acuaticos",
+    "id_ciudad": 1,
+    "tipo_destino": "natural",
+    "imagen_url": "https://imagen.com/calima.jpg",
+    "latitud": 3.9167,
+    "longitud": -76.5,
+    "activo": true
+}
+
+###
+### DELETE borrar destino
+DELETE http://127.0.0.1:8000/ruteo/destinos/borrar/7
