@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-DB_URL = f"mysql+pymysql://root:ffxUufKkYSsEivohaQcaglNURhHTmIeX@yamanote.proxy.rlwy.net:17396/railway"
+DB_URL = f"mysql+pymysql://root:ffxUufKkYSsEivohaQcaglNURhHTmIeX@yamanote.proxy.rlwy.net:17396/ruteo"
 
 engine = create_engine(DB_URL)
 
