@@ -1,5 +1,5 @@
 ### GET todos los destinos
-GET http://127.0.0.1:8000/ruteo/destinos/all
+GET http://127.0.0.1:8000/ruteo/ciudades/all
 
 ###
 ### GET destino por ID
