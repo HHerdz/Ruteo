@@ -1,0 +1,262 @@
+* { box-sizing: border-box; }
+
+.comparar-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 40px 60px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.comparar-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.comparar-titulo {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+
+.comparar-sub {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 24px;
+}
+
+.comparar-tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.comp-tab {
+  padding: 9px 24px;
+  border-radius: 100px;
+  border: 1.5px solid #e0e0e0;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.comp-tab:hover {
+  border-color: #1a1a1a;
+  color: #1a1a1a;
+}
+
+.comp-tab.activo {
+  background: #1a1a1a;
+  color: #fff;
+  border-color: #1a1a1a;
+}
+
+/* Loading */
+.comparar-loading {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 60px 0;
+}
+
+.loading-dot {
+  width: 10px;
+  height: 10px;
+  background: #1a1a1a;
+  border-radius: 50%;
+  animation: bounce 0.8s infinite alternate;
+}
+
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  from { transform: translateY(0); opacity: 0.4; }
+  to { transform: translateY(-10px); opacity: 1; }
+}
+
+/* Body */
+.comparar-body {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Lista */
+.comparar-lista {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #ebebeb;
+  padding: 20px;
+}
+
+.lista-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+}
+
+.lista-label span {
+  color: #1a1a1a;
+}
+
+.item-card {
+  opacity: 1 !important;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1.5px solid #ebebeb;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.item-card:hover {
+  border-color: #1a1a1a;
+  background: #fafafa;
+}
+
+.item-card.seleccionado {
+  border-color: #1a1a1a;
+  background: #f5f5f5;
+}
+
+.item-info {
+  flex: 1;
+}
+
+.item-nombre {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 2px;
+}
+
+.item-sub {
+  font-size: 11px;
+  color: #bbb;
+  margin: 0;
+}
+
+.item-precio {
+  text-align: right;
+}
+
+.precio-valor {
+  font-size: 14px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.precio-unidad {
+  font-size: 10px;
+  color: #bbb;
+  margin: 0;
+}
+
+.item-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s ease;
+}
+
+.item-check.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Tabla */
+.comparar-tabla {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #ebebeb;
+  padding: 24px;
+  min-height: 300px;
+}
+
+.tabla-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #bbb;
+  font-size: 14px;
+}
+
+.tabla-header {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.tabla-row {
+  display: flex;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.tabla-cell {
+  flex: 1;
+  font-size: 13px;
+  color: #1a1a1a;
+  text-align: center;
+}
+
+.tabla-cell.label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #999;
+  text-align: left;
+  flex: 0.8;
+}
+
+.tabla-header .tabla-cell {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a1a;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #1a1a1a;
+}
+
+.mejor-precio {
+  color: #16a34a;
+  font-weight: 800;
+}
+
+.badge-mejor {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  background: #dcfce7;
+  color: #16a34a;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+
+.small-text {
+  font-size: 11px;
+  color: #888;
+}

@@ -1,0 +1,183 @@
+* { box-sizing: border-box; }
+
+.rec-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 40px 60px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.rec-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.rec-titulo {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+
+.rec-sub {
+  font-size: 14px;
+  color: #999;
+}
+
+/* Selector */
+.rec-selector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+
+.selector-card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #ebebeb;
+  padding: 28px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.selector-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.selector-select {
+  padding: 12px 16px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23999' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 14px center;
+}
+
+.selector-select:focus { border-color: #1a1a1a; }
+
+.selector-btn {
+  padding: 13px;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.selector-btn:hover { background: #333; }
+
+/* Loading */
+.rec-loading {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px 0;
+}
+
+.loading-dot {
+  width: 10px;
+  height: 10px;
+  background: #1a1a1a;
+  border-radius: 50%;
+  animation: bounce 0.8s infinite alternate;
+}
+
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  from { transform: translateY(0); opacity: 0.4; }
+  to { transform: translateY(-10px); opacity: 1; }
+}
+
+/* Empty */
+.rec-empty {
+  text-align: center;
+  color: #bbb;
+  font-size: 14px;
+  padding: 60px 0;
+}
+
+/* Consejos */
+.consejos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.consejo-card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #ebebeb;
+  padding: 24px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.consejo-card:hover {
+  transform: translateY(-4px);
+  border-color: #1a1a1a;
+}
+
+.consejo-icon {
+  width: 40px;
+  height: 40px;
+  background: #1a1a1a;
+  color: #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.consejo-titulo {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 14px;
+}
+
+.consejo-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.consejo-lista li {
+  font-size: 13px;
+  color: #666;
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.consejo-lista li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 5px;
+  height: 5px;
+  background: #1a1a1a;
+  border-radius: 50%;
+}

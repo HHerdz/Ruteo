@@ -1,0 +1,52 @@
+<div class="checklist-wrapper">
+
+  <div class="checklist-header">
+    <h2 class="checklist-titulo">Checklist de viaje</h2>
+    <p class="checklist-sub">Lista de elementos que debes llevar en tu viaje</p>
+  </div>
+
+  <div class="checklist-contenido">
+
+    <div class="checklist-card">
+
+      <!-- Progreso -->
+      <div class="progreso-wrap">
+        <div class="progreso-info">
+          <span class="progreso-label">Progreso</span>
+          <span class="progreso-count">{{ completados }}/{{ items.length }}</span>
+        </div>
+        <div class="progreso-bar">
+          <div class="progreso-fill" [style.width]="porcentaje + '%'"></div>
+        </div>
+        <span class="progreso-pct">{{ porcentaje }}% completado</span>
+      </div>
+
+      <!-- Input -->
+      <div class="checklist-input">
+        <input type="text" placeholder="Agregar elemento a la lista..." [(ngModel)]="nuevoItem" (keyup.enter)="agregarItem()">
+        <button (click)="agregarItem()">Agregar</button>
+      </div>
+
+      <!-- Lista -->
+      <div class="checklist-lista">
+        <div *ngFor="let item of items; let i = index" class="checklist-item" [class.completado]="item.completado">
+          <div class="item-left" (click)="item.completado = !item.completado">
+            <div class="item-check" [class.marcado]="item.completado">
+              <span *ngIf="item.completado">&#10003;</span>
+            </div>
+            <span class="item-nombre">{{ item.nombre }}</span>
+          </div>
+          <button class="item-eliminar" (click)="eliminarItem(i)">Eliminar</button>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="checklist-footer">
+        <span class="footer-info">{{ items.length - completados }} elementos pendientes</span>
+        <button class="btn-limpiar" (click)="limpiar()">Desmarcar todo</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>

@@ -1,1 +1,64 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --color-primario: #1a1a1a;
+  --color-secundario: #333333;
+  --color-acento: #ffffff;
+  --color-fondo: #f9f9f9;
+  --color-texto: #1a1a1a;
+  --color-blanco: #ffffff;
+}
+
+body {
+  background-color: var(--color-fondo);
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--color-texto);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.btn-primario {
+  background-color: var(--color-primario);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+}
+
+.btn-primario:hover {
+  background-color: var(--color-secundario);
+  color: white;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+app-footer {
+  margin-top: auto;
+}html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+app-footer {
+  margin-top: auto;
+}
+.container, .container-fluid {
+  padding-bottom: 80px;
+}

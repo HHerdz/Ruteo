@@ -1,0 +1,83 @@
+<div class="gastos-wrapper">
+
+  <div class="gastos-header">
+    <h2 class="gastos-titulo">Dividir gastos</h2>
+    <p class="gastos-sub">Organiza cuanto debe pagar cada viajero del grupo</p>
+  </div>
+
+  <div class="gastos-grid">
+
+    <!-- Izquierda -->
+    <div class="gastos-left">
+
+      <div class="gastos-card">
+        <p class="card-label">Monto total del viaje</p>
+        <div class="monto-input">
+          <span class="monto-signo">$</span>
+          <input type="number" placeholder="0" [(ngModel)]="montoTotal" min="0">
+        </div>
+      </div>
+
+      <div class="gastos-card">
+        <p class="card-label">Agregar viajeros</p>
+        <div class="viajero-input">
+          <input type="text" placeholder="Nombre del viajero" [(ngModel)]="nombreViajero" (keyup.enter)="agregarViajero()">
+          <button (click)="agregarViajero()">Agregar</button>
+        </div>
+
+        <div *ngIf="viajeros.length === 0" class="viajeros-empty">
+          No hay viajeros agregados
+        </div>
+
+        <div *ngFor="let v of viajeros; let i = index" class="viajero-item">
+          <div class="viajero-avatar">{{ v.charAt(0).toUpperCase() }}</div>
+          <span class="viajero-nombre">{{ v }}</span>
+          <button class="viajero-eliminar" (click)="eliminarViajero(i)">Eliminar</button>
+        </div>
+
+        <button *ngIf="viajeros.length > 0" class="btn-limpiar" (click)="limpiar()">Limpiar todo</button>
+      </div>
+
+    </div>
+
+    <!-- Derecha -->
+    <div class="gastos-right">
+      <div class="gastos-card resultado-card">
+        <p class="card-label">Resultado</p>
+
+        <div *ngIf="viajeros.length === 0 || montoTotal === 0" class="resultado-empty">
+          <p>Ingresa el monto y agrega viajeros para ver el resultado</p>
+        </div>
+
+        <div *ngIf="viajeros.length > 0 && montoTotal > 0">
+
+          <div class="resultado-resumen">
+            <div class="resumen-dato">
+              <span class="resumen-label">Monto total</span>
+              <span class="resumen-valor">${{ montoTotal | number }}</span>
+            </div>
+            <div class="resumen-dato">
+              <span class="resumen-label">Viajeros</span>
+              <span class="resumen-valor">{{ viajeros.length }}</span>
+            </div>
+            <div class="resumen-dato destacado">
+              <span class="resumen-label">Cada uno paga</span>
+              <span class="resumen-valor grande">${{ costoPorPersona | number }}</span>
+            </div>
+          </div>
+
+          <div class="viajeros-lista">
+            <p class="lista-titulo">Desglose por viajero</p>
+            <div *ngFor="let v of viajeros" class="viajero-resultado">
+              <div class="viajero-avatar">{{ v.charAt(0).toUpperCase() }}</div>
+              <span class="viajero-nombre">{{ v }}</span>
+              <span class="viajero-monto">${{ costoPorPersona | number }}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

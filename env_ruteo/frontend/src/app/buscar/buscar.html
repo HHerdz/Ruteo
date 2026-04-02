@@ -1,0 +1,84 @@
+<div class="buscar-wrapper">
+
+  <!-- Filtros -->
+  <div class="buscar-header">
+    <h2 class="buscar-titulo">Explorar</h2>
+    <div class="buscar-tabs">
+      <button class="filtro-tab" [class.activo]="vista === 'hoteles'" (click)="cargarHoteles()">Hoteles</button>
+      <button class="filtro-tab" [class.activo]="vista === 'restaurantes'" (click)="cargarRestaurantes()">Restaurantes</button>
+      <button class="filtro-tab" [class.activo]="vista === 'sitios'" (click)="cargarDestinos()">Sitios turisticos</button>
+    </div>
+  </div>
+
+  <!-- Hoteles -->
+  <div *ngIf="vista === 'hoteles'" class="buscar-grid">
+    <div *ngFor="let hotel of hoteles" class="buscar-card">
+      <div class="card-img-wrap">
+        <img [src]="getImagenHotel(hotel)" [alt]="hotel.nom_hotel" loading="lazy">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-categoria">{{ hotel.categoria }}</span>
+          <span class="card-estrellas">
+            <span *ngFor="let e of [1,2,3,4,5]" [style.color]="e <= hotel.estrellas ? '#f5a623' : '#e0e0e0'">&#9733;</span>
+          </span>
+        </div>
+        <h6 class="card-nombre">{{ hotel.nom_hotel }}</h6>
+        <p class="card-loc">{{ hotel.direccion }}</p>
+        <p class="card-desc">{{ hotel.descripcion }}</p>
+        <div class="card-footer">
+          <span class="card-precio">${{ hotel.precio_noche | number }}<span class="card-unidad"> / noche</span></span>
+          <a [routerLink]="['/detalle', 'hotel', hotel.id_hotel]" class="card-btn">Ver detalle</a>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="hoteles.length === 0" class="buscar-empty">No hay hoteles disponibles</div>
+  </div>
+
+  <!-- Restaurantes -->
+  <div *ngIf="vista === 'restaurantes'" class="buscar-grid">
+    <div *ngFor="let restaurante of restaurantes" class="buscar-card">
+      <div class="card-img-wrap">
+        <img [src]="getImagenRestaurante(restaurante)" [alt]="restaurante.nom_restaurante" loading="lazy">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-categoria">{{ restaurante.categoria }}</span>
+          <span class="card-cocina">{{ restaurante.tipo_cocina }}</span>
+        </div>
+        <h6 class="card-nombre">{{ restaurante.nom_restaurante }}</h6>
+        <p class="card-loc">{{ restaurante.horario }}</p>
+        <p class="card-desc">{{ restaurante.descripcion }}</p>
+        <div class="card-footer">
+          <span class="card-precio">${{ restaurante.precio_promedio | number }}<span class="card-unidad"> promedio</span></span>
+          <a [routerLink]="['/detalle', 'restaurante', restaurante.id_restaurante]" class="card-btn">Ver detalle</a>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="restaurantes.length === 0" class="buscar-empty">No hay restaurantes disponibles</div>
+  </div>
+
+  <!-- Sitios turisticos -->
+  <div *ngIf="vista === 'sitios'" class="buscar-grid">
+    <div *ngFor="let destino of destinos" class="buscar-card">
+      <div class="card-img-wrap">
+        <img [src]="getImagenDestino(destino)" [alt]="destino.nom_destino" loading="lazy">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-badge"
+            [style.background-color]="destino.tipo_destino === 'ciudad' ? '#1a1a1a' : destino.tipo_destino === 'playa' ? '#0077b6' : '#2d6a4f'">
+            {{ destino.tipo_destino }}
+          </span>
+        </div>
+        <h6 class="card-nombre">{{ destino.nom_destino }}</h6>
+        <p class="card-desc">{{ destino.descripcion }}</p>
+        <div class="card-footer">
+          <a [routerLink]="['/detalle', 'destino', destino.id_destino]" class="card-btn">Ver destino</a>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="destinos.length === 0" class="buscar-empty">No hay sitios turisticos disponibles</div>
+  </div>
+
+</div>

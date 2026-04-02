@@ -1,10 +1,19 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive, CommonModule],
+  templateUrl: './navbar.html',
+  styleUrl: './navbar.css'
 })
-export class NavbarComponent {}
+export class NavbarComponent {
+
+  constructor(public router: Router) {}
+
+  esHome(): boolean {
+    return this.router.url === '/' || this.router.url === '/home';
+  }
+}

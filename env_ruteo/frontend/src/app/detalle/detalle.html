@@ -1,0 +1,259 @@
+<div class="detalle-corp">
+
+  <!-- LOADING -->
+  <div *ngIf="cargando" class="corp-loading">
+    <div class="corp-spinner"></div>
+    <p>Cargando información...</p>
+  </div>
+
+  <!-- EMPTY -->
+  <div *ngIf="!cargando && !lugar" class="corp-empty">
+    <div class="empty-icon">🔍</div>
+    <h5>No se encontró información</h5>
+    <p>El lugar que buscas no existe o fue eliminado.</p>
+    <a routerLink="/buscar" class="corp-btn-primary">Volver a buscar</a>
+  </div>
+
+  <!-- LAYOUT PRINCIPAL -->
+  <div *ngIf="!cargando && lugar" class="corp-layout">
+
+    <!-- ===== SIDEBAR FIJO ===== -->
+    <aside class="corp-sidebar">
+
+      <!-- Header negro (incluye back + nombre) -->
+      <div class="sidebar-header-block">
+        <a routerLink="/buscar" class="corp-back">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Volver
+        </a>
+        <div class="sidebar-tipo-badge">{{ tipo | uppercase }}</div>
+        <div class="sidebar-nombre">{{ getNombre() }}</div>
+        <div class="sidebar-categoria">{{ getCategoria() }}</div>
+      </div>
+
+      <!-- Precio -->
+      <div class="sidebar-precio-block" *ngIf="getPrecio() > 0">
+        <span class="precio-label">Desde</span>
+        <div class="precio-row">
+          <span class="precio-valor">${{ getPrecio() | number }}</span>
+          <span class="precio-unidad">{{ getTipoUnidad() }}</span>
+        </div>
+      </div>
+
+      <!-- Rating -->
+      <div class="sidebar-rating">
+        <div class="stars-row">
+          <span *ngFor="let e of [1,2,3,4,5]" class="star" [class.filled]="e <= getRating()">★</span>
+        </div>
+        <span class="rating-num">{{ getRating() }}.0 / 5.0</span>
+      </div>
+
+      <div class="sidebar-sep"></div>
+
+      <!-- Datos rápidos -->
+      <div class="sidebar-section-label">Información</div>
+      <div class="sidebar-datos">
+        <div *ngFor="let dato of getDatosGenerales()" class="sidebar-dato">
+          <span class="dato-icon">{{ dato.icon }}</span>
+          <div class="dato-text">
+            <span class="dato-label">{{ dato.label }}</span>
+            <span class="dato-val">{{ dato.value }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-sep"></div>
+
+      <!-- Horario -->
+      <div class="sidebar-section-label">Horario</div>
+      <div class="sidebar-horario">
+        <div class="horario-row">
+          <span class="horario-dia">Lun – Vie</span>
+          <span class="horario-hora">7:00 AM – 10:00 PM</span>
+        </div>
+        <div class="horario-row">
+          <span class="horario-dia">Sáb – Dom</span>
+          <span class="horario-hora">8:00 AM – 11:00 PM</span>
+        </div>
+        <div class="horario-badge">
+          <span class="horario-dot"></span>
+          Abierto ahora
+        </div>
+      </div>
+
+      <div class="sidebar-sep"></div>
+
+      <!-- Amenidades -->
+      <div class="sidebar-amenidades">
+        <div class="amenidad-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+          WiFi Gratis
+        </div>
+        <div class="amenidad-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 4v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Parking
+        </div>
+        <div class="amenidad-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Restaurante
+        </div>
+        <div class="amenidad-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Spa & Wellness
+        </div>
+        <div class="amenidad-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          Check-in 24h
+        </div>
+        <div class="amenidad-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          Sala de eventos
+        </div>
+      </div>
+
+      <div class="sidebar-sep"></div>
+
+      <!-- Dirección -->
+      <div class="sidebar-dir">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        {{ getUbicacion() }}
+      </div>
+
+    </aside>
+
+    <!-- ===== CONTENIDO SCROLLEABLE ===== -->
+    <main class="corp-main">
+
+      <!-- CARRUSEL -->
+      <section class="corp-carrusel">
+        <div class="carrusel-track">
+          <img
+            *ngFor="let img of getImagenes(); let i = index"
+            [src]="img"
+            [alt]="getNombre()"
+            class="carrusel-slide"
+            [class.active]="i === imagenActiva"
+            loading="lazy"
+          />
+          <div class="carrusel-overlay"></div>
+
+          <!-- Texto superpuesto -->
+          <div class="carrusel-texto">
+            <span class="carrusel-texto-eyebrow">{{ tipo | uppercase }} — {{ getCategoria() }}</span>
+            <h2 class="carrusel-texto-titulo">{{ getNombre() }}</h2>
+            <p class="carrusel-texto-sub">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              {{ getUbicacion() }}
+            </p>
+          </div>
+          <button class="carrusel-arrow left" (click)="imagenAnterior()" *ngIf="getImagenes().length > 1">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="carrusel-arrow right" (click)="imagenSiguiente()" *ngIf="getImagenes().length > 1">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+
+          <!-- Contador -->
+          <div class="carrusel-counter" *ngIf="getImagenes().length > 1">
+            {{ imagenActiva + 1 }} / {{ getImagenes().length }}
+          </div>
+        </div>
+
+      </section>
+
+      <!-- DESCRIPCIÓN -->
+      <section class="corp-section">
+        <div class="section-label">Descripción</div>
+        <p class="corp-desc">{{ getDescripcion() }}</p>
+      </section>
+
+      <div class="corp-divider"></div>
+
+      <!-- CALIFICACIÓN -->
+      <section class="corp-section">
+        <div class="section-label">Calificación</div>
+        <div class="rating-block">
+          <div class="rating-score">{{ getRating() }}<span>.0</span></div>
+          <div class="rating-info">
+            <div class="stars-big">
+              <span *ngFor="let e of [1,2,3,4,5]" class="star-big" [class.filled]="e <= getRating()">★</span>
+            </div>
+            <p class="rating-desc">Excelente — recomendado por nuestros usuarios</p>
+          </div>
+        </div>
+
+        <!-- Barras de calificación decorativas -->
+        <div class="rating-bars">
+          <div class="rbar-row">
+            <span class="rbar-label">Limpieza</span>
+            <div class="rbar-track"><div class="rbar-fill" style="width: 90%"></div></div>
+            <span class="rbar-val">4.5</span>
+          </div>
+          <div class="rbar-row">
+            <span class="rbar-label">Servicio</span>
+            <div class="rbar-track"><div class="rbar-fill" style="width: 82%"></div></div>
+            <span class="rbar-val">4.1</span>
+          </div>
+          <div class="rbar-row">
+            <span class="rbar-label">Ubicación</span>
+            <div class="rbar-track"><div class="rbar-fill" style="width: 95%"></div></div>
+            <span class="rbar-val">4.7</span>
+          </div>
+          <div class="rbar-row">
+            <span class="rbar-label">Precio/Valor</span>
+            <div class="rbar-track"><div class="rbar-fill" style="width: 78%"></div></div>
+            <span class="rbar-val">3.9</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="corp-divider"></div>
+
+      <!-- MAPA / UBICACIÓN -->
+      <section class="corp-section">
+        <div class="section-label">Ubicación</div>
+        <div class="mapa-card">
+          <div class="mapa-embed-wrap">
+            <iframe
+              [src]="getMapaUrl()"
+              class="mapa-embed"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+          <div class="mapa-footer">
+            <div class="mapa-dir">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              {{ getUbicacion() }}
+            </div>
+            <a
+              [href]="'https://www.google.com/maps?q=' + lugar.latitud + ',' + lugar.longitud"
+              target="_blank"
+              class="mapa-btn"
+            >
+              Abrir en Google Maps
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- DETALLES EXTRA (hotel y restaurante) -->
+      <ng-container *ngIf="tipo !== 'destino'">
+        <div class="corp-divider"></div>
+        <section class="corp-section">
+          <div class="section-label">Detalles</div>
+          <div class="detalles-grid">
+            <div *ngFor="let d of getDetallesExtra()" class="detalle-chip">
+              <span class="chip-label">{{ d.label }}</span>
+              <span class="chip-val" [innerHTML]="d.value"></span>
+            </div>
+          </div>
+        </section>
+      </ng-container>
+
+    </main>
+  </div>
+</div>

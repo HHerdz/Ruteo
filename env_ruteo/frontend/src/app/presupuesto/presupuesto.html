@@ -1,0 +1,154 @@
+<div class="presupuesto-wrapper">
+
+  <div class="presupuesto-header">
+    <h2 class="presupuesto-titulo">Calculadora de presupuesto</h2>
+    <p class="presupuesto-sub">Estima cuanto necesitas para tu viaje por Colombia</p>
+  </div>
+
+  <div class="presupuesto-grid">
+
+    <!-- Formulario -->
+    <div class="presupuesto-form">
+
+      <div class="form-section">
+        <h6 class="section-label">Datos del viaje</h6>
+        <div class="form-row">
+          <div class="form-col">
+            <label class="input-label">Dias</label>
+            <input type="number" class="input-field" [(ngModel)]="numDias" min="1">
+          </div>
+          <div class="form-col">
+            <label class="input-label">Personas</label>
+            <input type="number" class="input-field" [(ngModel)]="numPersonas" min="1">
+          </div>
+          <div class="form-col">
+            <label class="input-label">Estilo</label>
+            <select class="input-field" [(ngModel)]="estiloViaje">
+              <option value="economico">Economico</option>
+              <option value="estandar">Estandar</option>
+              <option value="premium">Premium</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-estilo" (click)="aplicarEstilo()">Aplicar estimado por estilo</button>
+      </div>
+
+      <div class="form-divider"></div>
+
+      <div class="form-section">
+        <h6 class="section-label">Costos del viaje</h6>
+        <div class="costos-grid">
+          <div class="costo-item">
+            <label class="input-label">Transporte</label>
+            <div class="input-money">
+              <span>$</span>
+              <input type="number" [(ngModel)]="costoTransporte" min="0">
+            </div>
+          </div>
+          <div class="costo-item">
+            <label class="input-label">Hospedaje</label>
+            <div class="input-money">
+              <span>$</span>
+              <input type="number" [(ngModel)]="costoHospedaje" min="0">
+            </div>
+          </div>
+          <div class="costo-item">
+            <label class="input-label">Comidas</label>
+            <div class="input-money">
+              <span>$</span>
+              <input type="number" [(ngModel)]="costoComidas" min="0">
+            </div>
+          </div>
+          <div class="costo-item">
+            <label class="input-label">Actividades</label>
+            <div class="input-money">
+              <span>$</span>
+              <input type="number" [(ngModel)]="costoActividades" min="0">
+            </div>
+          </div>
+          <div class="costo-item">
+            <label class="input-label">Extras</label>
+            <div class="input-money">
+              <span>$</span>
+              <input type="number" [(ngModel)]="costoExtras" min="0">
+            </div>
+          </div>
+        </div>
+        <button class="btn-limpiar" (click)="limpiar()">Limpiar todo</button>
+      </div>
+
+    </div>
+
+    <!-- Resumen -->
+    <div class="presupuesto-resumen">
+      <h6 class="section-label">Resumen</h6>
+
+      <div class="resumen-item">
+        <div class="resumen-label">
+          <span class="resumen-dot" style="background:#1a1a1a"></span>
+          Transporte
+        </div>
+        <span class="resumen-valor">${{ costoTransporte | number }}</span>
+      </div>
+      <div class="resumen-bar">
+        <div class="resumen-fill" [style.width]="porcentajeTransporte + '%'" style="background:#1a1a1a"></div>
+      </div>
+
+      <div class="resumen-item">
+        <div class="resumen-label">
+          <span class="resumen-dot" style="background:#555"></span>
+          Hospedaje
+        </div>
+        <span class="resumen-valor">${{ costoHospedaje | number }}</span>
+      </div>
+      <div class="resumen-bar">
+        <div class="resumen-fill" [style.width]="porcentajeHospedaje + '%'" style="background:#555"></div>
+      </div>
+
+      <div class="resumen-item">
+        <div class="resumen-label">
+          <span class="resumen-dot" style="background:#888"></span>
+          Comidas
+        </div>
+        <span class="resumen-valor">${{ costoComidas | number }}</span>
+      </div>
+      <div class="resumen-bar">
+        <div class="resumen-fill" [style.width]="porcentajeComidas + '%'" style="background:#888"></div>
+      </div>
+
+      <div class="resumen-item">
+        <div class="resumen-label">
+          <span class="resumen-dot" style="background:#aaa"></span>
+          Actividades
+        </div>
+        <span class="resumen-valor">${{ costoActividades | number }}</span>
+      </div>
+      <div class="resumen-bar">
+        <div class="resumen-fill" [style.width]="porcentajeActividades + '%'" style="background:#aaa"></div>
+      </div>
+
+      <div class="resumen-item">
+        <div class="resumen-label">
+          <span class="resumen-dot" style="background:#ccc"></span>
+          Extras
+        </div>
+        <span class="resumen-valor">${{ costoExtras | number }}</span>
+      </div>
+      <div class="resumen-bar">
+        <div class="resumen-fill" [style.width]="porcentajeExtras + '%'" style="background:#ccc"></div>
+      </div>
+
+      <div class="resumen-total">
+        <div class="total-row">
+          <span class="total-label">Total</span>
+          <span class="total-valor">${{ costoTotal | number }}</span>
+        </div>
+        <div class="total-row secondary">
+          <span>Por persona</span>
+          <span>${{ costoPorPersona | number }}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

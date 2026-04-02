@@ -1,9 +1,13 @@
-### GET todos los destinos
+### GET todas las ciudades
 GET http://127.0.0.1:8000/ruteo/ciudades/all
 
 ###
 ### GET destino por ID
 GET http://127.0.0.1:8000/ruteo/destinos/7
+
+###
+### GET todos los destinos
+GET http://127.0.0.1:8000/ruteo/destinos/all
 
 ###
 ### POST crear destino
@@ -37,6 +41,12 @@ Content-Type: application/json
     "activo": true
 }
 
+
 ###
 ### DELETE borrar destino
 DELETE http://127.0.0.1:8000/ruteo/destinos/borrar/7
+
+###
+
+### GET todos los restaurantes
+GET http://127.0.0.1:8000/ruteo/restaurantes/all

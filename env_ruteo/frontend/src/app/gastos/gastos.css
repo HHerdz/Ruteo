@@ -1,0 +1,252 @@
+* { box-sizing: border-box; }
+
+.gastos-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 40px 60px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.gastos-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.gastos-titulo {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+
+.gastos-sub {
+  font-size: 14px;
+  color: #999;
+}
+
+.gastos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.gastos-card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #ebebeb;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.card-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+}
+
+.monto-input {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.monto-input:focus-within { border-color: #1a1a1a; }
+
+.monto-signo {
+  padding: 14px 16px;
+  background: #f8f8f8;
+  font-size: 16px;
+  font-weight: 700;
+  color: #888;
+  border-right: 1px solid #e0e0e0;
+}
+
+.monto-input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.viajero-input {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.viajero-input input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.viajero-input input:focus { border-color: #1a1a1a; }
+
+.viajero-input button {
+  padding: 10px 20px;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.viajero-input button:hover { background: #333; }
+
+.viajeros-empty {
+  text-align: center;
+  color: #bbb;
+  font-size: 13px;
+  padding: 20px 0;
+}
+
+.viajero-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.viajero-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.viajero-nombre {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.viajero-eliminar {
+  font-size: 12px;
+  color: #bbb;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.viajero-eliminar:hover { color: #e53e3e; }
+
+.btn-limpiar {
+  margin-top: 16px;
+  padding: 8px 18px;
+  background: transparent;
+  color: #888;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-limpiar:hover {
+  border-color: #1a1a1a;
+  color: #1a1a1a;
+}
+
+.resultado-card { min-height: 300px; }
+
+.resultado-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: #bbb;
+  font-size: 14px;
+  text-align: center;
+}
+
+.resultado-resumen {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.resumen-dato {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: #f9f9f9;
+  border-radius: 10px;
+}
+
+.resumen-dato.destacado {
+  background: #1a1a1a;
+}
+
+.resumen-dato.destacado .resumen-label { color: rgba(255,255,255,0.7); }
+.resumen-dato.destacado .resumen-valor { color: #fff; }
+
+.resumen-label {
+  font-size: 13px;
+  color: #888;
+}
+
+.resumen-valor {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.resumen-valor.grande {
+  font-size: 28px;
+  letter-spacing: -0.03em;
+}
+
+.lista-titulo {
+  font-size: 12px;
+  font-weight: 700;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 12px;
+}
+
+.viajero-resultado {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.viajero-monto {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-left: auto;
+}
