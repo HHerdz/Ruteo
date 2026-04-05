@@ -4,10 +4,33 @@
   <div class="buscar-header">
     <h2 class="buscar-titulo">Explorar</h2>
     <div class="buscar-tabs">
+      <button class="filtro-tab" [class.activo]="vista === 'sitios'" (click)="cargarDestinos()">Destinos</button>
       <button class="filtro-tab" [class.activo]="vista === 'hoteles'" (click)="cargarHoteles()">Hoteles</button>
       <button class="filtro-tab" [class.activo]="vista === 'restaurantes'" (click)="cargarRestaurantes()">Restaurantes</button>
-      <button class="filtro-tab" [class.activo]="vista === 'sitios'" (click)="cargarDestinos()">Sitios turisticos</button>
     </div>
+  </div>
+
+  <!-- Sitios turisticos -->
+  <div *ngIf="vista === 'sitios'" class="buscar-grid">
+    <div *ngFor="let destino of destinos" class="buscar-card">
+      <div class="card-img-wrap">
+        <img [src]="getImagenDestino(destino)" [alt]="destino.nom_destino" loading="lazy">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-badge"
+            [style.background-color]="destino.tipo_destino === 'ciudad' ? '#1a1a1a' : destino.tipo_destino === 'playa' ? '#0077b6' : '#2d6a4f'">
+            {{ destino.tipo_destino }}
+          </span>
+        </div>
+        <h6 class="card-nombre">{{ destino.nom_destino }}</h6>
+        <p class="card-desc">{{ destino.descripcion }}</p>
+        <div class="card-footer">
+          <a [routerLink]="['/detalle', 'destino', destino.id_destino]" class="card-btn">Ver destino</a>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="destinos.length === 0" class="buscar-empty">No hay sitios turisticos disponibles</div>
   </div>
 
   <!-- Hoteles -->
@@ -57,28 +80,4 @@
     </div>
     <div *ngIf="restaurantes.length === 0" class="buscar-empty">No hay restaurantes disponibles</div>
   </div>
-
-  <!-- Sitios turisticos -->
-  <div *ngIf="vista === 'sitios'" class="buscar-grid">
-    <div *ngFor="let destino of destinos" class="buscar-card">
-      <div class="card-img-wrap">
-        <img [src]="getImagenDestino(destino)" [alt]="destino.nom_destino" loading="lazy">
-      </div>
-      <div class="card-body">
-        <div class="card-top">
-          <span class="card-badge"
-            [style.background-color]="destino.tipo_destino === 'ciudad' ? '#1a1a1a' : destino.tipo_destino === 'playa' ? '#0077b6' : '#2d6a4f'">
-            {{ destino.tipo_destino }}
-          </span>
-        </div>
-        <h6 class="card-nombre">{{ destino.nom_destino }}</h6>
-        <p class="card-desc">{{ destino.descripcion }}</p>
-        <div class="card-footer">
-          <a [routerLink]="['/detalle', 'destino', destino.id_destino]" class="card-btn">Ver destino</a>
-        </div>
-      </div>
-    </div>
-    <div *ngIf="destinos.length === 0" class="buscar-empty">No hay sitios turisticos disponibles</div>
-  </div>
-
 </div>
