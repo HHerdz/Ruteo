@@ -1,13 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from dotenv import load_dotenv   # 👈 ESTO FALTABA
+from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
 DB_URL = os.getenv("DB_URL")
-
-print("DB_URL:", DB_URL)
 
 if not DB_URL:
     raise ValueError("DB_URL no está definida")

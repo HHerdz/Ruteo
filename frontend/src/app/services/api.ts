@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ApiService {
 
-  private url = 'http://localhost:8000/ruteo';
+  private url = 'https://ruteo-production.up.railway.app/ruteo';
 
   constructor(private http: HttpClient) {}
 
