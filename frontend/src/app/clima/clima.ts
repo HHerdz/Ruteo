@@ -45,7 +45,7 @@ export class ClimaComponent implements OnChanges {
     this.clima = null;
 
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${this.latitud}&longitude=${this.longitud}&current_weather=true&hourly=relative_humidity_2m,apparent_temperature&timezone=auto&forecast_days=1`;
-
+    
     fetch(url)
       .then(response => {
         if (!response.ok) throw new Error('Error en la respuesta');
