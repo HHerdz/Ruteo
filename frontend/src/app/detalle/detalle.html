@@ -239,7 +239,16 @@
         </div>
       </section>
 
-
+      <!-- CLIMA -->
+      <section class="corp-section">
+        <div class="section-label">Clima actual</div>
+        <app-clima
+          [latitud]="lugar.latitud"
+          [longitud]="lugar.longitud"
+          [nombreDestino]="getNombre()">
+        </app-clima>
+      </section>
+      
       <!-- DETALLES EXTRA (hotel y restaurante) -->
       <ng-container *ngIf="tipo !== 'destino'">
         <div class="corp-divider"></div>

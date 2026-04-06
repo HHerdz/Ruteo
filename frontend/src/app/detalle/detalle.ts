@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ApiService } from '../services/api';
+import { ClimaComponent } from '../clima/clima';
 
 @Component({
   selector: 'app-detalle',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, ClimaComponent],
   templateUrl: './detalle.html',
   styleUrl: './detalle.css'
 })

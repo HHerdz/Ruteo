@@ -1,0 +1,41 @@
+<div class="clima-wrap">
+
+  <div *ngIf="cargando" class="clima-loading">
+    <div class="clima-spinner"></div>
+    <span>Consultando clima...</span>
+  </div>
+
+  <div *ngIf="error" class="clima-error">
+    No se pudo obtener el clima
+  </div>
+
+  <div *ngIf="clima && !cargando" class="clima-card">
+    <div class="clima-principal">
+      <span class="clima-icono">{{ clima.icono }}</span>
+      <div class="clima-temp-wrap">
+        <span class="clima-temp">{{ clima.temperatura }}°C</span>
+        <span class="clima-desc">{{ clima.descripcion }}</span>
+      </div>
+    </div>
+    <div class="clima-detalles">
+      <div class="clima-dato">
+        <span class="dato-label">Sensación</span>
+        <span class="dato-val">{{ clima.sensacion }}°C</span>
+      </div>
+      <div class="clima-dato">
+        <span class="dato-label">Humedad</span>
+        <span class="dato-val">{{ clima.humedad }}%</span>
+      </div>
+      <div class="clima-dato">
+        <span class="dato-label">Viento</span>
+        <span class="dato-val">{{ clima.viento }} km/h</span>
+      </div>
+      <div class="clima-dato">
+        <span class="dato-label">Momento</span>
+        <span class="dato-val">{{ clima.esNoche ? 'Noche' : 'Día' }}</span>
+      </div>
+    </div>
+    <p class="clima-fuente">Fuente: Open-Meteo API</p>
+  </div>
+
+</div>

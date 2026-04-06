@@ -1,0 +1,102 @@
+.clima-wrap {
+  width: 100%;
+}
+
+.clima-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #999;
+  font-size: 13px;
+  padding: 12px 0;
+}
+
+.clima-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #e0e0e0;
+  border-top-color: #1a1a1a;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.clima-error {
+  font-size: 13px;
+  color: #e53e3e;
+  padding: 8px 0;
+}
+
+.clima-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.clima-principal {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.clima-icono {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.clima-temp-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.clima-temp {
+  font-size: 36px;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.clima-desc {
+  font-size: 14px;
+  color: #888;
+  font-weight: 500;
+}
+
+.clima-detalles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.clima-dato {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dato-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #aaa;
+}
+
+.dato-val {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.clima-fuente {
+  font-size: 10px;
+  color: #ccc;
+  margin: 0;
+  text-align: right;
+}
