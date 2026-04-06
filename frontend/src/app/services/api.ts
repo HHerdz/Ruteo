@@ -10,7 +10,6 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  
   // CIUDADES
   getCiudades() {
     return this.http.get(`${this.url}/ciudades/all`);
@@ -130,5 +129,4 @@ export class ApiService {
   borrarViajero(id: number) {
     return this.http.delete(`${this.url}/viajeros/borrar/${id}`);
   }
-  
 }

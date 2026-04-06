@@ -7,7 +7,7 @@
   </div>
 
   <!-- EMPTY -->
-  <div *ngIf="!cargando && !detalle" class="corp-empty">
+  <div *ngIf="!cargando && !lugar" class="corp-empty">
     <div class="empty-icon">🔍</div>
     <h5>No se encontró información</h5>
     <p>El lugar que buscas no existe o fue eliminado.</p>
@@ -15,7 +15,7 @@
   </div>
 
   <!-- LAYOUT PRINCIPAL -->
-  <div *ngIf="!cargando && detalle" class="corp-layout">
+  <div *ngIf="!cargando && lugar" class="corp-layout">
 
     <!-- ===== SIDEBAR FIJO ===== -->
     <aside class="corp-sidebar">
@@ -228,7 +228,7 @@
               {{ getUbicacion() }}
             </div>
             <a
-              [href]="'https://www.google.com/maps?q=' + detalle.latitud + ',' + detalle.longitud"
+              [href]="'https://www.google.com/maps?q=' + lugar.latitud + ',' + lugar.longitud"
               target="_blank"
               class="mapa-btn"
             >
@@ -238,6 +238,7 @@
           </div>
         </div>
       </section>
+
 
       <!-- DETALLES EXTRA (hotel y restaurante) -->
       <ng-container *ngIf="tipo !== 'destino'">

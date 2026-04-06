@@ -7,7 +7,6 @@
       <button class="filtro-tab" [class.activo]="vista === 'sitios'" (click)="cargarDestinos()">Destinos</button>
       <button class="filtro-tab" [class.activo]="vista === 'hoteles'" (click)="cargarHoteles()">Hoteles</button>
       <button class="filtro-tab" [class.activo]="vista === 'restaurantes'" (click)="cargarRestaurantes()">Restaurantes</button>
-      <button class="filtro-tab" [class.activo]="vista === 'actividades'" (click)="cargarActividades()">Actividades</button>
     </div>
   </div>
 
@@ -81,39 +80,4 @@
     </div>
     <div *ngIf="restaurantes.length === 0" class="buscar-empty">No hay restaurantes disponibles</div>
   </div>
-
-  <!-- Actividades -->
-  <ng-container *ngIf="tipo === 'actividad'">
-    <div class="corp-divider"></div>
-
-    <section class="corp-section">
-      <div class="section-label">Detalles de la Actividad</div>
-
-      <div class="detalles-grid">
-
-        <div class="detalle-chip">
-          <span class="chip-label">Duración</span>
-          <span class="chip-val">{{ lugar?.duracion_horas }} horas</span>
-        </div>
-
-        <div class="detalle-chip">
-          <span class="chip-label">Costo</span>
-          <span class="chip-val">${{ lugar?.costo }}</span>
-        </div>
-
-        <div class="detalle-chip">
-          <span class="chip-label">Tipo</span>
-          <span class="chip-val">{{ lugar?.tipo }}</span>
-        </div>
-
-        <div class="detalle-chip">
-          <span class="chip-label">Guía</span>
-          <span class="chip-val">
-            {{ lugar?.incluye_guia ? 'Incluido' : 'No incluido' }}
-          </span>
-        </div>
-
-      </div>
-    </section>
-  </ng-container>
 </div>

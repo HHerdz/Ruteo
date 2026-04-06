@@ -1,226 +1,297 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ApiService } from '../services/api';
 
 @Component({
   selector: 'app-detalle',
-  standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './detalle.html',
-  styleUrls: ['./detalle.css']
+  styleUrl: './detalle.css'
 })
-export class DetalleComponent implements OnInit {
+export class DetalleComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  lugar: any = null; // el objeto de hotel, restaurante, destino o actividad
-  tipo: string = ''; // 'hotel', 'restaurante', 'destino', 'actividad'
+  tipo: string = '';
+  id: number = 0;
+  lugar: any = null;
   cargando: boolean = true;
-
   imagenActiva: number = 0;
 
+  private autoplayInterval: any = null;
+
+  private imagenesMap: { [key: string]: string[] } = {
+    'Hotel Casa La Fe': [
+      'https://media-cdn.tripadvisor.com/media/photo-s/1a/f1/9b/b1/hotel-casa-la-fe.jpg',
+      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200',
+      'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=1200',
+      'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=1200'
+    ],
+    'Hotel Dann Carlton Cali': [
+      'https://a.otcdn.com/imglib/hotelphotos/7/8/026/hotel-dann-carlton-cali-20240509175854888700.webp',
+      'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200',
+      'https://images.unsplash.com/photo-1562778612-e1e0cda9915c?w=1200',
+      'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200'
+    ],
+    'Hotel Dann Carlton Medellín': [
+      'https://hotelesdann.com/wp-content/uploads/2020/04/Carlton-Medellin.jpg',
+      'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200',
+      'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=1200',
+      'https://images.unsplash.com/photo-1615460549969-36fa19521a4f?w=1200'
+    ],
+    'Hotel Sochagota Paipa': [
+      'https://hotelsochagota.com/wp-content/uploads/2017/11/11-1024x683.jpg',
+      'https://tse1.mm.bing.net/th/id/OIP.xWyGA4QfMVj1F6XvWHo2RgHaE8?rs=1&pid=ImgDetMain&o=7&rm=3',
+      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1200',
+      'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1200'
+    ],
+    'Hotel Decameron San Andrés': [
+      'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/24/88/76/decameron-aquarium.jpg?w=900&h=-1&s=1',
+      'https://tse2.mm.bing.net/th/id/OIP.W03fYOcNiY5pfT9JuEVmFAHaE8?rs=1&pid=ImgDetMain&o=7&rm=3',
+      'https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=1200',
+      'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=1200'
+    ],
+    'La Cevichería': [
+      'https://s3.amazonaws.com/takami.co/CACHE/images/brandcarouselimage/1e6e357ecefa4d0884d62478ec5396e9/ntwylar5lywkdjvtx5ffrb/30ad08a72aa6394488535f6e1351d4de.jpeg',
+      'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200',
+      'https://comococinarocomer.com/wp-content/uploads/como-funciona-una-cevicheria.jpg',
+      'https://tse2.mm.bing.net/th/id/OIP.eca8SUdZjdSz7Yv4UNGEnAHaFl?rs=1&pid=ImgDetMain&o=7&rm=3'
+    ],
+    'Ringlete Restaurante': [
+      'https://www.cali.gov.co/info/caligovco_se/media/pubInt/thumbs/thMetapubInt_600X600_176092.jpg',
+      'https://media.traveler.es/photos/6778ff3e0e766f7704e47825/16:9/w_2560%2Cc_limit/2BHRT6R%2520(1).jpg',
+      'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200',
+      'https://tse3.mm.bing.net/th/id/OIP.bOwuxDAQ59ELPqwRBmbDeQHaE7?rs=1&pid=ImgDetMain&o=7&rm=3'
+    ],
+    'Criterion Restaurante': [
+      'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/03/fe/eb/b5/criterion.jpg?w=900&h=500&s=1',
+      'https://i0.wp.com/media.scoutmagazine.ca/2009/08/west_int4.jpg?ssl=1',
+      'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200',
+      'https://media-cdn.tripadvisor.com/media/photo-s/10/e5/63/5c/photo4jpg.jpg'
+    ],
+    'Restaurante El Pesebre Paipa': [
+      'https://descubrepaipa.com/wp-content/uploads/2023/09/Blog-14-2-scaled.webp',
+      'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/c7/b0/7f/restaurante-con-vista.jpg?w=1200&h=-1&s=1',
+      'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200',
+      'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/10/f5/34/sus-canapes-paipa-cheese.jpg?w=1200&h=800&s=1'
+    ],
+    'Miss Celia Restaurant': [
+      'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/c5/94/5c/this-is-the-garden-which.jpg?w=900&h=500&s=1',
+      'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/f1/c0/3c/terraza-del-restaurante.jpg?w=1200&h=-1&s=1',
+      'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200',
+      'https://i.pinimg.com/736x/fe/3b/b0/fe3bb07601f0e322879c526e9219791d.jpg'
+    ]
+  };
+
+  readonly starsArray = [1, 2, 3, 4, 5];
+
   constructor(
-    private api: ApiService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private api: ApiService,
+    private cdr: ChangeDetectorRef,
+    private sanitizer: DomSanitizer
   ) {}
 
-  ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.tipo = params['tipo'];
-      const id = params['id'];
-      this.cargarDetalle(id);
-    });
-  }
-
-  async getGsap() {
+  private async getGsap() {
     const { default: gsap } = await import('gsap');
     return gsap;
   }
 
-  cargarDetalle(id: string) {
-    this.cargando = true;
-
-    let obs$;
-
-    switch(this.tipo) {
-      case 'hotel':
-        obs$ = this.api.getHoteles();
-        break;
-      case 'restaurante':
-        obs$ = this.api.getRestaurantes();
-        break;
-      case 'destino':
-        obs$ = this.api.getDestinos();
-        break;
-      case 'actividad':
-        obs$ = this.api.getActividades();
-        break;
-      default:
-        obs$ = null;
-    }
-
-    if (!obs$) {
-      this.lugar = null;
-      this.cargando = false;
-      return;
-    }
-
-    obs$.subscribe({
-      next: (data: any) => {
-        if (Array.isArray(data)) {
-          // Buscar el elemento correcto según el tipo
-          this.lugar = data.find((item: any) => 
-            item.id == id ||
-            item.id_hotel == id ||
-            item.id_restaurante == id ||
-            item.id_destino == id ||
-            item.id_actividad == id
-          );
-        } else {
-          this.lugar = data;
-        }
-
-        this.cargando = false;
-        this.cdr.detectChanges();
-        setTimeout(() => this.animarDetalle(), 50);
-      },
-      error: (err) => {
-        console.error('Error cargando detalle:', err);
-        this.lugar = null;
-        this.cargando = false;
-        this.cdr.detectChanges();
-      }
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.tipo = params['tipo'];
+      this.id = Number(params['id']);
+      this.cargarDetalle();
     });
   }
 
-  async animarDetalle() {
-    const gsap = await this.getGsap();
-    gsap.fromTo('.detalle-card',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }
-    );
+  ngAfterViewInit() {
+    this.animar();
   }
 
-  // === MÉTODOS PARA HTML ===
+  cargarDetalle() {
+    this.cargando = true;
 
-  getNombre() {
-    return this.lugar?.nom_hotel || this.lugar?.nom_restaurante || this.lugar?.nom_destino || this.lugar?.nom_actividad || '';
-  }
-
-  getCategoria() {
-    return this.lugar?.categoria || '';
-  }
-
-  getDescripcion() {
-    return this.lugar?.descripcion || '';
-  }
-
-  getPrecio() {
-    return this.lugar?.precio || 0;
-  }
-
-  getTipoUnidad() {
-    return this.lugar?.unidad || '';
-  }
-
-  getRating() {
-    return this.lugar?.rating || 0;
-  }
-
-  getUbicacion() {
-    return this.lugar?.ubicacion || '';
-  }
-
-  getImagenes() {
-    // Retorna un array con 1 imagen principal + otras opcionales
-    if (!this.lugar) return [];
-    const img = this.getImagenPrincipal();
-    return img ? [img] : [];
-  }
-
-  getImagenPrincipal(): string {
-    switch(this.tipo) {
-      case 'hotel': return this.getImagenHotel(this.lugar);
-      case 'restaurante': return this.getImagenRestaurante(this.lugar);
-      case 'destino': return this.getImagenDestino(this.lugar);
-      case 'actividad': return this.getImagenActividad(this.lugar);
-      default: return '';
+    if (this.tipo === 'hotel') {
+      this.api.getHotel(this.id).subscribe({
+        next: (data: any) => {
+          this.lugar = data;
+          this.cargando = false;
+          this.cdr.detectChanges();
+          this.animar();
+          this.iniciarAutoplay();
+        },
+        error: () => { this.cargando = false; this.cdr.detectChanges(); }
+      });
+    } else if (this.tipo === 'restaurante') {
+      this.api.getRestaurante(this.id).subscribe({
+        next: (data: any) => {
+          this.lugar = data;
+          this.cargando = false;
+          this.cdr.detectChanges();
+          this.animar();
+          this.iniciarAutoplay();
+        },
+        error: () => { this.cargando = false; this.cdr.detectChanges(); }
+      });
+    } else if (this.tipo === 'destino') {
+      this.api.getDestino(this.id).subscribe({
+        next: (data: any) => {
+          this.lugar = data;
+          this.cargando = false;
+          this.cdr.detectChanges();
+          this.animar();
+          this.iniciarAutoplay();
+        },
+        error: () => { this.cargando = false; this.cdr.detectChanges(); }
+      });
     }
   }
 
-  // === FUNCIONES PARA OBTENER IMÁGENES ===
-  getImagenHotel(hotel: any): string {
-    const imagenes: any = {
-      'Hotel Casa La Fe': 'https://www.kayak.com.pa/rimg/himg/4d/32/39/expedia_group-140393-241697018-550344.jpg?width=836&height=607&crop=true',
-      'Hotel Dann Carlton Cali': 'https://image-tc.galaxy.tf/wijpeg-8vukdtn6dgt2i8s22npc4wz5z/negra-del-chontaduro-4.jpg?width=1920',
-      'Hotel Dann Carlton Medellín': 'https://images.trvl-media.com/lodging/1000000/120000/112600/112569/cfd80cfb.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill',
-      'Hotel Sochagota Paipa': 'https://hotelsochagota.com/wp-content/uploads/2017/11/11-1024x683.jpg',
-      'Hotel Decameron San Andrés': 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/24/88/76/decameron-aquarium.jpg?w=900&h=-1&s=1'
-    };
-    return imagenes[hotel.nom_hotel] || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600';
+  async animar() {
+    setTimeout(async () => {
+      const gsap = await this.getGsap();
+      gsap.from('.corp-sidebar', { opacity: 0, x: -24, duration: 0.55, ease: 'power3.out' });
+      gsap.from('.corp-main', { opacity: 0, y: 24, duration: 0.55, delay: 0.1, ease: 'power3.out' });
+      gsap.from('.corp-section', { opacity: 0, y: 16, duration: 0.4, stagger: 0.08, delay: 0.25, ease: 'power2.out' });
+    }, 50);
   }
 
-  getImagenRestaurante(restaurante: any): string {
-    const imagenes: any = {
-      'La Cevichería': 'https://s3.amazonaws.com/takami.co/CACHE/images/brandcarouselimage/1e6e357ecefa4d0884d62478ec5396e9/ntwylar5lywkdjvtx5ffrb/30ad08a72aa6394488535f6e1351d4de.jpeg',
-      'Ringlete Restaurante': 'https://www.cali.gov.co/info/caligovco_se/media/pubInt/thumbs/thMetapubInt_600X600_176092.jpg',
-      'Criterion Restaurante': 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/03/fe/eb/b5/criterion.jpg?w=900&h=500&s=1',
-      'Restaurante El Pesebre Paipa': 'https://descubrepaipa.com/wp-content/uploads/2023/09/Blog-14-2-scaled.webp',
-      'Miss Celia Restaurant': 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/c5/94/5c/this-is-the-garden-which.jpg?w=900&h=500&s=1'
-    };
-    return imagenes[restaurante.nom_restaurante] || 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600';
+  getImagePrincipal(): string {
+    return this.getImagenes()[this.imagenActiva];
   }
 
-  getImagenDestino(destino: any): string {
-    const imagenes: any = {
-      1: 'https://mlqfmr3rpryd.i.optimole.com/cb:JBSP.a525/w:1024/h:814/q:100/ig:avif/https://cartagena-tours.co/wp-content/uploads/2023/12/49806996192_ec0e5e29b1_b.jpg',
-      2: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4pdH6YZEBNdh5H_duICf9XhMj-ZYL_3yUHA&s',
-      3: 'https://xixerone.com/wp-content/uploads/2019/03/Qu%C3%A9-hacer-en-El-Poblado-Medell%C3%ADn.jpg',
-      4: 'https://cuponassets.cuponatic-latam.com/backendCo/uploads/imagenes_descuentos/200487/2d50792594dbd7b5f203cb0f5c57cd6f3a9648f8.XL2.jpg',
-      5: 'https://upload.wikimedia.org/wikipedia/commons/4/43/Panor%C3%A1mica_de_San_Andres.JPG'
-    };
-    return imagenes[destino.id_destino] || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600';
-  }
-
-  getImagenActividad(actividad: any): string {
-    const nombre = actividad?.nom_actividad?.toLowerCase();
-    const imagenes: any = {
-      'tour en bicicleta': 'https://images.unsplash.com/photo-1508973378895-8d5d9c8d4d6c?w=600',
-      'senderismo ecológico': 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600',
-      'tour gastronómico': 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600',
-      'parapente': 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600',
-      'buceo': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600',
-      'city tour': 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=600'
-    };
-    return imagenes[nombre] || 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600';
-  }
-
-  // Carrusel
-  imagenAnterior() {
-    if (this.imagenActiva > 0) this.imagenActiva--;
-  }
-
-  imagenSiguiente() {
-    if (this.imagenActiva < this.getImagenes().length - 1) this.imagenActiva++;
-  }
-
-  getMapaUrl() {
-    if (!this.lugar) return '';
-    const lat = this.lugar.latitud || 0;
-    const lng = this.lugar.longitud || 0;
-    return `https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
-  }
-
-  getDatosGenerales() {
-    return [
-      { icon: '📞', label: 'Teléfono', value: this.lugar?.telefono || 'N/A' },
-      { icon: '🌐', label: 'Web', value: this.lugar?.web || 'N/A' },
-      { icon: '🏷️', label: 'Dirección', value: this.lugar?.direccion || 'N/A' }
+  getImagenes(): string[] {
+    const nombre = this.getNombre();
+    return this.imagenesMap[nombre] ?? [
+      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200'
     ];
   }
 
-  getDetallesExtra() {
-    return this.lugar?.detalles || [];
+  cambiarImagen(index: number) {
+    this.imagenActiva = index;
+    this.iniciarAutoplay();
   }
 
+  imagenAnterior() {
+    const total = this.getImagenes().length;
+    this.imagenActiva = (this.imagenActiva - 1 + total) % total;
+    this.iniciarAutoplay();
+  }
+
+  imagenSiguiente() {
+    const total = this.getImagenes().length;
+    this.imagenActiva = (this.imagenActiva + 1) % total;
+    this.iniciarAutoplay();
+  }
+
+  iniciarAutoplay() {
+    this.detenerAutoplay();
+    const total = this.getImagenes().length;
+    if (total <= 1) return;
+    this.autoplayInterval = setInterval(() => {
+      this.imagenActiva = (this.imagenActiva + 1) % total;
+      this.cdr.detectChanges();
+    }, 4000);
+  }
+
+  detenerAutoplay() {
+    if (this.autoplayInterval) {
+      clearInterval(this.autoplayInterval);
+      this.autoplayInterval = null;
+    }
+  }
+
+  ngOnDestroy() {
+    this.detenerAutoplay();
+  }
+
+  getMapaUrl(): SafeResourceUrl {
+    const lat = this.lugar?.latitud ?? 4.711;
+    const lng = this.lugar?.longitud ?? -74.0721;
+    const url = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.01},${lat - 0.007},${lng + 0.01},${lat + 0.007}&layer=mapnik&marker=${lat},${lng}`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  getGoogleMapsUrl(): string {
+    const lat = this.lugar?.latitud;
+    const lng = this.lugar?.longitud;
+    return `https://www.google.com/maps?q=${lat},${lng}`;
+  }
+
+  getNombre(): string {
+    if (this.tipo === 'hotel') return this.lugar?.nom_hotel ?? '';
+    if (this.tipo === 'restaurante') return this.lugar?.nom_restaurante ?? '';
+    return this.lugar?.nom_destino ?? '';
+  }
+
+  getCategoria(): string {
+    if (this.tipo === 'hotel') return this.lugar?.categoria ?? 'Hotel';
+    if (this.tipo === 'restaurante') return this.lugar?.tipo_cocina ?? 'Restaurante';
+    return this.lugar?.tipo_destino ?? 'Destino';
+  }
+
+  getUbicacion(): string {
+    return this.lugar?.direccion ?? 'Ubicación no disponible';
+  }
+
+  getDescripcion(): string {
+    return this.lugar?.descripcion ?? 'Sin descripción disponible';
+  }
+
+  getPrecio(): number {
+    if (this.tipo === 'hotel') return this.lugar?.precio_noche ?? 0;
+    if (this.tipo === 'restaurante') return this.lugar?.precio_promedio ?? 0;
+    return 0;
+  }
+
+  getTipoUnidad(): string {
+    if (this.tipo === 'hotel') return 'por noche';
+    if (this.tipo === 'restaurante') return 'promedio';
+    return '';
+  }
+
+  getRating(): number {
+    if (this.tipo === 'hotel') return this.lugar?.estrellas ?? 0;
+    return 5;
+  }
+
+  getDatosGenerales(): any[] {
+    if (this.tipo === 'hotel') {
+      return [
+        { icon: '⭐', label: 'Calificación',  value: `${this.lugar?.estrellas ?? 0} / 5` },
+        { icon: '🏷️', label: 'Categoría',     value: this.lugar?.categoria ?? 'N/A' },
+        { icon: '📞', label: 'Teléfono',      value: this.lugar?.telefono ?? 'N/A' },
+        { icon: '🌐', label: 'Web',           value: this.lugar?.sitio_web ?? 'N/A' }
+      ];
+    }
+    if (this.tipo === 'restaurante') {
+      return [
+        { icon: '🍽️', label: 'Tipo de Cocina', value: this.lugar?.tipo_cocina ?? 'N/A' },
+        { icon: '🏷️', label: 'Categoría',      value: this.lugar?.categoria ?? 'N/A' },
+        { icon: '🕐', label: 'Horario',        value: this.lugar?.horario ?? 'N/A' },
+        { icon: '📞', label: 'Teléfono',       value: this.lugar?.telefono ?? 'N/A' }
+      ];
+    }
+    return [
+      { icon: '📍', label: 'Tipo',   value: this.lugar?.tipo_destino ?? 'N/A' },
+      { icon: '✅', label: 'Estado', value: this.lugar?.activo ? 'Activo' : 'Inactivo' }
+    ];
+  }
+
+  getDetallesExtra(): any[] {
+    if (this.tipo === 'hotel') {
+      return [
+        { label: 'Precio por Noche', value: `$${this.lugar?.precio_noche ?? 0}` },
+        { label: 'Sitio Web',        value: `<a href="https://${this.lugar?.sitio_web}" target="_blank">${this.lugar?.sitio_web}</a>` }
+      ];
+    }
+    if (this.tipo === 'restaurante') {
+      return [
+        { label: 'Precio Promedio',     value: `$${this.lugar?.precio_promedio ?? 0}` },
+        { label: 'Horario de Atención', value: this.lugar?.horario ?? 'N/A' }
+      ];
+    }
+    return [];
+  }
 }
