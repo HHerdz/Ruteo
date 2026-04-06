@@ -28,6 +28,10 @@ export class BuscarComponent implements OnInit {
     return gsap;
   }
 
+  // ===============================
+  // CARGAS
+  // ===============================
+
   cargarHoteles() {
     this.vista = 'hoteles';
     this.api.getHoteles().subscribe({
@@ -76,6 +80,10 @@ export class BuscarComponent implements OnInit {
     });
   }
 
+  // ===============================
+  // ANIMACIONES
+  // ===============================
+
   async animarCards() {
     const gsap = await this.getGsap();
     gsap.fromTo('.buscar-card',
@@ -91,6 +99,10 @@ export class BuscarComponent implements OnInit {
       { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.7)', stagger: 0.06 }
     );
   }
+
+  // ===============================
+  // IMÁGENES
+  // ===============================
 
   getImagenHotel(hotel: any): string {
     const imagenes: any = {
@@ -125,7 +137,21 @@ export class BuscarComponent implements OnInit {
     return imagenes[destino.id_destino] || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600';
   }
 
+  // 🔥 ACTIVIDADES BIEN HECHO
   getImagenActividad(actividad: any): string {
-    return 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600';
+
+    const nombre = actividad?.nom_actividad?.toLowerCase();
+
+    const imagenes: any = {
+      'tour en bicicleta': 'https://images.unsplash.com/photo-1508973378895-8d5d9c8d4d6c?w=600',
+      'senderismo ecológico': 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600',
+      'tour gastronómico': 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600',
+      'parapente': 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600',
+      'buceo': 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600',
+      'city tour': 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=600'
+    };
+
+    return imagenes[nombre] || 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600';
   }
+
 }

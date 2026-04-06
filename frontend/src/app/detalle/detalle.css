@@ -770,3 +770,11 @@
   .carrusel-track { height: 200px; }
   .carrusel-arrow { width: 36px; height: 36px; }
 }
+.detalle-chip {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.detalle-chip:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}

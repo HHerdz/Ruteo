@@ -83,31 +83,37 @@
   </div>
 
   <!-- Actividades -->
-  <div *ngIf="vista === 'actividades'" class="buscar-grid">
-    <div *ngFor="let actividad of actividades" class="buscar-card">
-      <div class="card-img-wrap">
-        <img [src]="getImagenActividad(actividad)" [alt]="actividad.nom_actividad" loading="lazy">
-      </div>
-      <div class="card-body">
-        <div class="card-top">
-          <span class="card-categoria">{{ actividad.tipo }}</span>
+  <ng-container *ngIf="tipo === 'actividad'">
+    <div class="corp-divider"></div>
+
+    <section class="corp-section">
+      <div class="section-label">Detalles de la Actividad</div>
+
+      <div class="detalles-grid">
+
+        <div class="detalle-chip">
+          <span class="chip-label">Duración</span>
+          <span class="chip-val">{{ lugar?.duracion_horas }} horas</span>
         </div>
-        <h6 class="card-nombre">{{ actividad.nom_actividad }}</h6>
-        <p class="card-desc">{{ actividad.descripcion }}</p>
-        <div class="card-footer">
-          <span class="card-precio">
-            ${{ actividad.costo | number }}
+
+        <div class="detalle-chip">
+          <span class="chip-label">Costo</span>
+          <span class="chip-val">${{ lugar?.costo }}</span>
+        </div>
+
+        <div class="detalle-chip">
+          <span class="chip-label">Tipo</span>
+          <span class="chip-val">{{ lugar?.tipo }}</span>
+        </div>
+
+        <div class="detalle-chip">
+          <span class="chip-label">Guía</span>
+          <span class="chip-val">
+            {{ lugar?.incluye_guia ? 'Incluido' : 'No incluido' }}
           </span>
-          <a [routerLink]="['/detalle', 'actividad', actividad.id_actividad]" class="card-btn">
-            Ver actividad
-          </a>
         </div>
+
       </div>
-
-    </div>
-
-    <div *ngIf="actividades.length === 0" class="buscar-empty">
-      No hay actividades disponibles
-    </div>
-  </div>
+    </section>
+  </ng-container>
 </div>
