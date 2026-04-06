@@ -175,4 +175,131 @@ async def leer_restaurante(id_restaurante: int, db: Session = Depends(get_db)):
 
 @router.put("/restaurantes/update/{id_restaurante}")
 async def actualizar_restaurante(id_restaurante: int, datos: RestauranteSchema, db: Session = Depends(get_db)):
-    restaurante = db.query(modelo.Restaurante).filter
+    restaurante = db.query(modelo.Restaurante).filter(modelo.Restaurante.id_restaurante == id_restaurante).first()
+    if not restaurante:
+        raise HTTPException(status_code=404, detail="Restaurante no encontrado")
+    for key, value in datos.dict().items():
+        setattr(restaurante, key, value)
+    db.commit()
+    db.refresh(restaurante)
+    return restaurante
+
+@router.delete("/restaurantes/borrar/{id_restaurante}")
+async def borrar_restaurante(id_restaurante: int, db: Session = Depends(get_db)):
+    restaurante = db.query(modelo.Restaurante).filter(modelo.Restaurante.id_restaurante == id_restaurante).first()
+    if not restaurante:
+        raise HTTPException(status_code=404, detail="Restaurante no encontrado")
+    db.delete(restaurante)
+    db.commit()
+    return {"mensaje": f"Restaurante {id_restaurante} eliminado"}
+
+# ============================================
+# ACTIVIDADES
+# ============================================
+@router.get("/actividades/all")
+async def leer_actividades(db: Session = Depends(get_db)):
+    return db.query(modelo.Actividad).all()
+
+@router.post("/actividades/add")
+async def crear_actividad(actividad: ActividadSchema, db: Session = Depends(get_db)):
+    nueva = modelo.Actividad(**actividad.dict())
+    db.add(nueva)
+    db.commit()
+    db.refresh(nueva)
+    return nueva
+
+@router.get("/actividades/{id_actividad}")
+async def leer_actividad(id_actividad: int, db: Session = Depends(get_db)):
+    actividad = db.query(modelo.Actividad).filter(modelo.Actividad.id_actividad == id_actividad).first()
+    if not actividad:
+        raise HTTPException(status_code=404, detail="Actividad no encontrada")
+    return actividad
+
+@router.put("/actividades/update/{id_actividad}")
+async def actualizar_actividad(id_actividad: int, datos: ActividadSchema, db: Session = Depends(get_db)):
+    actividad = db.query(modelo.Actividad).filter(modelo.Actividad.id_actividad == id_actividad).first()
+    if not actividad:
+        raise HTTPException(status_code=404, detail="Actividad no encontrada")
+    for key, value in datos.dict().items():
+        setattr(actividad, key, value)
+    db.commit()
+    db.refresh(actividad)
+    return actividad
+
+@router.delete("/actividades/borrar/{id_actividad}")
+async def borrar_actividad(id_actividad: int, db: Session = Depends(get_db)):
+    actividad = db.query(modelo.Actividad).filter(modelo.Actividad.id_actividad == id_actividad).first()
+    if not actividad:
+        raise HTTPException(status_code=404, detail="Actividad no encontrada")
+    db.delete(actividad)
+    db.commit()
+    return {"mensaje": f"Actividad {id_actividad} eliminada"}
+
+# ============================================
+# TEMPORADAS
+# ============================================
+@router.get("/temporadas/all")
+async def leer_temporadas(db: Session = Depends(get_db)):
+    return db.query(modelo.Temporada).all()
+
+# ============================================
+# TIPS
+# ============================================
+@router.get("/tips/all")
+async def leer_tips(db: Session = Depends(get_db)):
+    return db.query(modelo.Tip).all()
+
+# ============================================
+# ITEMS
+# ============================================
+@router.get("/items/all")
+async def leer_items(db: Session = Depends(get_db)):
+    return db.query(modelo.Item).all()
+
+# ============================================
+# VIAJES
+# ============================================
+@router.get("/viajes/all")
+async def leer_viajes(db: Session = Depends(get_db)):
+    return db.query(modelo.Viaje).all()
+
+@router.post("/viajes/add")
+async def crear_viaje(viaje: ViajeSchema, db: Session = Depends(get_db)):
+    nuevo = modelo.Viaje(**viaje.dict())
+    db.add(nuevo)
+    db.commit()
+    db.refresh(nuevo)
+    return nuevo
+
+@router.delete("/viajes/borrar/{id_viaje}")
+async def borrar_viaje(id_viaje: int, db: Session = Depends(get_db)):
+    viaje = db.query(modelo.Viaje).filter(modelo.Viaje.id_viaje == id_viaje).first()
+    if not viaje:
+        raise HTTPException(status_code=404, detail="Viaje no encontrado")
+    db.delete(viaje)
+    db.commit()
+    return {"mensaje": f"Viaje {id_viaje} eliminado"}
+
+# ============================================
+# VIAJEROS
+# ============================================
+@router.get("/viajeros/all")
+async def leer_viajeros(db: Session = Depends(get_db)):
+    return db.query(modelo.Viajero).all()
+
+@router.post("/viajeros/add")
+async def crear_viajero(viajero: ViajeroSchema, db: Session = Depends(get_db)):
+    nuevo = modelo.Viajero(**viajero.dict())
+    db.add(nuevo)
+    db.commit()
+    db.refresh(nuevo)
+    return nuevo
+
+@router.delete("/viajeros/borrar/{id_viajero}")
+async def borrar_viajero(id_viajero: int, db: Session = Depends(get_db)):
+    viajero = db.query(modelo.Viajero).filter(modelo.Viajero.id_viajero == id_viajero).first()
+    if not viajero:
+        raise HTTPException(status_code=404, detail="Viajero no encontrado")
+    db.delete(viajero)
+    db.commit()
+    return {"mensaje": f"Viajero {id_viajero} eliminado"}

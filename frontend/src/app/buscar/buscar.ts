@@ -14,6 +14,7 @@ export class BuscarComponent implements OnInit {
   hoteles: any[] = [];
   restaurantes: any[] = [];
   destinos: any[] = [];
+  actividades: any[] = [];
   vista: string = 'hoteles';
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) {}
@@ -56,6 +57,18 @@ export class BuscarComponent implements OnInit {
     this.api.getDestinos().subscribe({
       next: (data: any) => {
         this.destinos = data;
+        this.cdr.detectChanges();
+        setTimeout(() => this.animarCards(), 50);
+      },
+      error: () => { this.cdr.detectChanges(); }
+    });
+  }
+
+  cargarActividades() {
+    this.vista = 'actividades';
+    this.api.getActividades().subscribe({
+      next: (data: any) => {
+        this.actividades = data;
         this.cdr.detectChanges();
         setTimeout(() => this.animarCards(), 50);
       },
@@ -110,5 +123,9 @@ export class BuscarComponent implements OnInit {
       5: 'https://upload.wikimedia.org/wikipedia/commons/4/43/Panor%C3%A1mica_de_San_Andres.JPG'
     };
     return imagenes[destino.id_destino] || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600';
+  }
+
+  getImagenActividad(actividad: any): string {
+    return 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600';
   }
 }

@@ -7,10 +7,11 @@
       <button class="filtro-tab" [class.activo]="vista === 'sitios'" (click)="cargarDestinos()">Destinos</button>
       <button class="filtro-tab" [class.activo]="vista === 'hoteles'" (click)="cargarHoteles()">Hoteles</button>
       <button class="filtro-tab" [class.activo]="vista === 'restaurantes'" (click)="cargarRestaurantes()">Restaurantes</button>
+      <button class="filtro-tab" [class.activo]="vista === 'actividades'" (click)="cargarActividades()">Actividades</button>
     </div>
   </div>
 
-  <!-- Sitios turisticos -->
+  <!-- Destinos -->
   <div *ngIf="vista === 'sitios'" class="buscar-grid">
     <div *ngFor="let destino of destinos" class="buscar-card">
       <div class="card-img-wrap">
@@ -79,5 +80,34 @@
       </div>
     </div>
     <div *ngIf="restaurantes.length === 0" class="buscar-empty">No hay restaurantes disponibles</div>
+  </div>
+
+  <!-- Actividades -->
+  <div *ngIf="vista === 'actividades'" class="buscar-grid">
+    <div *ngFor="let actividad of actividades" class="buscar-card">
+      <div class="card-img-wrap">
+        <img [src]="getImagenActividad(actividad)" [alt]="actividad.nom_actividad" loading="lazy">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-categoria">{{ actividad.tipo }}</span>
+        </div>
+        <h6 class="card-nombre">{{ actividad.nom_actividad }}</h6>
+        <p class="card-desc">{{ actividad.descripcion }}</p>
+        <div class="card-footer">
+          <span class="card-precio">
+            ${{ actividad.costo | number }}
+          </span>
+          <a [routerLink]="['/detalle', 'actividad', actividad.id_actividad]" class="card-btn">
+            Ver actividad
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="actividades.length === 0" class="buscar-empty">
+      No hay actividades disponibles
+    </div>
   </div>
 </div>

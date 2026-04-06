@@ -64,6 +64,32 @@ class ActividadSchema(BaseModel):
     class Config:
         from_attributes = True
 
+class TemporadaSchema(BaseModel):
+    id_destino: int
+    mes: int
+    clima: Optional[str]
+    nivel_turistas: Optional[str]
+    precio_nivel: Optional[str]
+    recomendado: Optional[bool] = True
+    nota: Optional[str]
+    class Config:
+        from_attributes = True
+
+class TipSchema(BaseModel):
+    id_destino: int
+    contenido: str
+    categoria: Optional[str]
+    class Config:
+        from_attributes = True
+
+class ItemSchema(BaseModel):
+    tipo_destino: str
+    item: str
+    categoria: Optional[str]
+    esencial: Optional[bool] = False
+    class Config:
+        from_attributes = True
+
 class ViajeSchema(BaseModel):
     id_destino: int
     ciudad_origen: Optional[str]
