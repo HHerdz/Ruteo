@@ -193,6 +193,7 @@ async def borrar_restaurante(id_restaurante: int, db: Session = Depends(get_db))
     db.commit()
     return {"mensaje": f"Restaurante {id_restaurante} eliminado"}
 
+
 # ============================================
 # ACTIVIDADES
 # ============================================
@@ -235,12 +236,14 @@ async def borrar_actividad(id_actividad: int, db: Session = Depends(get_db)):
     db.commit()
     return {"mensaje": f"Actividad {id_actividad} eliminada"}
 
+
 # ============================================
 # TEMPORADAS
 # ============================================
 @router.get("/temporadas/all")
 async def leer_temporadas(db: Session = Depends(get_db)):
     return db.query(modelo.Temporada).all()
+
 
 # ============================================
 # TIPS
@@ -249,12 +252,21 @@ async def leer_temporadas(db: Session = Depends(get_db)):
 async def leer_tips(db: Session = Depends(get_db)):
     return db.query(modelo.Tip).all()
 
+@router.get("/tips/destino/{id_destino}")
+async def leer_tips_por_destino(id_destino: int, db: Session = Depends(get_db)):
+    tips = db.query(modelo.Tip).filter(modelo.Tip.id_destino == id_destino).all()
+    if not tips:
+        raise HTTPException(status_code=404, detail="No hay tips para este destino")
+    return tips
+
+
 # ============================================
 # ITEMS
 # ============================================
 @router.get("/items/all")
 async def leer_items(db: Session = Depends(get_db)):
     return db.query(modelo.Item).all()
+
 
 # ============================================
 # VIAJES
@@ -279,6 +291,7 @@ async def borrar_viaje(id_viaje: int, db: Session = Depends(get_db)):
     db.delete(viaje)
     db.commit()
     return {"mensaje": f"Viaje {id_viaje} eliminado"}
+
 
 # ============================================
 # VIAJEROS

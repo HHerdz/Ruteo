@@ -232,9 +232,6 @@ export class DetalleComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.lugar?.tipo_destino ?? 'Destino';
   }
 
-  getUbicacion(): string {
-    return this.lugar?.direccion ?? 'Ubicación no disponible';
-  }
 
   getDescripcion(): string {
     return this.lugar?.descripcion ?? 'Sin descripción disponible';

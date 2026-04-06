@@ -7,11 +7,11 @@ GET http://127.0.0.1:8000/ruteo/destinos/7
 
 ###
 ### GET todos los destinos
-GET http://127.0.0.1:8000/ruteo/destinos/all
+GET https://ruteo-production.up.railway.app/ruteo/destinos/all
 
 ###
 ### POST crear destino
-POST http://127.0.0.1:8000/ruteo/destinos/add
+POST https://ruteo-production.up.railway.app/ruteo/destinos/add
 Content-Type: application/json
 
 {
@@ -27,7 +27,7 @@ Content-Type: application/json
 
 ###
 ### PUT actualizar destino
-PUT http://127.0.0.1:8000/ruteo/destinos/update/7
+PUT http://127.0.0.1:8000/ruteo/destinos/update/6
 Content-Type: application/json
 
 {
@@ -44,7 +44,7 @@ Content-Type: application/json
 
 ###
 ### DELETE borrar destino
-DELETE http://127.0.0.1:8000/ruteo/destinos/borrar/7
+DELETE https://ruteo-production.up.railway.app/ruteo/destinos/borrar/13
 
 ###
 

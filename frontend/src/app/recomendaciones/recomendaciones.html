@@ -23,73 +23,23 @@
     <div class="loading-dot"></div>
   </div>
 
-  <!-- Sin seleccion -->
+  <!-- Sin selección -->
   <div *ngIf="!cargando && !mostrarConsejos" class="rec-empty">
     <p>Selecciona un destino para ver las recomendaciones</p>
   </div>
 
-  <!-- Consejos -->
-  <div *ngIf="mostrarConsejos" class="consejos-grid">
-
-    <div class="consejo-card">
-      <div class="consejo-icon">ID</div>
-      <h6 class="consejo-titulo">Documentos</h6>
-      <ul class="consejo-lista">
-        <li>Lleva siempre tu cedula o pasaporte</li>
-        <li>Ten una copia digital de tus documentos</li>
-        <li>Guarda los numeros de emergencia</li>
-      </ul>
-    </div>
-
-    <div class="consejo-card">
-      <div class="consejo-icon">$</div>
-      <h6 class="consejo-titulo">Dinero y pagos</h6>
-      <ul class="consejo-lista">
-        <li>Lleva efectivo para zonas sin internet</li>
-        <li>Avisa a tu banco antes de viajar</li>
-        <li>Ten un fondo de emergencia separado</li>
-      </ul>
-    </div>
-
-    <div class="consejo-card">
-      <div class="consejo-icon">SC</div>
-      <h6 class="consejo-titulo">Seguridad</h6>
-      <ul class="consejo-lista">
-        <li>No muestres objetos de valor en la calle</li>
-        <li>Comparte tu ubicacion con alguien de confianza</li>
-        <li>Usa transporte formal y registrado</li>
-      </ul>
-    </div>
-
-    <div class="consejo-card">
-      <div class="consejo-icon">SL</div>
-      <h6 class="consejo-titulo">Salud</h6>
-      <ul class="consejo-lista">
-        <li>Lleva botiquin basico de primeros auxilios</li>
-        <li>Hidratate bien especialmente en climas calidos</li>
-        <li>Consulta si necesitas vacunas para el destino</li>
-      </ul>
-    </div>
-
-    <div class="consejo-card">
-      <div class="consejo-icon">EQ</div>
-      <h6 class="consejo-titulo">Equipaje</h6>
-      <ul class="consejo-lista">
-        <li>Empaca segun el clima del destino</li>
-        <li>Lleva ropa comoda para caminar</li>
-        <li>No sobrecargues tu maleta</li>
-      </ul>
-    </div>
-
-    <div class="consejo-card">
-      <div class="consejo-icon">TC</div>
-      <h6 class="consejo-titulo">Tecnologia</h6>
-      <ul class="consejo-lista">
-        <li>Descarga mapas offline antes de salir</li>
-        <li>Lleva cargador portatil</li>
-        <li>Ten los contactos importantes guardados</li>
-      </ul>
-    </div>
-
+  <!-- Sin tips para ese destino -->
+  <div *ngIf="mostrarConsejos && tips.length === 0" class="rec-empty">
+    <p>No hay recomendaciones disponibles para este destino aún.</p>
   </div>
+
+  <!-- Tips dinámicos -->
+  <div *ngIf="mostrarConsejos && tips.length > 0" class="consejos-grid">
+    <div class="consejo-card" *ngFor="let tip of tips">
+      <div class="consejo-icon">{{ getIcono(tip.categoria) }}</div>
+      <h6 class="consejo-titulo">{{ getLabel(tip.categoria) }}</h6>
+      <p class="consejo-contenido">{{ tip.contenido }}</p>
+    </div>
+  </div>
+
 </div>
