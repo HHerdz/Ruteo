@@ -3,9 +3,6 @@
 env_ruteo/
 venv/
 
-# Variables de entorno
-.env
-
 # Python
 __pycache__/
 *.pyc
