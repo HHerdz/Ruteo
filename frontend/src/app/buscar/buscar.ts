@@ -14,6 +14,7 @@ export class BuscarComponent implements OnInit {
   hoteles: any[] = [];
   restaurantes: any[] = [];
   destinos: any[] = [];
+  actividades: any[] = [];
   vista: string = 'hoteles';
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) {}
@@ -63,6 +64,18 @@ export class BuscarComponent implements OnInit {
     });
   }
 
+  cargarActividades() {
+    this.vista = 'actividades';
+    this.api.getActividades().subscribe({
+      next: (data: any) => {
+        this.actividades = data;
+        this.cdr.detectChanges();
+        setTimeout(() => this.animarCards(), 50);
+      },
+      error: () => { this.cdr.detectChanges(); }
+    });
+  }
+
   async animarCards() {
     const gsap = await this.getGsap();
     gsap.fromTo('.buscar-card',
@@ -103,12 +116,33 @@ export class BuscarComponent implements OnInit {
 
   getImagenDestino(destino: any): string {
     const imagenes: any = {
-      1: 'https://mlqfmr3rpryd.i.optimole.com/cb:JBSP.a525/w:1024/h:814/q:100/ig:avif/https://cartagena-tours.co/wp-content/uploads/2023/12/49806996192_ec0e5e29b1_b.jpg',
+      1: 'https://guiaviajarmelhor.com.br/wp-content/uploads/2022/06/cartagena-quando-ir.jpeg',
       2: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4pdH6YZEBNdh5H_duICf9XhMj-ZYL_3yUHA&s',
       3: 'https://xixerone.com/wp-content/uploads/2019/03/Qu%C3%A9-hacer-en-El-Poblado-Medell%C3%ADn.jpg',
       4: 'https://cuponassets.cuponatic-latam.com/backendCo/uploads/imagenes_descuentos/200487/2d50792594dbd7b5f203cb0f5c57cd6f3a9648f8.XL2.jpg',
       5: 'https://upload.wikimedia.org/wikipedia/commons/4/43/Panor%C3%A1mica_de_San_Andres.JPG'
     };
     return imagenes[destino.id_destino] || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600';
+  }
+
+  getImagenActividad(actividad: any): string {
+    const imagenes: any = {
+      'Tour en chiva por la ciudad amurallada': 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d3/8b/2e/chiva-parrandera.jpg?w=900&h=500&s=1',
+      'Clase de salsa en el centro de Cali': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Cali_salsa.jpg/1200px-Cali_salsa.jpg',
+      'Tour en Metrocable línea L': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Medellin_Metrocable.jpg/1200px-Medellin_Metrocable.jpg',
+      'Baños termales en Paipa': 'https://hotelsochagota.com/wp-content/uploads/2017/11/11-1024x683.jpg',
+      'Buceo en el acuario de San Andrés': 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/24/88/76/decameron-aquarium.jpg?w=900&h=-1&s=1'
+    };
+    return imagenes[actividad.nom_actividad] || 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=600';
+  }
+
+  getTipoColor(tipo: string): string {
+    const colores: any = {
+      'cultural':   '#7c3aed',
+      'aventura':   '#dc2626',
+      'relax':      '#0891b2',
+      'naturaleza': '#16a34a'
+    };
+    return colores[tipo] || '#1a1a1a';
   }
 }

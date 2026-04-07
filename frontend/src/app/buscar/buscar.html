@@ -4,9 +4,10 @@
   <div class="buscar-header">
     <h2 class="buscar-titulo">Explorar</h2>
     <div class="buscar-tabs">
-      <button class="filtro-tab" [class.activo]="vista === 'sitios'" (click)="cargarDestinos()">Destinos</button>
-      <button class="filtro-tab" [class.activo]="vista === 'hoteles'" (click)="cargarHoteles()">Hoteles</button>
+      <button class="filtro-tab" [class.activo]="vista === 'hoteles'"      (click)="cargarHoteles()">Hoteles</button>
       <button class="filtro-tab" [class.activo]="vista === 'restaurantes'" (click)="cargarRestaurantes()">Restaurantes</button>
+      <button class="filtro-tab" [class.activo]="vista === 'sitios'"       (click)="cargarDestinos()">Destinos</button>
+      <button class="filtro-tab" [class.activo]="vista === 'actividades'"  (click)="cargarActividades()">Actividades</button>
     </div>
   </div>
 
@@ -30,7 +31,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="destinos.length === 0" class="buscar-empty">No hay sitios turisticos disponibles</div>
+    <div *ngIf="destinos.length === 0" class="buscar-empty">No hay sitios turísticos disponibles</div>
   </div>
 
   <!-- Hoteles -->
@@ -80,4 +81,37 @@
     </div>
     <div *ngIf="restaurantes.length === 0" class="buscar-empty">No hay restaurantes disponibles</div>
   </div>
+
+  <!-- Actividades -->
+  <div *ngIf="vista === 'actividades'" class="buscar-grid">
+    <div *ngFor="let actividad of actividades" class="buscar-card">
+      <div class="card-img-wrap">
+        <img [src]="getImagenActividad(actividad)" [alt]="actividad.nom_actividad" loading="lazy">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-badge" [style.background-color]="getTipoColor(actividad.tipo)">
+            {{ actividad.tipo }}
+          </span>
+          <span class="card-guia" *ngIf="actividad.incluye_guia">🧭 Con guía</span>
+        </div>
+        <h6 class="card-nombre">{{ actividad.nom_actividad }}</h6>
+        <p class="card-loc">⏱ {{ actividad.duracion_horas }} horas</p>
+        <p class="card-desc">{{ actividad.descripcion }}</p>
+        <div class="card-footer">
+          <span class="card-precio">
+            <ng-container *ngIf="actividad.costo > 0">
+              ${{ actividad.costo | number }}<span class="card-unidad"> / persona</span>
+            </ng-container>
+            <ng-container *ngIf="actividad.costo === 0">
+              <span class="card-gratis">Gratis</span>
+            </ng-container>
+          </span>
+          <a [routerLink]="['/detalle', 'actividad', actividad.id_actividad]" class="card-btn">Ver detalle</a>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="actividades.length === 0" class="buscar-empty">No hay actividades disponibles</div>
+  </div>
+
 </div>

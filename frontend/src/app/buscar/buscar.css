@@ -238,3 +238,18 @@
   font-size: 14px;
   padding: 4rem 0;
 }
+
+/* Actividades */
+.card-guia {
+  font-size: 11px;
+  color: #666;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.card-gratis {
+  font-size: 15px;
+  font-weight: 800;
+  color: #16a34a;
+  letter-spacing: -0.02em;
+}

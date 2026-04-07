@@ -31,6 +31,11 @@ export class ApiService {
   getDestinos() {
     return this.http.get(`${this.url}/destinos/all`);
   }
+
+getTemporadasPorDestino(id: number) {
+  return this.http.get(`${this.url}/temporadas/destino/${id}`);
+}
+  
   getDestino(id: number) {
     return this.http.get(`${this.url}/destinos/${id}`);
   }

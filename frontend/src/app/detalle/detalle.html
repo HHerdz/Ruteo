@@ -17,10 +17,9 @@
   <!-- LAYOUT PRINCIPAL -->
   <div *ngIf="!cargando && lugar" class="corp-layout">
 
-    <!-- ===== SIDEBAR FIJO ===== -->
+    <!-- ===== SIDEBAR ===== -->
     <aside class="corp-sidebar">
 
-      <!-- Header negro (incluye back + nombre) -->
       <div class="sidebar-header-block">
         <a routerLink="/buscar" class="corp-back">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
@@ -40,8 +39,16 @@
         </div>
       </div>
 
-      <!-- Rating -->
-      <div class="sidebar-rating">
+      <!-- Gratis -->
+      <div class="sidebar-precio-block" *ngIf="tipo === 'actividad' && getPrecio() === 0">
+        <span class="precio-label">Costo</span>
+        <div class="precio-row">
+          <span class="precio-valor precio-gratis">Gratis</span>
+        </div>
+      </div>
+
+      <!-- Rating (no actividades) -->
+      <div class="sidebar-rating" *ngIf="tipo !== 'actividad'">
         <div class="stars-row">
           <span *ngFor="let e of [1,2,3,4,5]" class="star" [class.filled]="e <= getRating()">★</span>
         </div>
@@ -50,7 +57,7 @@
 
       <div class="sidebar-sep"></div>
 
-      <!-- Datos rápidos -->
+      <!-- Datos generales -->
       <div class="sidebar-section-label">Información</div>
       <div class="sidebar-datos">
         <div *ngFor="let dato of getDatosGenerales()" class="sidebar-dato">
@@ -64,58 +71,136 @@
 
       <div class="sidebar-sep"></div>
 
-      <!-- Horario -->
-      <div class="sidebar-section-label">Horario</div>
-      <div class="sidebar-horario">
-        <div class="horario-row">
-          <span class="horario-dia">Lun – Vie</span>
-          <span class="horario-hora">7:00 AM – 10:00 PM</span>
+      <!-- Horario (solo hotel/restaurante) -->
+      <ng-container *ngIf="tipo !== 'actividad' && tipo !== 'destino'">
+        <div class="sidebar-section-label">Horario</div>
+        <div class="sidebar-horario">
+          <div class="horario-row">
+            <span class="horario-dia">Lun – Vie</span>
+            <span class="horario-hora">7:00 AM – 10:00 PM</span>
+          </div>
+          <div class="horario-row">
+            <span class="horario-dia">Sáb – Dom</span>
+            <span class="horario-hora">8:00 AM – 11:00 PM</span>
+          </div>
+          <div class="horario-badge">
+            <span class="horario-dot"></span>
+            Abierto ahora
+          </div>
         </div>
-        <div class="horario-row">
-          <span class="horario-dia">Sáb – Dom</span>
-          <span class="horario-hora">8:00 AM – 11:00 PM</span>
-        </div>
-        <div class="horario-badge">
-          <span class="horario-dot"></span>
-          Abierto ahora
-        </div>
-      </div>
+        <div class="sidebar-sep"></div>
+      </ng-container>
 
-      <div class="sidebar-sep"></div>
+      <!-- Amenidades (solo hotel/restaurante) -->
+      <ng-container *ngIf="tipo !== 'actividad' && tipo !== 'destino'">
+        <div class="sidebar-amenidades">
+          <div class="amenidad-chip">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+            WiFi Gratis
+          </div>
+          <div class="amenidad-chip">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 4v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Parking
+          </div>
+          <div class="amenidad-chip">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Restaurante
+          </div>
+          <div class="amenidad-chip">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            Spa & Wellness
+          </div>
+          <div class="amenidad-chip">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Check-in 24h
+          </div>
+          <div class="amenidad-chip">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+            Sala de eventos
+          </div>
+        </div>
+        <div class="sidebar-sep"></div>
+      </ng-container>
 
-      <!-- Amenidades -->
-      <div class="sidebar-amenidades">
-        <div class="amenidad-chip">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>
-          WiFi Gratis
-        </div>
-        <div class="amenidad-chip">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 4v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          Parking
-        </div>
-        <div class="amenidad-chip">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          Restaurante
-        </div>
-        <div class="amenidad-chip">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          Spa & Wellness
-        </div>
-        <div class="amenidad-chip">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-          Check-in 24h
-        </div>
-        <div class="amenidad-chip">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-          Sala de eventos
-        </div>
-      </div>
+      <!-- ===== SIDEBAR ACTIVIDAD ===== -->
+      <ng-container *ngIf="tipo === 'actividad'">
 
-      <div class="sidebar-sep"></div>
+        <div class="sidebar-section-label">Condiciones</div>
+        <div class="act-condiciones">
+
+          <div class="act-condicion-row">
+            <div class="act-condicion-icon" [class.act-cond--si]="lugar?.incluye_guia" [class.act-cond--no]="!lugar?.incluye_guia">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <ng-container *ngIf="lugar?.incluye_guia"><polyline points="20 6 9 17 4 12"/></ng-container>
+                <ng-container *ngIf="!lugar?.incluye_guia"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></ng-container>
+              </svg>
+            </div>
+            <div class="act-condicion-text">
+              <span class="act-cond-label">Guía incluida</span>
+              <span class="act-cond-val">{{ lugar?.incluye_guia ? 'Sí, guía profesional' : 'No incluye guía' }}</span>
+            </div>
+          </div>
+
+          <div class="act-condicion-row">
+            <div class="act-condicion-icon act-cond--si">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <div class="act-condicion-text">
+              <span class="act-cond-label">Reserva previa</span>
+              <span class="act-cond-val">No requerida</span>
+            </div>
+          </div>
+
+          <div class="act-condicion-row">
+            <div class="act-condicion-icon" [class.act-cond--si]="lugar?.activo" [class.act-cond--no]="!lugar?.activo">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <ng-container *ngIf="lugar?.activo"><polyline points="20 6 9 17 4 12"/></ng-container>
+                <ng-container *ngIf="!lugar?.activo"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></ng-container>
+              </svg>
+            </div>
+            <div class="act-condicion-text">
+              <span class="act-cond-label">Disponibilidad</span>
+              <span class="act-cond-val">{{ lugar?.activo ? 'Disponible ahora' : 'Temporalmente pausada' }}</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="sidebar-sep"></div>
+
+        <!-- Duración visual -->
+        <div class="sidebar-section-label">Duración estimada</div>
+        <div class="act-duracion-block">
+          <div class="act-dur-pips">
+            <div
+              *ngFor="let pip of [1,2,3,4,5,6,7,8]"
+              class="act-dur-pip"
+              [class.act-dur-pip--on]="pip <= (lugar?.duracion_horas ?? 0)">
+            </div>
+          </div>
+          <div class="act-dur-info">
+            <span class="act-dur-num">{{ lugar?.duracion_horas ?? 0 }} horas</span>
+            <span class="act-dur-desc">{{ getDuracionDesc() }}</span>
+          </div>
+        </div>
+
+        <div class="sidebar-sep"></div>
+
+        <!-- CTA -->
+        <div class="act-cta-block">
+          <button class="act-cta-btn" type="button">
+            Agregar al viaje
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+      </ng-container>
 
     </aside>
 
-    <!-- ===== CONTENIDO SCROLLEABLE ===== -->
+    <!-- ===== MAIN ===== -->
     <main class="corp-main">
 
       <!-- CARRUSEL -->
@@ -130,8 +215,6 @@
             loading="lazy"
           />
           <div class="carrusel-overlay"></div>
-
-          <!-- Texto superpuesto -->
           <div class="carrusel-texto">
             <span class="carrusel-texto-eyebrow">{{ tipo | uppercase }} — {{ getCategoria() }}</span>
             <h2 class="carrusel-texto-titulo">{{ getNombre() }}</h2>
@@ -142,13 +225,10 @@
           <button class="carrusel-arrow right" (click)="imagenSiguiente()" *ngIf="getImagenes().length > 1">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
           </button>
-
-          <!-- Contador -->
           <div class="carrusel-counter" *ngIf="getImagenes().length > 1">
             {{ imagenActiva + 1 }} / {{ getImagenes().length }}
           </div>
         </div>
-
       </section>
 
       <!-- DESCRIPCIÓN -->
@@ -157,10 +237,8 @@
         <p class="corp-desc">{{ getDescripcion() }}</p>
       </section>
 
-      <div class="corp-divider"></div>
-
-      <!-- CALIFICACIÓN -->
-      <section class="corp-section">
+      <!-- CALIFICACIÓN (no actividades) -->
+      <section class="corp-section" *ngIf="tipo !== 'actividad'">
         <div class="section-label">Calificación</div>
         <div class="rating-block">
           <div class="rating-score">{{ getRating() }}<span>.0</span></div>
@@ -171,8 +249,6 @@
             <p class="rating-desc">Excelente — recomendado por nuestros usuarios</p>
           </div>
         </div>
-
-        <!-- Barras de calificación decorativas -->
         <div class="rating-bars">
           <div class="rbar-row">
             <span class="rbar-label">Limpieza</span>
@@ -197,27 +273,119 @@
         </div>
       </section>
 
-      <div class="corp-divider"></div>
+      <!-- ===== SECCIÓN ACTIVIDAD ===== -->
+      <ng-container *ngIf="tipo === 'actividad'">
 
-      <!-- MAPA / UBICACIÓN -->
-      <section class="corp-section">
+        <!-- QUÉ INCLUYE -->
+        <section class="corp-section act-incluye-section">
+          <div class="section-label">Qué incluye esta actividad</div>
+          <div class="act-incluye-grid">
+
+            <div class="act-incluye-card">
+              <div class="act-incluye-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+                </svg>
+              </div>
+              <div class="act-incluye-info">
+                <span class="act-incluye-titulo">Duración</span>
+                <span class="act-incluye-val">{{ lugar?.duracion_horas ?? 0 }} horas</span>
+              </div>
+            </div>
+
+            <div class="act-incluye-card" [class.act-incluye-card--activo]="lugar?.incluye_guia">
+              <div class="act-incluye-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+              <div class="act-incluye-info">
+                <span class="act-incluye-titulo">Guía profesional</span>
+                <span class="act-incluye-val">{{ lugar?.incluye_guia ? 'Incluida' : 'No incluida' }}</span>
+              </div>
+              <div class="act-incluye-badge" *ngIf="lugar?.incluye_guia">✓</div>
+            </div>
+
+            <div class="act-incluye-card act-incluye-card--activo">
+              <div class="act-incluye-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              </div>
+              <div class="act-incluye-info">
+                <span class="act-incluye-titulo">Seguro básico</span>
+                <span class="act-incluye-val">Incluido</span>
+              </div>
+              <div class="act-incluye-badge">✓</div>
+            </div>
+
+            <div class="act-incluye-card act-incluye-card--activo">
+              <div class="act-incluye-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+                </svg>
+              </div>
+              <div class="act-incluye-info">
+                <span class="act-incluye-titulo">Pago flexible</span>
+                <span class="act-incluye-val">Efectivo o tarjeta</span>
+              </div>
+              <div class="act-incluye-badge">✓</div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- HIGHLIGHTS -->
+        <section class="corp-section act-highlights-section">
+          <div class="section-label">Lo que vas a vivir</div>
+          <div class="act-highlights-list">
+            <div class="act-highlight-item">
+              <div class="act-highlight-num">01</div>
+              <div class="act-highlight-body">
+                <span class="act-highlight-titulo">Experiencia auténtica</span>
+                <span class="act-highlight-desc">Actividad diseñada para conectar con la cultura y el entorno local de forma genuina.</span>
+              </div>
+            </div>
+            <div class="act-highlight-item">
+              <div class="act-highlight-num">02</div>
+              <div class="act-highlight-body">
+                <span class="act-highlight-titulo">Grupos reducidos</span>
+                <span class="act-highlight-desc">Atención personalizada para que cada viajero viva la experiencia a su ritmo.</span>
+              </div>
+            </div>
+            <div class="act-highlight-item">
+              <div class="act-highlight-num">03</div>
+              <div class="act-highlight-body">
+                <span class="act-highlight-titulo">Sin complicaciones</span>
+                <span class="act-highlight-desc">Sin reserva previa. Llega, disfruta y paga solo si te convence.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </ng-container>
+
+      <!-- DETALLES EXTRA (no actividades) -->
+      <section class="corp-section" *ngIf="tipo !== 'actividad' && getDetallesExtra().length > 0">
+        <div class="section-label">Detalles</div>
+        <div class="detalles-grid">
+          <div *ngFor="let d of getDetallesExtra()" class="detalle-chip">
+            <span class="chip-label">{{ d.label }}</span>
+            <span class="chip-val" [innerHTML]="d.value"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- MAPA -->
+      <section class="corp-section" *ngIf="lugar.latitud && lugar.longitud">
         <div class="section-label">Ubicación</div>
         <div class="mapa-card">
           <div class="mapa-embed-wrap">
-            <iframe
-              [src]="getMapaUrl()"
-              class="mapa-embed"
-              allowfullscreen
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-            ></iframe>
+            <iframe [src]="getMapaUrl()" class="mapa-embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
           <div class="mapa-footer">
-            <a
-              [href]="'https://www.google.com/maps?q=' + lugar.latitud + ',' + lugar.longitud"
-              target="_blank"
-              class="mapa-btn"
-            >
+            <a [href]="'https://www.google.com/maps?q=' + lugar.latitud + ',' + lugar.longitud" target="_blank" class="mapa-btn">
               Abrir en Google Maps
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
@@ -226,28 +394,47 @@
       </section>
 
       <!-- CLIMA -->
-      <section class="corp-section">
+      <section class="corp-section" *ngIf="lugar.latitud && lugar.longitud">
         <div class="section-label">Clima actual</div>
-        <app-clima
-          [latitud]="lugar.latitud"
-          [longitud]="lugar.longitud"
-          [nombreDestino]="getNombre()">
-        </app-clima>
+        <app-clima [latitud]="lugar.latitud" [longitud]="lugar.longitud" [nombreDestino]="getNombre()"></app-clima>
       </section>
-      
-      <!-- DETALLES EXTRA (hotel y restaurante) -->
-      <ng-container *ngIf="tipo !== 'destino'">
-        <div class="corp-divider"></div>
-        <section class="corp-section">
-          <div class="section-label">Detalles</div>
-          <div class="detalles-grid">
-            <div *ngFor="let d of getDetallesExtra()" class="detalle-chip">
-              <span class="chip-label">{{ d.label }}</span>
-              <span class="chip-val" [innerHTML]="d.value"></span>
+
+      <!-- TEMPORADAS (solo destinos) -->
+      <section class="corp-section temporadas-section" *ngIf="tipo === 'destino' && temporadas.length > 0">
+        <div class="section-label">Mejor época para visitar</div>
+        <div class="temporadas-intro">
+          <p class="temporadas-desc">Consulta cuándo viajar según el clima, el nivel de turistas y los precios de cada mes registrado.</p>
+        </div>
+        <div class="temporadas-grid">
+          <div *ngFor="let t of temporadas" class="temporada-card" [class.temporada-card--recomendado]="t.recomendado">
+            <div class="temporada-card-header">
+              <div class="temporada-mes-wrap">
+                <span class="temporada-clima-icon">{{ getClimaIcon(t.clima) }}</span>
+                <div>
+                  <span class="temporada-mes">{{ getNombreMes(t.mes) }}</span>
+                  <span class="temporada-clima-txt">{{ t.clima }}</span>
+                </div>
+              </div>
+              <span class="temporada-rec-badge" *ngIf="t.recomendado">✓ Ideal</span>
+              <span class="temporada-norec-badge" *ngIf="!t.recomendado">✕ Evitar</span>
             </div>
+            <div class="temporada-barra-wrap">
+              <div class="temporada-barra-label">
+                <span>Turistas</span>
+                <span class="temporada-badge" [ngClass]="getNivelClase(t.nivel_turistas)">{{ t.nivel_turistas }}</span>
+              </div>
+              <div class="temporada-barra-track">
+                <div class="temporada-barra-fill" [style.width]="getNivelBarWidth(t.nivel_turistas)" [style.background]="getNivelBarColor(t.nivel_turistas)"></div>
+              </div>
+            </div>
+            <div class="temporada-precio-row">
+              <span class="temporada-precio-label">Precio</span>
+              <span class="temporada-badge" [ngClass]="getPrecioClase(t.precio_nivel)">{{ t.precio_nivel }}</span>
+            </div>
+            <p class="temporada-nota" *ngIf="t.nota">{{ t.nota }}</p>
           </div>
-        </section>
-      </ng-container>
+        </div>
+      </section>
 
     </main>
   </div>
