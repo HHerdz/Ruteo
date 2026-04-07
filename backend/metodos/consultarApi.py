@@ -9,7 +9,8 @@ from esquema.eschema import (
     RestauranteSchema,
     ActividadSchema,
     ViajeSchema,
-    ViajeroSchema
+    ViajeroSchema,
+    TemporadaSchema  # ✅ agregado
 )
 
 router = APIRouter()
@@ -31,7 +32,7 @@ async def leer_ciudades(db: Session = Depends(get_db)):
 
 @router.post("/ciudades/add")
 async def crear_ciudad(ciudad: CiudadSchema, db: Session = Depends(get_db)):
-    nueva = modelo.Ciudad(**ciudad.dict())
+    nueva = modelo.Ciudad(**ciudad.model_dump())  # ✅ .dict() → .model_dump()
     db.add(nueva)
     db.commit()
     db.refresh(nueva)
@@ -49,7 +50,7 @@ async def actualizar_ciudad(id_ciudad: int, datos: CiudadSchema, db: Session = D
     ciudad = db.query(modelo.Ciudad).filter(modelo.Ciudad.id_ciudad == id_ciudad).first()
     if not ciudad:
         raise HTTPException(status_code=404, detail="Ciudad no encontrada")
-    for key, value in datos.dict().items():
+    for key, value in datos.model_dump().items():  # ✅ .dict() → .model_dump()
         setattr(ciudad, key, value)
     db.commit()
     db.refresh(ciudad)
@@ -74,7 +75,7 @@ async def leer_destinos(db: Session = Depends(get_db)):
 
 @router.post("/destinos/add")
 async def crear_destino(destino: DestinoSchema, db: Session = Depends(get_db)):
-    nuevo = modelo.Destino(**destino.dict())
+    nuevo = modelo.Destino(**destino.model_dump())  # ✅
     db.add(nuevo)
     db.commit()
     db.refresh(nuevo)
@@ -92,7 +93,7 @@ async def actualizar_destino(id_destino: int, datos: DestinoSchema, db: Session 
     destino = db.query(modelo.Destino).filter(modelo.Destino.id_destino == id_destino).first()
     if not destino:
         raise HTTPException(status_code=404, detail="Destino no encontrado")
-    for key, value in datos.dict().items():
+    for key, value in datos.model_dump().items():  # ✅
         setattr(destino, key, value)
     db.commit()
     db.refresh(destino)
@@ -117,7 +118,7 @@ async def leer_hoteles(db: Session = Depends(get_db)):
 
 @router.post("/hoteles/add")
 async def crear_hotel(hotel: HotelSchema, db: Session = Depends(get_db)):
-    nuevo = modelo.Hotel(**hotel.dict())
+    nuevo = modelo.Hotel(**hotel.model_dump())  # ✅
     db.add(nuevo)
     db.commit()
     db.refresh(nuevo)
@@ -135,7 +136,7 @@ async def actualizar_hotel(id_hotel: int, datos: HotelSchema, db: Session = Depe
     hotel = db.query(modelo.Hotel).filter(modelo.Hotel.id_hotel == id_hotel).first()
     if not hotel:
         raise HTTPException(status_code=404, detail="Hotel no encontrado")
-    for key, value in datos.dict().items():
+    for key, value in datos.model_dump().items():  # ✅
         setattr(hotel, key, value)
     db.commit()
     db.refresh(hotel)
@@ -160,7 +161,7 @@ async def leer_restaurantes(db: Session = Depends(get_db)):
 
 @router.post("/restaurantes/add")
 async def crear_restaurante(restaurante: RestauranteSchema, db: Session = Depends(get_db)):
-    nuevo = modelo.Restaurante(**restaurante.dict())
+    nuevo = modelo.Restaurante(**restaurante.model_dump())  # ✅
     db.add(nuevo)
     db.commit()
     db.refresh(nuevo)
@@ -178,7 +179,7 @@ async def actualizar_restaurante(id_restaurante: int, datos: RestauranteSchema, 
     restaurante = db.query(modelo.Restaurante).filter(modelo.Restaurante.id_restaurante == id_restaurante).first()
     if not restaurante:
         raise HTTPException(status_code=404, detail="Restaurante no encontrado")
-    for key, value in datos.dict().items():
+    for key, value in datos.model_dump().items():  # ✅
         setattr(restaurante, key, value)
     db.commit()
     db.refresh(restaurante)
@@ -203,7 +204,7 @@ async def leer_actividades(db: Session = Depends(get_db)):
 
 @router.post("/actividades/add")
 async def crear_actividad(actividad: ActividadSchema, db: Session = Depends(get_db)):
-    nueva = modelo.Actividad(**actividad.dict())
+    nueva = modelo.Actividad(**actividad.model_dump())  # ✅
     db.add(nueva)
     db.commit()
     db.refresh(nueva)
@@ -221,7 +222,7 @@ async def actualizar_actividad(id_actividad: int, datos: ActividadSchema, db: Se
     actividad = db.query(modelo.Actividad).filter(modelo.Actividad.id_actividad == id_actividad).first()
     if not actividad:
         raise HTTPException(status_code=404, detail="Actividad no encontrada")
-    for key, value in datos.dict().items():
+    for key, value in datos.model_dump().items():  # ✅
         setattr(actividad, key, value)
     db.commit()
     db.refresh(actividad)
@@ -240,9 +241,19 @@ async def borrar_actividad(id_actividad: int, db: Session = Depends(get_db)):
 # ============================================
 # TEMPORADAS
 # ============================================
-@router.get("/temporadas/all")
-async def leer_temporadas(db: Session = Depends(get_db)):
-    return db.query(modelo.Temporada).all()
+@router.post("/temporadas/add")  # ✅ endpoint nuevo para insertar
+async def crear_temporada(temporada: TemporadaSchema, db: Session = Depends(get_db)):
+    nueva = modelo.Temporada(**temporada.model_dump())
+    db.add(nueva)
+    db.commit()
+    db.refresh(nueva)
+    return nueva
+
+@router.get("/temporadas/destino/{id_destino}")
+async def leer_temporadas_por_destino(id_destino: int, db: Session = Depends(get_db)):
+    return db.query(modelo.Temporada).filter(
+        modelo.Temporada.id_destino == id_destino
+    ).all()
 
 
 # ============================================
@@ -254,10 +265,8 @@ async def leer_tips(db: Session = Depends(get_db)):
 
 @router.get("/tips/destino/{id_destino}")
 async def leer_tips_por_destino(id_destino: int, db: Session = Depends(get_db)):
-    tips = db.query(modelo.Tip).filter(modelo.Tip.id_destino == id_destino).all()
-    if not tips:
-        raise HTTPException(status_code=404, detail="No hay tips para este destino")
-    return tips
+    # ✅ retorna [] en lugar de 404 cuando no hay tips
+    return db.query(modelo.Tip).filter(modelo.Tip.id_destino == id_destino).all()
 
 
 # ============================================
@@ -268,11 +277,12 @@ async def leer_items(db: Session = Depends(get_db)):
     return db.query(modelo.Item).all()
 
 @router.get("/items/tipo/{tipo_destino}")
-def get_items_por_tipo(tipo_destino: str, db: Session = Depends(get_db)):
-    return db.query(modelo.Item).filter(
+async def get_items_por_tipo(tipo_destino: str, db: Session = Depends(get_db)):  # ✅ async + dead code eliminado
+    items = db.query(modelo.Item).filter(
         modelo.Item.tipo_destino == tipo_destino
     ).all()
     return items
+
 
 # ============================================
 # VIAJES
@@ -283,7 +293,7 @@ async def leer_viajes(db: Session = Depends(get_db)):
 
 @router.post("/viajes/add")
 async def crear_viaje(viaje: ViajeSchema, db: Session = Depends(get_db)):
-    nuevo = modelo.Viaje(**viaje.dict())
+    nuevo = modelo.Viaje(**viaje.model_dump())  # ✅
     db.add(nuevo)
     db.commit()
     db.refresh(nuevo)
@@ -308,7 +318,7 @@ async def leer_viajeros(db: Session = Depends(get_db)):
 
 @router.post("/viajeros/add")
 async def crear_viajero(viajero: ViajeroSchema, db: Session = Depends(get_db)):
-    nuevo = modelo.Viajero(**viajero.dict())
+    nuevo = modelo.Viajero(**viajero.model_dump())  # ✅
     db.add(nuevo)
     db.commit()
     db.refresh(nuevo)
