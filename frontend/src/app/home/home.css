@@ -42,15 +42,15 @@
 .hero-title {
   font-size: 3rem;
   font-weight: 800;
-  color: #fff;
+  color: rgb(17, 49, 28);
   margin: 0 0 10px;
   letter-spacing: -0.03em;
   opacity: 0;
 }
 
 .hero-sub {
-  font-size: 16px;
-  color: rgba(255,255,255,0.85);
+  font-size: 20px;
+  color: rgb(17, 49, 28, 0.90);
   margin: 0 0 24px;
   line-height: 1.5;
   opacity: 0;
@@ -94,8 +94,8 @@
   border-radius: 50px;
   border: 1.5px solid rgba(255,255,255,0.4);
   background: rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.9);
-  font-size: 13px;
+  color: rgb(17, 49, 28, 0.9);
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s;

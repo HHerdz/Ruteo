@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     { label: 'Actividades', valor: 'actividad' },
   ];
 
-  tipoActivo = 'destino';
+  tipoActivo = '';
   busqueda = '';
   destinos: any[] = [];
   hoteles: any[] = [];

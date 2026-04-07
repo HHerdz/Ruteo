@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../services/api';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-buscar',
@@ -17,10 +18,18 @@ export class BuscarComponent implements OnInit {
   actividades: any[] = [];
   vista: string = 'hoteles';
 
-  constructor(private api: ApiService, private cdr: ChangeDetectorRef) {}
+  constructor(private api: ApiService, private cdr: ChangeDetectorRef, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.cargarHoteles();
+    this.route.queryParams.subscribe(params => {
+      const tipo = params['tipo'] || 'hoteles';
+
+      if (tipo === 'hotel') this.cargarHoteles();
+      else if (tipo === 'restaurante') this.cargarRestaurantes();
+      else if (tipo === 'destino') this.cargarDestinos();
+      else if (tipo === 'actividad') this.cargarActividades();
+      else this.cargarDestinos();
+    });
   }
 
   private async getGsap() {
@@ -138,9 +147,9 @@ export class BuscarComponent implements OnInit {
 
   getTipoColor(tipo: string): string {
     const colores: any = {
-      'cultural':   '#7c3aed',
-      'aventura':   '#dc2626',
-      'relax':      '#0891b2',
+      'cultural': '#7c3aed',
+      'aventura': '#dc2626',
+      'relax': '#0891b2',
       'naturaleza': '#16a34a'
     };
     return colores[tipo] || '#1a1a1a';

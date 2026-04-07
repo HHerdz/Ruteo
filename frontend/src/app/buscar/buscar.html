@@ -4,9 +4,9 @@
   <div class="buscar-header">
     <h2 class="buscar-titulo">Explorar</h2>
     <div class="buscar-tabs">
+      <button class="filtro-tab" [class.activo]="vista === 'sitios'"       (click)="cargarDestinos()">Destinos</button>
       <button class="filtro-tab" [class.activo]="vista === 'hoteles'"      (click)="cargarHoteles()">Hoteles</button>
       <button class="filtro-tab" [class.activo]="vista === 'restaurantes'" (click)="cargarRestaurantes()">Restaurantes</button>
-      <button class="filtro-tab" [class.activo]="vista === 'sitios'"       (click)="cargarDestinos()">Destinos</button>
       <button class="filtro-tab" [class.activo]="vista === 'actividades'"  (click)="cargarActividades()">Actividades</button>
     </div>
   </div>
