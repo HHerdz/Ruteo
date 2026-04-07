@@ -106,6 +106,14 @@
   cursor: pointer;
   transition: background 0.15s;
 }
+.checklist-input select {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1.5px solid #e0e0e0;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
 
 .checklist-input button:hover { background: #333; }
 

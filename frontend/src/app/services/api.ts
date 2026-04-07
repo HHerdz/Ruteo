@@ -8,7 +8,7 @@ export class ApiService {
 
   private url = 'https://ruteo-production.up.railway.app/ruteo';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // CIUDADES
   getCiudades() {
@@ -129,11 +129,14 @@ export class ApiService {
   borrarViajero(id: number) {
     return this.http.delete(`${this.url}/viajeros/borrar/${id}`);
   }
-// TIPS
-   getTipsPorDestino(id: number) {
+  // TIPS
+  getTipsPorDestino(id: number) {
     return this.http.get(`${this.url}/tips/destino/${id}`);
-}
-
+  }
+  // ITEMS (CHECKLIST)
+  getItems(tipo: string) {
+    return this.http.get(`${this.url}/items/tipo/${tipo}`);
+  }
 }
 
 
