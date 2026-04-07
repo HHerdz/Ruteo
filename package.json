@@ -1,5 +1,11 @@
 {
   "devDependencies": {
     "vitest": "^4.1.2"
-  }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
 }
