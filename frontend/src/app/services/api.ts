@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private url = 'https://ruteo-production.up.railway.app/ruteo';
+  private url = environment.apiUrl + '/ruteo';
 
   constructor(private http: HttpClient) { }
 
