@@ -134,8 +134,8 @@ export class ApiService {
     return this.http.get(`${this.url}/tips/destino/${id}`);
   }
   // ITEMS (CHECKLIST)
-  getItems(tipo: string) {
-    return this.http.get(`${this.url}/items/tipo/${tipo}`);
+  getItems(tipo_destino: string) {
+    return this.http.get(`${this.url}/items/tipo/${tipo_destino}`);
   }
 }
 

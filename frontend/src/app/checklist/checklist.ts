@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core'; import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../services/api';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-checklist',
@@ -11,14 +12,14 @@ import { ApiService } from '../services/api';
 export class ChecklistComponent implements AfterViewInit, OnInit {
 
   nuevoItem: string = '';
-  tipoSeleccionado: string = 'ciudad';
+  tipoSeleccionado: string = '';
 
   items: any[] = [];
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.cargarItems();
+
   }
 
   private async getGsap() {
@@ -45,16 +46,24 @@ export class ChecklistComponent implements AfterViewInit, OnInit {
     });
   }
 
-  // CARGAR ITEMS DESDE BD
+  // CARGAR ITEMS 
   cargarItems() {
-    if (!this.tipoSeleccionado) return;
-
-    this.api.getItems(this.tipoSeleccionado).subscribe({
+    if (!this.tipoSeleccionado) {
+      this.items = [];
+      return;
+    }
+    const tipoActual = this.tipoSeleccionado;
+    this.items = [];
+    this.api.getItems(tipoActual).subscribe({
       next: (data: any) => {
-        this.items = data.map((i: any) => ({
-          nombre: i.item,
-          completado: false
-        }));
+        if (tipoActual !== this.tipoSeleccionado) return;
+        this.items = data
+          .filter((i: any) => i.tipo_destino === tipoActual)
+          .map((i: any) => ({
+            nombre: i.item,
+            completado: false
+          }));
+        this.cdr.detectChanges();
       },
       error: () => {
         this.items = [];

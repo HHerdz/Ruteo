@@ -267,10 +267,10 @@ async def leer_tips_por_destino(id_destino: int, db: Session = Depends(get_db)):
 async def leer_items(db: Session = Depends(get_db)):
     return db.query(modelo.Item).all()
 
-@router.get("/items/tipo/{tipo}")
-def get_items_por_tipo(tipo: str, db: Session = Depends(get_db)):
-    items = db.query(modelo.Item).filter(
-        modelo.Item.tipo_destino == tipo
+@router.get("/items/tipo/{tipo_destino}")
+def get_items_por_tipo(tipo_destino: str, db: Session = Depends(get_db)):
+    return db.query(modelo.Item).filter(
+        modelo.Item.tipo_destino == tipo_destino
     ).all()
     return items
 

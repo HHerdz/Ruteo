@@ -43,17 +43,14 @@
         <button (click)="agregarItem()">Agregar</button>
       </div>
 
-      <!-- ⚠️ MENSAJE SI NO HAY TIPO -->
       <div *ngIf="!tipoSeleccionado" class="rec-empty">
         Selecciona un tipo de destino para ver tu checklist
       </div>
 
-      <!-- ⚠️ MENSAJE SI NO HAY ITEMS -->
       <div *ngIf="tipoSeleccionado && items.length === 0" class="rec-empty">
         No hay elementos disponibles para este destino
       </div>
 
-      <!-- 📋 LISTA -->
       <div class="checklist-lista" *ngIf="items.length > 0">
         <div
           *ngFor="let item of items; let i = index"
