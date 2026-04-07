@@ -255,6 +255,15 @@ async def leer_temporadas_por_destino(id_destino: int, db: Session = Depends(get
         modelo.Temporada.id_destino == id_destino
     ).all()
 
+@router.delete("/temporadas/borrar/{id_temporada}")
+async def borrar_temporada(id_temporada: int, db: Session = Depends(get_db)):
+    temporada = db.query(modelo.Temporada).filter(modelo.Temporada.id_temporada == id_temporada).first()
+    if not temporada:
+        raise HTTPException(status_code=404, detail="Temporada no encontrada")
+    db.delete(temporada)
+    db.commit()
+    return {"mensaje": f"Temporada {id_temporada} eliminada"}
+
 
 # ============================================
 # TIPS
