@@ -8,8 +8,8 @@ load_dotenv()
 
 SECRET_KEY  = os.getenv("JWT_SECRET_KEY", "cambia-esto-en-produccion")
 ALGORITHM   = "HS256"
-ACCESS_EXP  = 15   # minutos
-REFRESH_EXP = 30   # días
+ACCESS_EXP  = 15 
+REFRESH_EXP = 30 
 
 
 def create_access_token(identity: str, additional_claims: Optional[dict] = None) -> str:

@@ -5,7 +5,6 @@ from auth.jwt_handler import decode_token
 
 bearer_scheme = HTTPBearer()
 
-# Tokens revocados en memoria (equivalente al set() de la guía)
 revoked_tokens: set = set()
 
 

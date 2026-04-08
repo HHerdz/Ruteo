@@ -125,7 +125,7 @@ export class BuscarComponent implements OnInit {
       'Hotel Diez': 'https://images.unsplash.com/photo-1611892440504-42a792e24d32',
       'Hotel Ibis Medellin': 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c',
 
-      // PAIPA
+      // TUNJA
       'Hotel Sochagota': 'https://images.unsplash.com/photo-1501117716987-c8e1ecb210e0',
       'Estelar Paipa Hotel Spa': 'https://images.unsplash.com/photo-1540541338287-41700207dee6',
       'D’Acosta Hotel Sochagota': 'https://images.unsplash.com/photo-1505691938895-1758d7feb511',
