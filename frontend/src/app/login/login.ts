@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  NgZone} from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   reg_error  = '';
   reg_ok     = '';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router,private zone: NgZone ) {}
 
   ngOnInit() {
     gsap.from('.login-left',    { x: -60, opacity: 0, duration: 0.9, ease: 'power3.out' });
@@ -63,9 +63,11 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/buscar']);
         },
         error: (e) => {
-          this.error = e.status === 401
-            ? 'Email o contraseña incorrectos'
-            : 'Error al conectar con el servidor';
+          this.zone.run(() => {
+            this.error = e.status === 401
+              ? 'Email o contraseña incorrectos'
+              : 'Error al conectar con el servidor';
+          });
         }
       });
   }
@@ -98,14 +100,18 @@ export class LoginComponent implements OnInit {
       password:    this.reg_pass,
       rol:         'usuario'                       
     }).subscribe({
-      next: () => {
-        this.reg_ok = '¡Cuenta creada! Ya puedes iniciar sesión.';
-        setTimeout(() => this.cambiarTab('login'), 1800);
+      next: (res) => {
+        this.zone.run(() => {
+          this.reg_ok = '¡Cuenta creada! Ya puedes iniciar sesión.';
+          setTimeout(() => this.cambiarTab('login'), 1800);
+        });
       },
       error: (e) => {
-        this.reg_error = e.status === 409
-          ? 'Ese email ya está registrado'
-          : 'Error al crear la cuenta';
+        this.zone.run(() => {
+          this.reg_error = e.status === 409
+            ? 'Ese email ya está registrado'
+            : 'Error al crear la cuenta';
+        });
       }
     });
   }
