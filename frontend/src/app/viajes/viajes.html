@@ -1,1 +1,131 @@
-<p>viajes works!</p>
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold">Gestión de Ruteo</h2>
+            <p class="text-muted">Organiza tus destinos por Colombia</p>
+        </div>
+        <button class="btn btn-dark" (click)="toggleForm()">
+            {{ mostrarFormulario ? '✕ Cerrar' : '+ Nuevo Viaje' }}
+        </button>
+    </div>
+
+    <div *ngIf="mostrarFormulario" class="card p-4 shadow-sm mb-5">
+        <form [formGroup]="viajeForm">
+            <h5 class="section-title">DESTINO Y LOGÍSTICA</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <label>¿A dónde vas? *</label>
+                    <select formControlName="id_destino" class="form-select">
+                        <option value="">Selecciona destino</option>
+                        <option *ngFor="let d of destinos" [value]="d.id_destino">{{ d.nom_destino }}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>Ciudad de Origen *</label>
+                    <select formControlName="ciudad_origen" class="form-select">
+                        <option value="">Selecciona origen</option>
+                        <option *ngFor="let c of ciudadesColombia" [value]="c">{{ c }}</option>
+                    </select>
+                </div>
+                <div class="col-md-3"><label>Inicio</label><input type="date" formControlName="fecha_inicio"
+                        class="form-control"></div>
+                <div class="col-md-3"><label>Fin</label><input type="date" formControlName="fecha_fin"
+                        class="form-control"></div>
+            </div>
+
+            <h5 class="section-title">SERVICIOS DISPONIBLES</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <label>Hotel</label>
+                    <select class="form-select" (change)="actualizarPrecio($event, 'hotel')">
+                        <option value="">Elegir hotel...</option>
+                        <option *ngFor="let h of hotelesFiltrados" [value]="h.id_hotel">{{ h.nom_hotel }}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label>Restaurante</label>
+                    <select class="form-select" (change)="actualizarPrecio($event, 'rest')">
+                        <option value="">Elegir restaurante...</option>
+                        <option *ngFor="let r of restaurantesFiltrados" [value]="r.id_restaurante">{{ r.nom_restaurante
+                            }}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label>Actividad</label>
+                    <select class="form-select" (change)="actualizarPrecio($event, 'act')">
+                        <option value="">Elegir actividad...</option>
+                        <option *ngFor="let a of actividadesFiltradas" [value]="a.id_actividad">{{ a.nom_actividad }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <h5 class="section-title">VIAJEROS Y GASTOS</h5>
+            <div formArrayName="viajeros">
+                <div *ngFor="let v of viajeros.controls; let i=index" [formGroupName]="i"
+                    class="row g-2 mb-2 align-items-end">
+                    <div class="col-md-6">
+                        <label *ngIf="i===0">Nombre completo *</label>
+                        <input formControlName="nombre_completo" class="form-control" placeholder="Nombre">
+                    </div>
+                    <div class="col-md-2">
+                        <label *ngIf="i===0">Pagado</label>
+                        <input type="number" formControlName="gasto_pagado" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <label *ngIf="i===0">Asignado</label>
+                        <input type="number" formControlName="gasto_asignado" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-outline-danger w-100"
+                            (click)="eliminarViajero(i)">Eliminar</button>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-outline-success btn-sm mt-2" (click)="agregarViajero()">+ Agregar
+                    Persona</button>
+            </div>
+
+            <div class="total-bar mt-4">
+                <span class="fw-bold">COSTO TOTAL ESTIMADO:</span>
+                <span class="total-amount">${{ viajeForm.get('costo_total')?.value | number }}</span>
+            </div>
+            <div class="d-flex justify-content-end mt-4 gap-3">
+                <button type="button" class="btn btn-light" (click)="toggleForm()">Cancelar</button>
+                <button type="submit" class="btn btn-success px-5 fw-bold" (click)="guardarViaje()"
+                    [disabled]="viajeForm.invalid">
+                    Confirmar Registro
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="mt-5">
+        <h4 class="fw-bold">Mis Viajes Guardados</h4>
+        <div *ngIf="cargandoViajes" class="text-center p-5">
+            <div class="spinner-border text-success"></div>
+        </div>
+        <div *ngIf="!cargandoViajes && viajesRegistrados.length > 0" class="table-responsive mt-3">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Destino</th>
+                        <th>Origen</th>
+                        <th>Fechas</th>
+                        <th>Costo Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let viaje of viajesRegistrados">
+                        <td>{{ viaje.nom_destino }}</td>
+                        <td>{{ viaje.ciudad_origen }}</td>
+                        <td>{{ viaje.fecha_inicio | date }} - {{ viaje.fecha_fin | date }}</td>
+                        <td class="fw-bold text-success">${{ viaje.costo_total | number }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="!cargandoViajes && viajesRegistrados.length === 0" class="alert alert-info mt-3 text-center">
+            Aún no tienes viajes registrados. ¡Crea el primero!
+        </div>
+    </div>
+</div>
