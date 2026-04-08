@@ -318,6 +318,7 @@ async def leer_viajes(db: Session = Depends(get_db)):
 @router.post("/viajes/add")
 async def crear_viaje(viaje: ViajeSchema, db: Session = Depends(get_db)):
     nuevo = modelo.Viaje(**viaje.model_dump())
+    nuevo = modelo.Viaje(**viaje.model_dump())  
     db.add(nuevo)
     db.commit()
     db.refresh(nuevo)
@@ -328,11 +329,14 @@ async def borrar_viaje(id_viaje: int, db: Session = Depends(get_db)):
     viaje = db.query(modelo.Viaje).filter(modelo.Viaje.id_viaje == id_viaje).first()
     if not viaje:
         raise HTTPException(status_code=404, detail="Viaje no encontrado")
-    db.delete(viaje)
-    db.commit()
-    return {"mensaje": f"Viaje {id_viaje} eliminado"}
-
-
+    
+    try:
+        db.delete(viaje)
+        db.commit() 
+        return {"mensaje": f"Viaje {id_viaje} eliminado correctamente"}
+    except Exception as e:
+        db.rollback() 
+        raise HTTPException(status_code=500, detail=str(e))
 # ============================================
 # VIAJEROS
 # ============================================
