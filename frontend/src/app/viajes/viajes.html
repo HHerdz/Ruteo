@@ -93,7 +93,7 @@
                 <button type="button" class="btn btn-light" (click)="toggleForm()">Cancelar</button>
                 <button type="submit" class="btn btn-success px-5 fw-bold" (click)="guardarViaje()"
                     [disabled]="viajeForm.invalid">
-                    Confirmar Registro
+                    Confirmar Viaje
                 </button>
             </div>
         </form>
@@ -112,6 +112,7 @@
                         <th>Origen</th>
                         <th>Fechas</th>
                         <th>Costo Total</th>
+                        <th>Acciones</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -120,6 +121,11 @@
                         <td>{{ viaje.ciudad_origen }}</td>
                         <td>{{ viaje.fecha_inicio | date }} - {{ viaje.fecha_fin | date }}</td>
                         <td class="fw-bold text-success">${{ viaje.costo_total | number }}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" (click)="eliminarViajeRegistrado(viaje.id_viaje)">
+                                <i class="bi bi-trash"></i> Borrar
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -3,7 +3,7 @@
     padding: 100px 15px;
     background-color: #f8f9fa;
     min-height: 100vh;
-    margin-top: 40px; 
+    margin-top: 40px;
 }
 
 /* Encabezado de Página */
@@ -30,7 +30,7 @@
 .card {
     border: none;
     border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
     background: #ffffff;
     padding: 2.5rem !important;
 }
@@ -43,14 +43,16 @@
     margin-bottom: 0.5rem;
 }
 
-.form-select, .form-control {
+.form-select,
+.form-control {
     padding: 0.6rem 1rem;
     border-radius: 8px;
     border: 1px solid #dee2e6;
     transition: all 0.2s;
 }
 
-.form-select:focus, .form-control:focus {
+.form-select:focus,
+.form-control:focus {
     border-color: #1a4d2e;
     box-shadow: 0 0 0 0.2rem rgba(26, 77, 46, 0.15);
 }
@@ -83,7 +85,7 @@
     background: white;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .table thead {
@@ -105,12 +107,23 @@
 }
 
 .btn-outline-success {
-    border-color: #1a4d2e;
-    color: #1a4d2e;
+    border-color: #1e3a29;
+    color: #1c3f2a;
     font-weight: 600;
 }
 
 .btn-outline-success:hover {
-    background-color: #1a4d2e;
+    background-color: #193825;
     color: white;
+}
+
+.btn-danger {
+    background-color: #dc3545 !important;
+    border: none;
+    transition: all 0.2s;
+}
+
+.btn-danger:hover {
+    background-color: #a71d2a !important;
+    transform: scale(1.05);
 }

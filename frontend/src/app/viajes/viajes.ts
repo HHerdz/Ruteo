@@ -121,25 +121,88 @@ export class Viajes implements OnInit {
 
   guardarViaje(): void {
     if (this.viajeForm.valid) {
-      const datosViaje = this.viajeForm.getRawValue();
+      const rawData = this.viajeForm.getRawValue();
+
+      // CALCULAR num_dias (Diferencia entre fechas)
+      const inicio = new Date(rawData.fecha_inicio);
+      const fin = new Date(rawData.fecha_fin);
+      const dif = fin.getTime() - inicio.getTime();
+      const dias = Math.ceil(dif / (1000 * 3600 * 24)) + 1; // +1 para incluir el día de salida
+
+      const datosViaje = {
+        id_destino: Number(rawData.id_destino),
+        ciudad_origen: rawData.ciudad_origen,
+        fecha_inicio: rawData.fecha_inicio,
+        fecha_fin: rawData.fecha_fin,
+        num_dias: dias, // <--- AHORA SÍ COINCIDE CON TU SQL
+        distancia: 0,   // Valor por defecto para que no falle
+        estilo_viaje: 'Estándar', // O el valor que quieras por defecto
+        costo_transporte: Number(rawData.costo_transporte || 0),
+        costo_hospedaje: Number(rawData.costo_hospedaje || 0),
+        costo_comidas: Number(rawData.costo_comidas || 0),
+        costo_actividades: Number(rawData.costo_actividades || 0),
+        costo_total: Number(rawData.costo_total || 0)
+      };
 
       this.api.crearViaje(datosViaje).subscribe({
-        next: (res) => {
-          alert('¡Viaje guardado exitosamentse!');
-          this.viajeForm.reset();
-          this.inicializarFormulario();
-          this.cargarDatosIniciales(); 
-          this.mostrarFormulario = false; 
+        next: (viajeGuardado: any) => {
+          const idGenerado = viajeGuardado.id_viaje || viajeGuardado.id;
+
+          this.guardarViajeros(idGenerado, rawData.viajeros);
         },
-        error: (err) => {
-          console.error('Error al guardar:', err);
-          alert('Hubo un problema al conectar con la base de datos.');
-        }
+        error: (err) => alert('Error al crear el viaje maestro')
       });
-    } else {
-      alert('Por favor, completa todos los campos obligatorios.');
     }
   }
 
+  private guardarViajeros(idViaje: number, listaViajeros: any[]): void {
+    listaViajeros.forEach(viajero => {
+      // Calculamos el saldo antes de enviar
+      const pagado = Number(viajero.gasto_pagado || 0);
+      const asignado = Number(viajero.gasto_asignado || 0);
+      const saldoCalculado = asignado - pagado;
+
+      const objetoViajero = {
+        id_viaje: idViaje,
+        nom_viajero: viajero.nombre_completo,
+        gasto_asignado: asignado,
+        saldo: saldoCalculado
+      };
+
+      this.api.crearViajero(objetoViajero).subscribe({
+        next: () => console.log(`Viajero ${objetoViajero.nom_viajero} guardado`),
+        error: (e) => {
+          console.error('Error al guardar viajero:', e);
+          alert(`No se pudo guardar al viajero: ${objetoViajero.nom_viajero}`);
+        }
+      });
+    });
+
+    alert('¡Viaje y viajeros registrados correctamente!');
+    this.finalizarProceso();
+  }
+
+  private finalizarProceso(): void {
+    this.viajeForm.reset();
+    this.inicializarFormulario();
+    this.cargarDatosIniciales();
+    this.mostrarFormulario = false;
+  }
+
   toggleForm() { this.mostrarFormulario = !this.mostrarFormulario; }
+
+  eliminarViajeRegistrado(idViaje: number): void {
+  if (confirm('¿Estás seguro de eliminar este viaje? Se perderán todos los datos de los viajeros asociados.')) {
+        this.api.borrarViaje(idViaje).subscribe({
+      next: () => {
+        alert('Viaje eliminado con éxito');
+                this.cargarDatosIniciales(); 
+      },
+      error: (err) => {
+        console.error('Error al eliminar:', err);
+        alert('No se pudo eliminar el viaje. Revisa la consola para más detalles.');
+      }
+    });
+  }
+}
 }
