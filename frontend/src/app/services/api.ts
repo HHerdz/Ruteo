@@ -32,11 +32,9 @@ export class ApiService {
   getDestinos() {
     return this.http.get(`${this.url}/destinos/all`);
   }
-
-getTemporadasPorDestino(id: number) {
-  return this.http.get(`${this.url}/temporadas/destino/${id}`);
-}
-  
+  getTemporadasPorDestino(id: number) {
+    return this.http.get(`${this.url}/temporadas/destino/${id}`);
+  }
   getDestino(id: number) {
     return this.http.get(`${this.url}/destinos/${id}`);
   }
@@ -53,6 +51,9 @@ getTemporadasPorDestino(id: number) {
   // HOTELES
   getHoteles() {
     return this.http.get(`${this.url}/hoteles/all`);
+  }
+  getHotelesPorCiudad(idCiudad: number) {
+    return this.http.get(`${this.url}/hoteles/ciudad/${idCiudad}`);
   }
   getHotel(id: number) {
     console.log('llamando hotel:', id);
@@ -71,6 +72,9 @@ getTemporadasPorDestino(id: number) {
   // RESTAURANTES
   getRestaurantes() {
     return this.http.get(`${this.url}/restaurantes/all`);
+  }
+  getRestaurantesPorCiudad(idCiudad: number) {
+    return this.http.get(`${this.url}/restaurantes/ciudad/${idCiudad}`);
   }
   getRestaurante(id: number) {
     return this.http.get(`${this.url}/restaurantes/${id}`);
@@ -135,15 +139,14 @@ getTemporadasPorDestino(id: number) {
   borrarViajero(id: number) {
     return this.http.delete(`${this.url}/viajeros/borrar/${id}`);
   }
+
   // TIPS
   getTipsPorDestino(id: number) {
     return this.http.get(`${this.url}/tips/destino/${id}`);
   }
+
   // ITEMS (CHECKLIST)
   getItems(tipo_destino: string) {
     return this.http.get(`${this.url}/items/tipo/${tipo_destino}`);
   }
 }
-
-
-

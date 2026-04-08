@@ -44,9 +44,46 @@ Content-Type: application/json
 
 ###
 ### DELETE borrar destino
-DELETE https://ruteo-production.up.railway.app/ruteo/destinos/borrar/13
+DELETE http://127.0.0.1:8000/ruteo/viajes/borrar/1
 
 ###
 
 ### GET todos los restaurantes
 GET http://127.0.0.1:8000/ruteo/restaurantes/all
+
+
+
+
+
+
+
+#TOKENS_JWT
+
+
+
+### AUTH - Register
+POST http://127.0.0.1:8000/auth/register
+Content-Type: application/json
+
+{
+  "nom_user": "pedro",
+  "password": "12345",
+  "rol": "user"
+}
+
+### AUTH - Login
+POST http://127.0.0.1:8000/auth/login
+Content-Type: application/json
+
+{
+  "nom_user": "pedro",
+  "password": "12345"
+}
+
+### AUTH - Refresh
+POST http://127.0.0.1:8000/auth/refresh
+Authorization: Bearer TOKEN ACA
+
+### AUTH - Logout
+DELETE http://127.0.0.1:8000/auth/logout
+Authorization: Bearer TOKEN ACA

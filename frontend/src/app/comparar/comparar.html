@@ -4,127 +4,153 @@
     <h2 class="comparar-titulo">Comparar precios</h2>
     <p class="comparar-sub">Selecciona hasta 3 opciones para comparar lado a lado</p>
     <div class="comparar-tabs">
-      <button class="comp-tab" [class.activo]="tipo === 'hotel'" (click)="cargarHoteles()">Hoteles</button>
-      <button class="comp-tab" [class.activo]="tipo === 'restaurante'" (click)="cargarRestaurantes()">Restaurantes</button>
+      <button class="comp-tab" [class.activo]="tipo === 'hotel'" (click)="setTipo('hotel')">Hoteles</button>
+      <button class="comp-tab" [class.activo]="tipo === 'restaurante'" (click)="setTipo('restaurante')">Restaurantes</button>
     </div>
   </div>
 
-  <div *ngIf="cargando" class="comparar-loading">
-    <div class="loading-dot"></div>
-    <div class="loading-dot"></div>
-    <div class="loading-dot"></div>
-  </div>
+  <!-- PASO 1: Seleccionar ciudad -->
+  <div *ngIf="!ciudadSeleccionada">
 
-  <div *ngIf="!cargando" class="comparar-body">
+    <div *ngIf="cargandoCiudades" class="comparar-loading">
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+    </div>
 
-    <!-- Lista -->
-    <div class="comparar-lista">
-      <p class="lista-label">Selecciona opciones <span>{{ seleccionados.length }}/3</span></p>
-
-      <div *ngIf="tipo === 'hotel'">
-        <div *ngFor="let hotel of hoteles" class="item-card" [class.seleccionado]="estaSeleccionado(hotel)" (click)="toggleSeleccion(hotel)">
-          <div class="item-info">
-            <p class="item-nombre">{{ hotel.nom_hotel }}</p>
-            <p class="item-sub">{{ hotel.categoria }} · {{ hotel.estrellas }} estrellas</p>
-          </div>
-          <div class="item-precio">
-            <p class="precio-valor">${{ hotel.precio_noche | number }}</p>
-            <p class="precio-unidad">/ noche</p>
-          </div>
-          <div class="item-check" [class.visible]="estaSeleccionado(hotel)">&#10003;</div>
-        </div>
-      </div>
-
-      <div *ngIf="tipo === 'restaurante'">
-        <div *ngFor="let r of restaurantes" class="item-card" [class.seleccionado]="estaSeleccionado(r)" (click)="toggleSeleccion(r)">
-          <div class="item-info">
-            <p class="item-nombre">{{ r.nom_restaurante }}</p>
-            <p class="item-sub">{{ r.tipo_cocina }} · {{ r.categoria }}</p>
-          </div>
-          <div class="item-precio">
-            <p class="precio-valor">${{ r.precio_promedio | number }}</p>
-            <p class="precio-unidad">Promedio</p>
-          </div>
-          <div class="item-check" [class.visible]="estaSeleccionado(r)">&#10003;</div>
-        </div>
+    <div *ngIf="!cargandoCiudades" class="ciudades-grid">
+      <div *ngFor="let ciudad of ciudades" class="ciudad-card" (click)="seleccionarCiudad(ciudad)">
+        <p class="ciudad-nombre">{{ ciudad.nom_ciudad }}</p>
+        <p class="ciudad-dep">{{ ciudad.departamento }}</p>
       </div>
     </div>
 
-    <!-- Tabla -->
-    <div class="comparar-tabla">
+  </div>
 
-      <div *ngIf="seleccionados.length === 0" class="tabla-empty">
-        <p>Selecciona al menos 2 opciones</p>
-      </div>
+  <!-- PASO 2: Lista + tabla -->
+  <div *ngIf="ciudadSeleccionada">
 
-      <div *ngIf="seleccionados.length > 0" class="tabla-comparar">
+    <div class="ciudad-back">
+      <button class="btn-back" (click)="volverCiudades()">← Cambiar ciudad</button>
+      <span class="ciudad-activa">{{ ciudadSeleccionada.nom_ciudad }}</span>
+    </div>
 
-        <!-- Hoteles -->
+    <div *ngIf="cargando" class="comparar-loading">
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+    </div>
+
+    <div *ngIf="!cargando" class="comparar-body">
+
+      <!-- Lista -->
+      <div class="comparar-lista">
+        <p class="lista-label">Selecciona opciones <span>{{ seleccionados.length }}/3</span></p>
+
         <div *ngIf="tipo === 'hotel'">
-          <div class="tabla-header">
-            <div class="tabla-cell label"></div>
-            <div class="tabla-cell" *ngFor="let h of seleccionados">{{ h.nom_hotel }}</div>
-          </div>
-          <div class="tabla-row">
-            <div class="tabla-cell label">Precio / noche</div>
-            <div class="tabla-cell" *ngFor="let h of seleccionados">
-              <span [class.mejor-precio]="h.precio_noche === getMenorPrecio()">${{ h.precio_noche | number }}</span>
-              <span *ngIf="h.precio_noche === getMenorPrecio()" class="badge-mejor">Mejor</span>
+          <div *ngFor="let hotel of hoteles" class="item-card" [class.seleccionado]="estaSeleccionado(hotel)" (click)="toggleSeleccion(hotel)">
+            <div class="item-info">
+              <p class="item-nombre">{{ hotel.nom_hotel }}</p>
+              <p class="item-sub">{{ hotel.categoria }} · {{ hotel.estrellas }} estrellas</p>
             </div>
-          </div>
-          <div class="tabla-row">
-            <div class="tabla-cell label">Estrellas</div>
-            <div class="tabla-cell" *ngFor="let h of seleccionados">
-              <span *ngFor="let e of [1,2,3,4,5]" [style.color]="e <= h.estrellas ? '#f5a623' : '#e0e0e0'">&#9733;</span>
+            <div class="item-precio">
+              <p class="precio-valor">${{ hotel.precio_noche | number }}</p>
+              <p class="precio-unidad">/ noche</p>
             </div>
-          </div>
-          <div class="tabla-row">
-            <div class="tabla-cell label">Categoria</div>
-            <div class="tabla-cell" *ngFor="let h of seleccionados">{{ h.categoria }}</div>
-          </div>
-          <div class="tabla-row">
-            <div class="tabla-cell label">Direccion</div>
-            <div class="tabla-cell small-text" *ngFor="let h of seleccionados">{{ h.direccion }}</div>
-          </div>
-          <div class="tabla-row">
-            <div class="tabla-cell label">Telefono</div>
-            <div class="tabla-cell" *ngFor="let h of seleccionados">{{ h.telefono }}</div>
+            <div class="item-check" [class.visible]="estaSeleccionado(hotel)">&#10003;</div>
           </div>
         </div>
 
-        <!-- Restaurantes -->
         <div *ngIf="tipo === 'restaurante'">
-          <div class="tabla-header">
-            <div class="tabla-cell label"></div>
-            <div class="tabla-cell" *ngFor="let r of seleccionados">{{ r.nom_restaurante }}</div>
-          </div>
-          <div class="tabla-row">
-            <div class="tabla-cell label">Precio promedio</div>
-            <div class="tabla-cell" *ngFor="let r of seleccionados">
-              <span [class.mejor-precio]="r.precio_promedio === getMenorPrecio()">${{ r.precio_promedio | number }}</span>
-              <span *ngIf="r.precio_promedio === getMenorPrecio()" class="badge-mejor">Mejor</span>
+          <div *ngFor="let r of restaurantes" class="item-card" [class.seleccionado]="estaSeleccionado(r)" (click)="toggleSeleccion(r)">
+            <div class="item-info">
+              <p class="item-nombre">{{ r.nom_restaurante }}</p>
+              <p class="item-sub">{{ r.tipo_cocina }} · {{ r.categoria }}</p>
             </div>
-          </div>
-          <div class="tabla-row">
-            <div class="tabla-cell label">Tipo cocina</div>
-            <div class="tabla-cell" *ngFor="let r of seleccionados">{{ r.tipo_cocina }}</div>
-          </div>
-          <div class="tabla-row">
-            <div class="tabla-cell label">Categoria</div>
-            <div class="tabla-cell" *ngFor="let r of seleccionados">{{ r.categoria }}</div>
-          </div>
-          <div class="tabla-row">
-            <div class="tabla-cell label">Horario</div>
-            <div class="tabla-cell" *ngFor="let r of seleccionados">{{ r.horario }}</div>
-          </div>
-          <div class="tabla-row">
-            <div class="tabla-cell label">Direccion</div>
-            <div class="tabla-cell small-text" *ngFor="let r of seleccionados">{{ r.direccion }}</div>
+            <div class="item-precio">
+              <p class="precio-valor">${{ r.precio_promedio | number }}</p>
+              <p class="precio-unidad">Promedio</p>
+            </div>
+            <div class="item-check" [class.visible]="estaSeleccionado(r)">&#10003;</div>
           </div>
         </div>
-
       </div>
-    </div>
 
+      <!-- Tabla -->
+      <div class="comparar-tabla">
+        <div *ngIf="seleccionados.length === 0" class="tabla-empty">
+          <p>Selecciona al menos 2 opciones</p>
+        </div>
+
+        <div *ngIf="seleccionados.length > 0" class="tabla-comparar">
+
+          <!-- Hoteles -->
+          <div *ngIf="tipo === 'hotel'">
+            <div class="tabla-header">
+              <div class="tabla-cell label"></div>
+              <div class="tabla-cell" *ngFor="let h of seleccionados">{{ h.nom_hotel }}</div>
+            </div>
+            <div class="tabla-row">
+              <div class="tabla-cell label">Precio / noche</div>
+              <div class="tabla-cell" *ngFor="let h of seleccionados">
+                <span [class.mejor-precio]="h.precio_noche === getMenorPrecio()">${{ h.precio_noche | number }}</span>
+                <span *ngIf="h.precio_noche === getMenorPrecio()" class="badge-mejor">Mejor</span>
+              </div>
+            </div>
+            <div class="tabla-row">
+              <div class="tabla-cell label">Estrellas</div>
+              <div class="tabla-cell" *ngFor="let h of seleccionados">
+                <span *ngFor="let e of [1,2,3,4,5]" [style.color]="e <= h.estrellas ? '#f5a623' : '#e0e0e0'">&#9733;</span>
+              </div>
+            </div>
+            <div class="tabla-row">
+              <div class="tabla-cell label">Categoria</div>
+              <div class="tabla-cell" *ngFor="let h of seleccionados">{{ h.categoria }}</div>
+            </div>
+            <div class="tabla-row">
+              <div class="tabla-cell label">Dirección</div>
+              <div class="tabla-cell small-text" *ngFor="let h of seleccionados">{{ h.direccion }}</div>
+            </div>
+            <div class="tabla-row">
+              <div class="tabla-cell label">Teléfono</div>
+              <div class="tabla-cell" *ngFor="let h of seleccionados">{{ h.telefono }}</div>
+            </div>
+          </div>
+
+          <!-- Restaurantes -->
+          <div *ngIf="tipo === 'restaurante'">
+            <div class="tabla-header">
+              <div class="tabla-cell label"></div>
+              <div class="tabla-cell" *ngFor="let r of seleccionados">{{ r.nom_restaurante }}</div>
+            </div>
+            <div class="tabla-row">
+              <div class="tabla-cell label">Precio promedio</div>
+              <div class="tabla-cell" *ngFor="let r of seleccionados">
+                <span [class.mejor-precio]="r.precio_promedio === getMenorPrecio()">${{ r.precio_promedio | number }}</span>
+                <span *ngIf="r.precio_promedio === getMenorPrecio()" class="badge-mejor">Mejor</span>
+              </div>
+            </div>
+            <div class="tabla-row">
+              <div class="tabla-cell label">Tipo cocina</div>
+              <div class="tabla-cell" *ngFor="let r of seleccionados">{{ r.tipo_cocina }}</div>
+            </div>
+            <div class="tabla-row">
+              <div class="tabla-cell label">Categoria</div>
+              <div class="tabla-cell" *ngFor="let r of seleccionados">{{ r.categoria }}</div>
+            </div>
+            <div class="tabla-row">
+              <div class="tabla-cell label">Horario</div>
+              <div class="tabla-cell" *ngFor="let r of seleccionados">{{ r.horario }}</div>
+            </div>
+            <div class="tabla-row">
+              <div class="tabla-cell label">Dirección</div>
+              <div class="tabla-cell small-text" *ngFor="let r of seleccionados">{{ r.direccion }}</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>

@@ -1,0 +1,64 @@
+<div class="login-wrapper">
+
+  <div class="login-left">
+    <div class="login-left-bg"></div>
+    <div class="login-left-line"></div>
+    <div class="login-brand">
+      <h1 class="login-brand-name">Ru<span>teo</span></h1>
+      <p class="login-brand-desc">
+        Planifica tu viaje por Colombia. Hoteles, destinos y actividades en un solo lugar.
+      </p>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="login-form-container">
+      <div class="login-divider"></div>
+
+      <!-- Tabs -->
+      <div class="login-tabs">
+        <button class="tab-btn" [class.active]="tab === 'login'" (click)="cambiarTab('login')">
+          Iniciar sesión
+        </button>
+        <button class="tab-btn" [class.active]="tab === 'register'" (click)="cambiarTab('register')">
+          Crear cuenta
+        </button>
+      </div>
+
+      <!-- Login -->
+      <div class="form-panel" *ngIf="tab === 'login'">
+        <div class="login-field">
+          <label>Usuario</label>
+          <input [(ngModel)]="nom_user" placeholder="tu usuario" autocomplete="off" />
+        </div>
+        <div class="login-field">
+          <label>Contraseña</label>
+          <input [(ngModel)]="password" type="password" placeholder="••••••••" />
+        </div>
+        <button class="login-btn" (click)="ingresar()">Ingresar</button>
+        <div class="login-error" *ngIf="error">{{ error }}</div>
+      </div>
+
+      <!-- Registro -->
+      <div class="form-panel" *ngIf="tab === 'register'">
+        <div class="login-field">
+          <label>Usuario</label>
+          <input [(ngModel)]="reg_user" placeholder="elige un usuario" autocomplete="off" />
+        </div>
+        <div class="login-field">
+          <label>Contraseña</label>
+          <input [(ngModel)]="reg_pass" type="password" placeholder="••••••••" />
+        </div>
+        <div class="login-field">
+          <label>Confirmar contraseña</label>
+          <input [(ngModel)]="reg_pass2" type="password" placeholder="••••••••" />
+        </div>
+        <button class="login-btn" (click)="registrar()">Crear cuenta</button>
+        <div class="login-error" *ngIf="reg_error">{{ reg_error }}</div>
+        <div class="login-ok"    *ngIf="reg_ok">{{ reg_ok }}</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

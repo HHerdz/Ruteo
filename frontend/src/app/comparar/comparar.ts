@@ -12,10 +12,13 @@ import { ApiService } from '../services/api';
 export class CompararComponent implements OnInit, AfterViewInit {
 
   tipo: string = 'hotel';
+  ciudades: any[] = [];
+  ciudadSeleccionada: any = null;
   hoteles: any[] = [];
   restaurantes: any[] = [];
   seleccionados: any[] = [];
-  cargando: boolean = true;
+  cargando: boolean = false;
+  cargandoCiudades: boolean = true;
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef, private el: ElementRef) {}
 
@@ -25,7 +28,15 @@ export class CompararComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.cargarHoteles();
+    this.api.getCiudades().subscribe({
+      next: (data: any) => {
+        this.ciudades = data;
+        this.cargandoCiudades = false;
+        this.cdr.detectChanges();
+        this.animarCiudades();
+      },
+      error: () => { this.cargandoCiudades = false; this.cdr.detectChanges(); }
+    });
   }
 
   async ngAfterViewInit() {
@@ -34,11 +45,33 @@ export class CompararComponent implements OnInit, AfterViewInit {
     gsap.from('.comparar-tabs', { opacity: 0, y: 20, duration: 0.5, delay: 0.2, ease: 'power2.out' });
   }
 
-  cargarHoteles() {
-    this.tipo = 'hotel';
+  seleccionarCiudad(ciudad: any) {
+    this.ciudadSeleccionada = ciudad;
     this.seleccionados = [];
+    if (this.tipo === 'hotel') {
+      this.cargarHotelesPorCiudad(ciudad.id_ciudad);
+    } else {
+      this.cargarRestaurantesPorCiudad(ciudad.id_ciudad);
+    }
+  }
+
+  setTipo(t: string) {
+    this.tipo = t;
+    this.seleccionados = [];
+    this.hoteles = [];
+    this.restaurantes = [];
+    if (this.ciudadSeleccionada) {
+      if (t === 'hotel') {
+        this.cargarHotelesPorCiudad(this.ciudadSeleccionada.id_ciudad);
+      } else {
+        this.cargarRestaurantesPorCiudad(this.ciudadSeleccionada.id_ciudad);
+      }
+    }
+  }
+
+  cargarHotelesPorCiudad(idCiudad: number) {
     this.cargando = true;
-    this.api.getHoteles().subscribe({
+    this.api.getHotelesPorCiudad(idCiudad).subscribe({
       next: (data: any) => {
         this.hoteles = data;
         this.cargando = false;
@@ -49,11 +82,9 @@ export class CompararComponent implements OnInit, AfterViewInit {
     });
   }
 
-  cargarRestaurantes() {
-    this.tipo = 'restaurante';
-    this.seleccionados = [];
+  cargarRestaurantesPorCiudad(idCiudad: number) {
     this.cargando = true;
-    this.api.getRestaurantes().subscribe({
+    this.api.getRestaurantesPorCiudad(idCiudad).subscribe({
       next: (data: any) => {
         this.restaurantes = data;
         this.cargando = false;
@@ -64,15 +95,21 @@ export class CompararComponent implements OnInit, AfterViewInit {
     });
   }
 
+  async animarCiudades() {
+    setTimeout(async () => {
+      const gsap = await this.getGsap();
+      gsap.from('.ciudad-card', {
+        opacity: 0, y: 20, duration: 0.4, stagger: 0.1, ease: 'power2.out',
+        clearProps: 'all'
+      });
+    }, 50);
+  }
+
   animarLista() {
     setTimeout(async () => {
       const gsap = await this.getGsap();
       gsap.from('.item-card', {
-        opacity: 0,
-        y: 20,
-        duration: 0.4,
-        stagger: 0.08,
-        ease: 'power2.out'
+        opacity: 0, y: 20, duration: 0.4, stagger: 0.08, ease: 'power2.out'
       });
     }, 50);
   }
@@ -101,5 +138,14 @@ export class CompararComponent implements OnInit, AfterViewInit {
       return Math.min(...this.seleccionados.map(s => s.precio_noche));
     }
     return Math.min(...this.seleccionados.map(s => s.precio_promedio));
+  }
+
+  volverCiudades() {
+    this.ciudadSeleccionada = null;
+    this.hoteles = [];
+    this.restaurantes = [];
+    this.seleccionados = [];
+    this.cdr.detectChanges();
+    this.animarCiudades();
   }
 }

@@ -94,13 +94,7 @@
   flex-direction: column;
   animation: slideInLeft 0.5s ease both;
   align-self: flex-start;
-  max-height: calc(100vh - 104px);
-  overflow-y: auto;
 }
-
-.corp-sidebar::-webkit-scrollbar { width: 4px; }
-.corp-sidebar::-webkit-scrollbar-track { background: transparent; }
-.corp-sidebar::-webkit-scrollbar-thumb { background: #e2e6ea; border-radius: 4px; }
 
 @keyframes slideInLeft {
   from { opacity: 0; transform: translateX(-20px); }
@@ -576,7 +570,6 @@
   gap: 14px;
 }
 
-/* Card base */
 .temporada-card {
   background: #fafafa;
   border: 1.5px solid var(--corp-border);
@@ -595,7 +588,6 @@
   border-color: #c0c0c0;
 }
 
-/* Card recomendada — borde verde sutil */
 .temporada-card--recomendado {
   border-color: #86efac;
   background: #f0fdf4;
@@ -606,7 +598,6 @@
   box-shadow: 0 10px 32px rgba(34,197,94,0.12);
 }
 
-/* Header de la card */
 .temporada-card-header {
   display: flex;
   align-items: center;
@@ -643,7 +634,6 @@
   margin-top: 1px;
 }
 
-/* Badge recomendado / no recomendado */
 .temporada-rec-badge {
   font-size: 10.5px;
   font-weight: 700;
@@ -666,7 +656,6 @@
   letter-spacing: 0.2px;
 }
 
-/* Barra de nivel de turistas */
 .temporada-barra-wrap { display: flex; flex-direction: column; gap: 6px; }
 
 .temporada-barra-label {
@@ -693,7 +682,6 @@
   transition: width 0.6s ease;
 }
 
-/* Fila de precio */
 .temporada-precio-row {
   display: flex;
   align-items: center;
@@ -707,7 +695,6 @@
 
 .temporada-precio-label { font-size: 11px; color: var(--corp-muted); }
 
-/* Badges de nivel y precio */
 .temporada-badge {
   font-size: 10px;
   font-weight: 700;
@@ -723,7 +710,6 @@
 .badge--azul    { background: #dbeafe; color: #1d4ed8; }
 .badge--gris    { background: #f3f4f6; color: #6b7280; }
 
-/* Nota */
 .temporada-nota {
   font-size: 12px;
   color: var(--corp-muted);
@@ -776,6 +762,7 @@
   .carrusel-track { min-height: 200px; }
   .carrusel-arrow { width: 36px; height: 36px; }
 }
+
 /* =============================================
    ACTIVIDAD — Sidebar condiciones
    ============================================= */
@@ -794,9 +781,7 @@
   border-bottom: 1px solid #f3f4f6;
 }
 
-.act-condicion-row:last-child {
-  border-bottom: none;
-}
+.act-condicion-row:last-child { border-bottom: none; }
 
 .act-condicion-icon {
   width: 24px;
@@ -865,9 +850,7 @@
   transition: background 0.3s ease;
 }
 
-.act-dur-pip--on {
-  background: #1a1a1a;
-}
+.act-dur-pip--on { background: #1a1a1a; }
 
 .act-dur-info {
   display: flex;
@@ -918,9 +901,7 @@
   box-shadow: 0 6px 20px rgba(0,0,0,0.18);
 }
 
-.act-cta-btn:active {
-  transform: translateY(0);
-}
+.act-cta-btn:active { transform: translateY(0); }
 
 /* =============================================
    ACTIVIDAD — Qué incluye (main)
@@ -1033,14 +1014,8 @@
   transition: background 0.15s;
 }
 
-.act-highlight-item:first-child {
-  padding-top: 4px;
-}
-
-.act-highlight-item:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
+.act-highlight-item:first-child { padding-top: 4px; }
+.act-highlight-item:last-child { border-bottom: none; padding-bottom: 0; }
 
 .act-highlight-num {
   font-size: 11px;
@@ -1076,7 +1051,5 @@
    RESPONSIVE — actividad
    ============================================= */
 @media (max-width: 600px) {
-  .act-incluye-grid {
-    grid-template-columns: 1fr;
-  }
+  .act-incluye-grid { grid-template-columns: 1fr; }
 }

@@ -10,5 +10,6 @@ export const routes: Routes = [
   { path: 'gastos', loadComponent: () => import('./gastos/gastos').then(m => m.GastosComponent) },
   { path: 'checklist', loadComponent: () => import('./checklist/checklist').then(m => m.ChecklistComponent) },
   { path: 'recomendaciones', loadComponent: () => import('./recomendaciones/recomendaciones').then(m => m.RecomendacionesComponent) },
-  { path: 'viajes', loadComponent: () => import('./viajes/viajes').then(m => m.Viajes) }
+  { path: 'viajes', loadComponent: () => import('./viajes/viajes').then(m => m.Viajes) },
+  { path: 'login', loadComponent: () => import('./login/login').then(m => m.LoginComponent) },
 ];
