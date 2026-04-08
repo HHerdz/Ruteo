@@ -237,7 +237,7 @@
         <p class="corp-desc">{{ getDescripcion() }}</p>
       </section>
 
-      <!-- CALIFICACIÓN (no actividades) -->
+      <!-- CALIFICACIÓN -->
       <section class="corp-section" *ngIf="tipo !== 'actividad'">
         <div class="section-label">Calificación</div>
         <div class="rating-block">
@@ -366,7 +366,7 @@
 
       </ng-container>
 
-      <!-- DETALLES EXTRA (no actividades) -->
+      <!-- DETALLES EXTRA -->
       <section class="corp-section" *ngIf="tipo !== 'actividad' && getDetallesExtra().length > 0">
         <div class="section-label">Detalles</div>
         <div class="detalles-grid">
@@ -399,7 +399,7 @@
         <app-clima [latitud]="lugar.latitud" [longitud]="lugar.longitud" [nombreDestino]="getNombre()"></app-clima>
       </section>
 
-      <!-- TEMPORADAS (solo destinos) -->
+      <!-- TEMPORADAS -->
       <section class="corp-section temporadas-section" *ngIf="tipo === 'destino' && temporadas.length > 0">
         <div class="section-label">Mejor época para visitar</div>
         <div class="temporadas-intro">

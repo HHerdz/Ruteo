@@ -103,25 +103,89 @@ export class BuscarComponent implements OnInit {
 
   getImagenHotel(hotel: any): string {
     const imagenes: any = {
-      'Hotel Casa La Fe': 'https://www.kayak.com.pa/rimg/himg/4d/32/39/expedia_group-140393-241697018-550344.jpg?width=836&height=607&crop=true',
-      'Hotel Dann Carlton Cali': 'https://image-tc.galaxy.tf/wijpeg-8vukdtn6dgt2i8s22npc4wz5z/negra-del-chontaduro-4.jpg?width=1920',
-      'Hotel Dann Carlton Medellín': 'https://images.trvl-media.com/lodging/1000000/120000/112600/112569/cfd80cfb.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill',
-      'Hotel Sochagota Paipa': 'https://hotelsochagota.com/wp-content/uploads/2017/11/11-1024x683.jpg',
-      'Hotel Decameron San Andrés': 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/24/88/76/decameron-aquarium.jpg?w=900&h=-1&s=1'
+
+      // CARTAGENA
+      'Hotel Sofitel Legend Santa Clara': 'https://images.unsplash.com/photo-1566073771259-6a8506099945',
+      'Hotel Caribe Cartagena': 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa',
+      'Hotel Casa San Agustin': 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b',
+      'Hotel Dann Cartagena': 'https://images.unsplash.com/photo-1590490360182-c33d57733427',
+      'Hotel Ibis Cartagena': 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267',
+
+      // CALI
+      'InterContinental Cali': 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb',
+      'Hotel Spiwak Chipichape': 'https://images.unsplash.com/photo-1561501900-3701fa6a0864',
+      'NH Cali Royal': 'https://images.unsplash.com/photo-1554995207-c18c203602cb',
+      'Hotel Dann Carlton Cali': 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7',
+      'Hotel Ibis Cali Granada': 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2',
+
+      // MEDELLIN
+      'Hotel The Charlee': 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6',
+      'Hotel Dann Carlton Medellin': 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461',
+      'Hotel Click Clack': 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+      'Hotel Diez': 'https://images.unsplash.com/photo-1611892440504-42a792e24d32',
+      'Hotel Ibis Medellin': 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c',
+
+      // PAIPA
+      'Hotel Sochagota': 'https://images.unsplash.com/photo-1501117716987-c8e1ecb210e0',
+      'Estelar Paipa Hotel Spa': 'https://images.unsplash.com/photo-1540541338287-41700207dee6',
+      'D’Acosta Hotel Sochagota': 'https://images.unsplash.com/photo-1505691938895-1758d7feb511',
+      'Hotel Termales El Batán': 'https://images.unsplash.com/photo-1582719508461-905c673771fd',
+      'Hotel Cabañas El Portón': 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c',
+
+      // SAN ANDRES
+      'Decameron Isleño': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e',
+      'Hotel Casablanca': 'https://images.unsplash.com/photo-1571896349842-33c89424de2d',
+      'GHL Relax Sunrise': 'https://images.unsplash.com/photo-1566073771259-6a8506099945',
+      'Hotel Arena Blanca': 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4',
+      'Posada Nativa Miss Mary': 'https://images.unsplash.com/photo-1496417263034-38ec4f0b665a'
     };
-    return imagenes[hotel.nom_hotel] || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600';
+
+    return imagenes[hotel.nom_hotel] + '?w=800'
+      || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800';
   }
 
   getImagenRestaurante(restaurante: any): string {
-    const imagenes: any = {
-      'La Cevichería': 'https://s3.amazonaws.com/takami.co/CACHE/images/brandcarouselimage/1e6e357ecefa4d0884d62478ec5396e9/ntwylar5lywkdjvtx5ffrb/30ad08a72aa6394488535f6e1351d4de.jpeg',
-      'Ringlete Restaurante': 'https://www.cali.gov.co/info/caligovco_se/media/pubInt/thumbs/thMetapubInt_600X600_176092.jpg',
-      'Criterion Restaurante': 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/03/fe/eb/b5/criterion.jpg?w=900&h=500&s=1',
-      'Restaurante El Pesebre Paipa': 'https://descubrepaipa.com/wp-content/uploads/2023/09/Blog-14-2-scaled.webp',
-      'Miss Celia Restaurant': 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/c5/94/5c/this-is-the-garden-which.jpg?w=900&h=500&s=1'
-    };
-    return imagenes[restaurante.nom_restaurante] || 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600';
-  }
+  const imagenes: any = {
+
+    // CARTAGENA
+    'La Cevichería': 'https://s3.amazonaws.com/takami.co/CACHE/images/brandcarouselimage/1e6e357ecefa4d0884d62478ec5396e9/ntwylar5lywkdjvtx5ffrb/30ad08a72aa6394488535f6e1351d4de.jpeg',
+    'Carmen Cartagena': 'https://images.unsplash.com/photo-1559339352-11d035aa65de',
+    'La Mulata': 'https://images.unsplash.com/photo-1555992336-03a23c7b20ee',
+    'Marea Restaurante': 'https://images.unsplash.com/photo-1504674900247-0877df9cc836',
+    'Di Silvio Trattoria': 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe',
+
+    // CALI
+    'Ringlete': 'https://images.unsplash.com/photo-1600891964599-f61ba0e24092',
+    'Platillos Voladores': 'https://images.unsplash.com/photo-1551218808-94e220e084d2',
+    'Antigua Contemporánea': 'https://images.unsplash.com/photo-1504754524776-8f4f37790ca0',
+    'El Zaguan de San Antonio': 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38',
+    'Piazza by Storia D’Amore': 'https://images.unsplash.com/photo-1594007654729-407eedc4be65',
+
+    // MEDELLIN
+    'Carmen Medellin': 'https://images.unsplash.com/photo-1559339352-11d035aa65de',
+    'Mondongos': 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c',
+    'El Cielo': 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0',
+    'Hato Viejo': 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1',
+    'Pergamino Café': 'https://images.unsplash.com/photo-1509042239860-f550ce710b93',
+
+    // PAIPA
+    'El Pesebre': 'https://images.unsplash.com/photo-1600891964599-f61ba0e24092',
+    'La Estación': 'https://images.unsplash.com/photo-1555992336-03a23c7b20ee',
+    'Brasas y Leños': 'https://images.unsplash.com/photo-1558030006-450675393462',
+    'El Balcón Boyacense': 'https://images.unsplash.com/photo-1565299507177-b0ac66763828',
+    'Restaurante Lago Sochagota': 'https://images.unsplash.com/photo-1504674900247-0877df9cc836',
+
+    // SAN ANDRES
+    'Miss Celia': 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/f1/c0/3c/terraza-del-restaurante.jpg?w=400&h=-1&s=1',
+    'La Regatta': 'https://images.unsplash.com/photo-1504674900247-0877df9cc836',
+    'Capitán Mandy': 'https://images.unsplash.com/photo-1559847844-5315695dadae',
+    'Sea Watch Café': 'https://images.unsplash.com/photo-1552566626-52f8b828add9',
+    'Donde Francesca': 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe'
+  };
+
+  return imagenes[restaurante.nom_restaurante] + '?w=800' 
+    || 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800';
+}
 
   getImagenDestino(destino: any): string {
     const imagenes: any = {
