@@ -211,3 +211,61 @@
   border-color: #1a1a1a;
   color: #1a1a1a;
 }
+
+/* ============================================
+   RESPONSIVE - TABLET (max 992px)
+   ============================================ */
+@media (max-width: 992px) {
+  .checklist-wrapper {
+    padding: 80px 24px 60px;
+  }
+
+  .checklist-titulo {
+    font-size: 24px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE - MÓVIL (max 576px)
+   ============================================ */
+@media (max-width: 576px) {
+  .checklist-wrapper {
+    padding: 70px 14px 40px;
+  }
+
+  .checklist-titulo {
+    font-size: 20px;
+  }
+
+  .checklist-sub {
+    font-size: 13px;
+  }
+
+  .checklist-card {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .checklist-input {
+    flex-direction: column;
+  }
+
+  .checklist-input button {
+    width: 100%;
+  }
+
+  .checklist-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .btn-limpiar {
+    width: 100%;
+    text-align: center;
+  }
+
+  .item-nombre {
+    font-size: 13px;
+  }
+}

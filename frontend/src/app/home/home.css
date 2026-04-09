@@ -407,3 +407,87 @@
 .carrusel-track:active {
   cursor: grabbing;
 }
+
+/* ============================================
+   RESPONSIVE - TABLET (max 992px)
+   ============================================ */
+@media (max-width: 992px) {
+  .section {
+    padding: 40px 30px 0;
+  }
+
+  .hoteles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE - MÓVIL (max 576px)
+   ============================================ */
+@media (max-width: 576px) {
+  .section {
+    padding: 30px 16px 0;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .hero-sub {
+    font-size: 14px;
+  }
+
+  .search-bar {
+    padding: 10px 14px;
+  }
+
+  .search-bar input {
+    font-size: 13px;
+  }
+
+  .tipo-pills {
+    gap: 6px;
+  }
+
+  .tipo-pill {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .hoteles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .destino-card {
+    width: 220px;
+  }
+
+  .section-title {
+    font-size: 17px;
+  }
+
+  .banner-restaurantes {
+    height: 160px;
+  }
+
+  .banner-title {
+    font-size: 16px;
+  }
+
+  .banner-content {
+    padding: 0 20px;
+  }
+
+  .banner-btn {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+}

@@ -3,14 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-// ── Tipos que coinciden con userEschema.py ────────────────────────────────────
 export interface LoginPayload {
   email:    string;
   password: string;
 }
 
 export interface RegisterPayload {
-  nom_usuario?: string;   // opcional en la BD
+  nom_usuario?: string;
   email:        string;
   password:     string;
   rol:          string;
@@ -26,7 +25,6 @@ export interface LoginResponse {
   rol:           string;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
@@ -34,7 +32,6 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  // ── Endpoints ───────────────────────────────────────────────────────────
   login(data: LoginPayload): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.url}/login`, data);
   }
@@ -54,10 +51,13 @@ export class AuthService {
     return this.http.delete(`${this.url}/logout`, { headers });
   }
 
-  // ── localStorage ────────────────────────────────────────────────────────
   guardarTokens(access: string, refresh: string): void {
     localStorage.setItem('access_token',  access);
     localStorage.setItem('refresh_token', refresh);
+  }
+
+  guardarRol(rol: string): void {
+    localStorage.setItem('rol', rol);
   }
 
   limpiarTokens(): void {
@@ -66,11 +66,6 @@ export class AuthService {
     localStorage.removeItem('rol');
   }
 
-  guardarRol(rol: string): void {
-    localStorage.setItem('rol', rol);
-  }
-
-  // ── Helpers ──────────────────────────────────────────────────────────────
   estaLogueado(): boolean {
     return !!localStorage.getItem('access_token');
   }

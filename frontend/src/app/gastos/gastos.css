@@ -250,3 +250,66 @@
   color: #1a1a1a;
   margin-left: auto;
 }
+
+/* ============================================
+   RESPONSIVE - TABLET (max 992px)
+   ============================================ */
+@media (max-width: 992px) {
+  .gastos-wrapper {
+    padding: 80px 24px 60px;
+  }
+
+  .gastos-titulo {
+    font-size: 24px;
+  }
+
+  .gastos-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE - MÓVIL (max 576px)
+   ============================================ */
+@media (max-width: 576px) {
+  .gastos-wrapper {
+    padding: 70px 14px 40px;
+  }
+
+  .gastos-titulo {
+    font-size: 20px;
+  }
+
+  .gastos-sub {
+    font-size: 13px;
+  }
+
+  .gastos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gastos-card {
+    padding: 16px;
+  }
+
+  .monto-input input {
+    font-size: 16px;
+  }
+
+  .viajero-input {
+    flex-direction: column;
+  }
+
+  .viajero-input button {
+    width: 100%;
+  }
+
+  .resumen-valor.grande {
+    font-size: 22px;
+  }
+
+  .resumen-dato {
+    padding: 10px 12px;
+  }
+}

@@ -327,3 +327,87 @@
   font-weight: 700;
   color: #1a1a1a;
 }
+
+/* ============================================
+   RESPONSIVE - TABLET (max 992px)
+   ============================================ */
+@media (max-width: 992px) {
+  .comparar-wrapper {
+    padding: 80px 24px 60px;
+  }
+
+  .comparar-body {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .comparar-titulo {
+    font-size: 24px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE - MÓVIL (max 576px)
+   ============================================ */
+@media (max-width: 576px) {
+  .comparar-wrapper {
+    padding: 70px 14px 40px;
+  }
+
+  .comparar-titulo {
+    font-size: 20px;
+  }
+
+  .comparar-sub {
+    font-size: 13px;
+  }
+
+  .comparar-tabs {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .comp-tab {
+    font-size: 12px;
+    padding: 7px 14px;
+  }
+
+  .comparar-body {
+    grid-template-columns: 1fr;
+  }
+
+  .tabla-cell {
+    font-size: 11px;
+  }
+
+  .tabla-cell.label {
+    font-size: 11px;
+  }
+
+  .ciudades-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .ciudad-card {
+    padding: 16px 12px;
+  }
+
+  .ciudad-nombre {
+    font-size: 13px;
+  }
+
+  .comparar-lista {
+    padding: 14px;
+  }
+
+  .comparar-tabla {
+    padding: 14px;
+    overflow-x: auto;
+  }
+
+  .tabla-header,
+  .tabla-row {
+    min-width: 400px;
+  }
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -10,26 +10,30 @@ import gsap from 'gsap';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrl: './login.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
 
   tab: 'login' | 'register' = 'login';
 
-  // ── Login ────────────────────────────────────────────────────────────────
-  email = '';          // antes: nom_user
+  email = '';
   password = '';
   error = '';
 
-  // ── Registro ─────────────────────────────────────────────────────────────
-  reg_nombre = '';        // nom_usuario (opcional en BD)
-  reg_email = '';        // email (único, obligatorio)
+  reg_nombre = '';
+  reg_email = '';
   reg_pass = '';
   reg_pass2 = '';
   reg_error = '';
   reg_ok = '';
 
-  constructor(private auth: AuthService, private router: Router, private zone: NgZone) { }
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private zone: NgZone,
+    private cd: ChangeDetectorRef
+  ) { }
 
   ngOnInit() {
     gsap.from('.login-left', { x: -60, opacity: 0, duration: 0.9, ease: 'power3.out' });
@@ -40,57 +44,73 @@ export class LoginComponent implements OnInit {
   }
 
   cambiarTab(t: 'login' | 'register') {
-    this.tab = t;
-    this.error = '';
-    this.reg_error = '';
-    this.reg_ok = '';
-    gsap.from('.form-panel', { y: 16, opacity: 0, duration: 0.4, ease: 'power2.out' });
+    this.zone.run(() => {
+      this.tab = t;
+      this.error = '';
+      this.reg_error = '';
+      this.reg_ok = '';
+    });
+    setTimeout(() => {
+      gsap.killTweensOf('.form-panel');
+      gsap.fromTo('.form-panel', { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: 'power2.out' });
+    }, 10);
   }
 
-  // ── Iniciar sesión ────────────────────────────────────────────────────────
+  private mostrarMensaje(campo: 'error' | 'reg_error' | 'reg_ok', texto: string) {
+    this.zone.run(() => {
+      this[campo] = texto;
+      this.cd.detectChanges(); 
+    });
+    setTimeout(() => {
+      gsap.killTweensOf('.login-error, .login-ok');
+      gsap.set('.login-error, .login-ok', { clearProps: 'all' });
+    }, 10);
+  }
+
   ingresar() {
-    this.error = '';
+    this.zone.run(() => { this.error = ''; });
 
     if (!this.email || !this.password) {
-      this.error = 'Completa todos los campos';
+      this.mostrarMensaje('error', 'Completa todos los campos');
       return;
     }
 
     this.auth.login({ email: this.email, password: this.password })
       .subscribe({
         next: (res) => {
-          this.auth.guardarTokens(res.access_token, res.refresh_token);
-          this.router.navigate(['/buscar']);
+          this.zone.run(() => {
+            this.auth.guardarTokens(res.access_token, res.refresh_token);
+            this.auth.guardarRol(res.rol);
+            this.router.navigate(['/buscar']);
+          });
         },
         error: (e) => {
-          setTimeout(() => {
-            this.error = e.status === 401
+          this.mostrarMensaje('error',
+            e.status === 401
               ? 'Email o contraseña incorrectos'
-              : 'Error al conectar con el servidor';
-          }, 0);
+              : 'Error al conectar con el servidor'
+          );
         }
       });
   }
 
-  // ── Crear cuenta ──────────────────────────────────────────────────────────
   registrar() {
-    this.reg_error = '';
-    this.reg_ok = '';
+    this.zone.run(() => { this.reg_error = ''; this.reg_ok = ''; });
 
     if (!this.reg_email || !this.reg_pass) {
-      this.reg_error = 'El email y la contraseña son obligatorios';
+      this.mostrarMensaje('reg_error', 'El email y la contraseña son obligatorios');
       return;
     }
     if (!this.reg_email.includes('@')) {
-      this.reg_error = 'Ingresa un email válido';
+      this.mostrarMensaje('reg_error', 'Ingresa un email válido');
       return;
     }
     if (this.reg_pass !== this.reg_pass2) {
-      this.reg_error = 'Las contraseñas no coinciden';
+      this.mostrarMensaje('reg_error', 'Las contraseñas no coinciden');
       return;
     }
     if (this.reg_pass.length < 6) {
-      this.reg_error = 'La contraseña debe tener al menos 6 caracteres';
+      this.mostrarMensaje('reg_error', 'La contraseña debe tener al menos 6 caracteres');
       return;
     }
 
@@ -100,18 +120,16 @@ export class LoginComponent implements OnInit {
       password: this.reg_pass,
       rol: 'usuario'
     }).subscribe({
-      next: (res) => {
-        setTimeout(() => {
-          this.reg_ok = '¡Cuenta creada! Ya puedes iniciar sesión.';
-        }, 0);
+      next: () => {
+        this.mostrarMensaje('reg_ok', '¡Cuenta creada! Ya puedes iniciar sesión.');
         setTimeout(() => this.cambiarTab('login'), 1800);
       },
       error: (e) => {
-        setTimeout(() => {
-          this.reg_error = e.status === 409
+        this.mostrarMensaje('reg_error',
+          e.status === 409
             ? 'Ese email ya está registrado'
-            : 'Error al crear la cuenta';
-        }, 0);
+            : 'Error al crear la cuenta'
+        );
       }
     });
   }

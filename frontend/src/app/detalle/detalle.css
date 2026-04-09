@@ -1053,3 +1053,79 @@
 @media (max-width: 600px) {
   .act-incluye-grid { grid-template-columns: 1fr; }
 }
+
+/* ============================================
+   RESPONSIVE - MÓVIL ADICIONAL (max 576px)
+   ============================================ */
+@media (max-width: 576px) {
+  .corp-layout {
+    padding: 70px 12px 24px;
+    gap: 16px;
+  }
+
+  .sidebar-nombre {
+    font-size: 17px;
+  }
+
+  .precio-valor {
+    font-size: 24px;
+  }
+
+  .corp-section {
+    padding: 16px 14px;
+  }
+
+  .carrusel-texto-titulo {
+    font-size: 18px;
+  }
+
+  .carrusel-texto {
+    bottom: 20px;
+    left: 16px;
+    right: 16px;
+  }
+
+  .detalles-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .mapa-embed-wrap {
+    height: 220px;
+  }
+
+  .mapa-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .mapa-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .temporadas-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rating-score {
+    font-size: 32px;
+  }
+
+  .star-big {
+    font-size: 18px;
+  }
+
+  .act-incluye-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-amenidades {
+    gap: 6px;
+  }
+
+  .amenidad-chip {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+}

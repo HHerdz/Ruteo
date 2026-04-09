@@ -164,3 +164,51 @@
   line-height: 1.6;
   margin: 0;
 }
+
+/* ============================================
+   RESPONSIVE - TABLET (max 992px)
+   ============================================ */
+@media (max-width: 992px) {
+  .rec-wrapper {
+    padding: 80px 24px 60px;
+  }
+
+  .rec-titulo {
+    font-size: 24px;
+  }
+
+  .consejos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE - MÓVIL (max 576px)
+   ============================================ */
+@media (max-width: 576px) {
+  .rec-wrapper {
+    padding: 70px 14px 40px;
+  }
+
+  .rec-titulo {
+    font-size: 20px;
+  }
+
+  .rec-sub {
+    font-size: 13px;
+  }
+
+  .selector-card {
+    padding: 18px;
+  }
+
+  .consejos-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .consejo-card {
+    padding: 18px;
+  }
+}

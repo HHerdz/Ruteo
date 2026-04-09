@@ -234,3 +234,77 @@
   font-size: 13px;
   color: #999;
 }
+
+/* ============================================
+   RESPONSIVE - TABLET (max 992px)
+   ============================================ */
+@media (max-width: 992px) {
+  .presupuesto-wrapper {
+    padding: 80px 24px 60px;
+  }
+
+  .presupuesto-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .presupuesto-resumen {
+    position: static;
+  }
+
+  .presupuesto-titulo {
+    font-size: 24px;
+  }
+
+  .form-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ============================================
+   RESPONSIVE - MÓVIL (max 576px)
+   ============================================ */
+@media (max-width: 576px) {
+  .presupuesto-wrapper {
+    padding: 70px 14px 40px;
+  }
+
+  .presupuesto-titulo {
+    font-size: 20px;
+  }
+
+  .presupuesto-sub {
+    font-size: 13px;
+  }
+
+  .presupuesto-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .presupuesto-form {
+    padding: 18px;
+  }
+
+  .presupuesto-resumen {
+    padding: 18px;
+    position: static;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .costos-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .total-valor {
+    font-size: 20px;
+  }
+
+  .total-label {
+    font-size: 14px;
+  }
+}

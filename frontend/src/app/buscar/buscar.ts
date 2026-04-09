@@ -125,8 +125,9 @@ export class BuscarComponent implements OnInit {
       'Hotel Diez': 'https://images.unsplash.com/photo-1611892440504-42a792e24d32',
       'Hotel Ibis Medellin': 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c',
 
-      // TUNJA
-      'Hotel Sochagota': 'https://images.unsplash.com/photo-1501117716987-c8e1ecb210e0',
+
+      // PAIPA
+      'Hotel Sochagota': 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800',
       'Estelar Paipa Hotel Spa': 'https://images.unsplash.com/photo-1540541338287-41700207dee6',
       'D’Acosta Hotel Sochagota': 'https://images.unsplash.com/photo-1505691938895-1758d7feb511',
       'Hotel Termales El Batán': 'https://images.unsplash.com/photo-1582719508461-905c673771fd',
@@ -176,7 +177,7 @@ export class BuscarComponent implements OnInit {
     'Restaurante Lago Sochagota': 'https://images.unsplash.com/photo-1504674900247-0877df9cc836',
 
     // SAN ANDRES
-    'Miss Celia': 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/f1/c0/3c/terraza-del-restaurante.jpg?w=400&h=-1&s=1',
+    'Miss Celia': 'https://www.sanandresislas.com.co/wp-content/uploads/2024/03/9.png',
     'La Regatta': 'https://images.unsplash.com/photo-1504674900247-0877df9cc836',
     'Capitán Mandy': 'https://images.unsplash.com/photo-1559847844-5315695dadae',
     'Sea Watch Café': 'https://images.unsplash.com/photo-1552566626-52f8b828add9',
@@ -200,9 +201,9 @@ export class BuscarComponent implements OnInit {
 
   getImagenActividad(actividad: any): string {
     const imagenes: any = {
-      'Tour en chiva por la ciudad amurallada': 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d3/8b/2e/chiva-parrandera.jpg?w=900&h=500&s=1',
-      'Clase de salsa en el centro de Cali': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Cali_salsa.jpg/1200px-Cali_salsa.jpg',
-      'Tour en Metrocable línea L': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Medellin_Metrocable.jpg/1200px-Medellin_Metrocable.jpg',
+      'Tour en chiva por la ciudad amurallada': 'https://media.tacdn.com/media/attractions-splice-spp-674x446/11/ec/ee/49.jpg',
+      'Clase de salsa en el centro de Cali': 'https://laantorchamagacin.com/wp-content/uploads/2023/10/cali-en-salsa.jpg',
+      'Tour en Metrocable línea L': 'https://d2yoo3qu6vrk5d.cloudfront.net/pulzo-lite/images-resized/PP3743591-h-o.jpg',
       'Baños termales en Paipa': 'https://hotelsochagota.com/wp-content/uploads/2017/11/11-1024x683.jpg',
       'Buceo en el acuario de San Andrés': 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/24/88/76/decameron-aquarium.jpg?w=900&h=-1&s=1'
     };

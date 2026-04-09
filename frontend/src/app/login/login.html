@@ -30,25 +30,16 @@
 
         <div class="login-field">
           <label>Email</label>
-          <input
-            [(ngModel)]="email"
-            type="email"
-            placeholder="tu@correo.com"
-            autocomplete="email" />
+          <input [(ngModel)]="email" type="email" placeholder="tu@correo.com" autocomplete="email" />
         </div>
 
         <div class="login-field">
           <label>Contraseña</label>
-          <input
-            [(ngModel)]="password"
-            type="password"
-            placeholder="••••••••"
-            autocomplete="current-password" />
+          <input [(ngModel)]="password" type="password" placeholder="••••••••" autocomplete="current-password" />
         </div>
 
         <button class="login-btn" (click)="ingresar()">Ingresar</button>
         <div class="login-error" *ngIf="error">{{ error }}</div>
-
       </div>
 
       <!-- ── REGISTRO ── -->
@@ -56,44 +47,27 @@
 
         <div class="login-field">
           <label>Nombre <span class="opcional">(opcional)</span></label>
-          <input
-            [(ngModel)]="reg_nombre"
-            type="text"
-            placeholder="¿Cómo te llamamos?"
-            autocomplete="off" />
+          <input [(ngModel)]="reg_nombre" type="text" placeholder="¿Cómo te llamamos?" autocomplete="off" />
         </div>
 
         <div class="login-field">
           <label>Email</label>
-          <input
-            [(ngModel)]="reg_email"
-            type="email"
-            placeholder="tu@correo.com"
-            autocomplete="email" />
+          <input [(ngModel)]="reg_email" type="email" placeholder="tu@correo.com" autocomplete="email" />
         </div>
 
         <div class="login-field">
           <label>Contraseña</label>
-          <input
-            [(ngModel)]="reg_pass"
-            type="password"
-            placeholder="••••••••"
-            autocomplete="new-password" />
+          <input [(ngModel)]="reg_pass" type="password" placeholder="••••••••" autocomplete="new-password" />
         </div>
 
         <div class="login-field">
           <label>Confirmar contraseña</label>
-          <input
-            [(ngModel)]="reg_pass2"
-            type="password"
-            placeholder="••••••••"
-            autocomplete="new-password" />
+          <input [(ngModel)]="reg_pass2" type="password" placeholder="••••••••" autocomplete="new-password" />
         </div>
 
         <button class="login-btn" (click)="registrar()">Crear cuenta</button>
         <div class="login-error" *ngIf="reg_error">{{ reg_error }}</div>
-        <div class="login-ok"    *ngIf="reg_ok">{{ reg_ok }}</div>
-
+        <div class="login-ok" *ngIf="reg_ok">{{ reg_ok }}</div>
       </div>
 
     </div>

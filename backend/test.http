@@ -7,7 +7,7 @@ GET http://127.0.0.1:8000/ruteo/destinos/7
 
 ###
 ### GET todos los destinos
-GET https://ruteo-production.up.railway.app/ruteo/destinos/all
+GET https://ruteo-production.up.railway.app/ruteo/usuarios/all
 
 ###
 ### POST crear destino

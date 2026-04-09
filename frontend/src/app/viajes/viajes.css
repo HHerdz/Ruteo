@@ -127,3 +127,70 @@
     background-color: #a71d2a !important;
     transform: scale(1.05);
 }
+
+/* ============================================
+   RESPONSIVE - TABLET (max 992px)
+   ============================================ */
+@media (max-width: 992px) {
+  .container-fluid {
+    padding: 80px 15px 60px;
+  }
+
+  .total-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .total-amount {
+    font-size: 1.6rem;
+  }
+
+  .card {
+    padding: 1.5rem !important;
+  }
+}
+
+/* ============================================
+   RESPONSIVE - MÓVIL (max 576px)
+   ============================================ */
+@media (max-width: 576px) {
+  .container-fluid {
+    padding: 70px 10px 40px;
+    margin-top: 0;
+  }
+
+  .card {
+    padding: 1rem !important;
+    border-radius: 10px;
+  }
+
+  .total-bar {
+    padding: 1.2rem;
+    border-radius: 10px;
+  }
+
+  .total-amount {
+    font-size: 1.4rem;
+  }
+
+  .table-container {
+    margin-top: 2rem;
+    overflow-x: auto;
+  }
+
+  .table {
+    min-width: 500px;
+  }
+
+  .section-title {
+    font-size: 0.85rem;
+  }
+
+  .btn-dark,
+  .btn-outline-success {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+}
