@@ -7,8 +7,9 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:4200",                    
-        "https://ruteo-production.up.railway.app",  
+        "http://localhost:4200",
+        "https://ruteo-production.up.railway.app",
+        "https://ruteo-ochre.vercel.app",          
     ],
     allow_credentials=True,
     allow_methods=["*"],

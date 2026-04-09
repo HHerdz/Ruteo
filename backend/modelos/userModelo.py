@@ -1,4 +1,3 @@
-
 from sqlalchemy import Column, Integer, String
 from passlib.context import CryptContext
 from database import Base
