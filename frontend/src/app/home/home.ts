@@ -27,18 +27,24 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('bannerRef') bannerRef!: ElementRef;
 
   tipos = [
-    { label: 'Destinos', valor: 'destino' },
-    { label: 'Hoteles', valor: 'hotel' },
+    { label: 'Destinos',     valor: 'destino' },
+    { label: 'Hoteles',      valor: 'hotel' },
     { label: 'Restaurantes', valor: 'restaurante' },
-    { label: 'Actividades', valor: 'actividad' },
+    { label: 'Actividades',  valor: 'actividad' },
   ];
 
   tipoActivo = '';
   busqueda = '';
-  destinos: any[] = [];
-  hoteles: any[] = [];
+  destinos:     any[] = [];
+  hoteles:      any[] = [];
+  restaurantes: any[] = [];
+  actividades:  any[] = [];
+
+  resultadosBusqueda: any[] = [];
+  mostrarResultados = false;
+
   cargandoDestinos = true;
-  cargandoHoteles = true;
+  cargandoHoteles  = true;
   private scrollTween: any;
 
   constructor(
@@ -67,100 +73,117 @@ export class HomeComponent implements OnInit, AfterViewInit {
       },
       error: () => { this.cargandoHoteles = false; this.cdr.detectChanges(); }
     });
+
+    this.api.getRestaurantes().subscribe({
+      next: (data: any) => this.restaurantes = data,
+      error: () => {}
+    });
+
+    this.api.getActividades().subscribe({
+      next: (data: any) => this.actividades = data,
+      error: () => {}
+    });
   }
 
   ngAfterViewInit() {
     this.animarHero();
   }
 
-  // ANIMACION 1: Hero reveal al cargar
-  animarHero() {
-    const tl = gsap.timeline({ delay: 0.2 });
+  // ── Búsqueda inline ─────────────────────────────────────
 
-    tl.fromTo('.hero-title',
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }
-    )
-    .fromTo('.hero-sub',
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' },
-      '-=0.4'
-    )
-    .fromTo('.search-bar',
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' },
-      '-=0.3'
-    )
-    .fromTo('.tipo-pill',
-      { y: 15, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.4, ease: 'power3.out', stagger: 0.08 },
-      '-=0.2'
-    );
+  filtrar() {
+    const q = this.busqueda.trim().toLowerCase();
+
+    if (q.length < 2) {
+      this.resultadosBusqueda = [];
+      this.mostrarResultados = false;
+      return;
+    }
+
+    const uniDestinos = this.destinos
+      .filter((d, i, arr) => arr.findIndex(x => x.id_destino === d.id_destino) === i); // quita duplicados del carrusel
+
+    const resDestinos = uniDestinos
+      .filter(d => d.nom_destino?.toLowerCase().includes(q) || d.descripcion?.toLowerCase().includes(q))
+      .map(d => ({ ...d, _tipo: 'destino', _nombre: d.nom_destino, _sub: d.tipo_destino }));
+
+    const resHoteles = this.hoteles
+      .filter(h => h.nom_hotel?.toLowerCase().includes(q) || h.direccion?.toLowerCase().includes(q))
+      .map(h => ({ ...h, _tipo: 'hotel', _nombre: h.nom_hotel, _sub: h.direccion }));
+
+    const resRestaurantes = this.restaurantes
+      .filter(r => r.nom_restaurante?.toLowerCase().includes(q) || r.tipo_cocina?.toLowerCase().includes(q))
+      .map(r => ({ ...r, _tipo: 'restaurante', _nombre: r.nom_restaurante, _sub: r.tipo_cocina }));
+
+    const resActividades = this.actividades
+      .filter(a => a.nom_actividad?.toLowerCase().includes(q) || a.descripcion?.toLowerCase().includes(q))
+      .map(a => ({ ...a, _tipo: 'actividad', _nombre: a.nom_actividad, _sub: a.tipo }));
+
+    this.resultadosBusqueda = [...resDestinos, ...resHoteles, ...resRestaurantes, ...resActividades].slice(0, 8);
+    this.mostrarResultados = true;
   }
 
-  // ANIMACION 2: Fade + slide up al hacer scroll
+  irAResultado(item: any) {
+    this.mostrarResultados = false;
+    this.busqueda = '';
+
+    const rutas: any = {
+      destino:     ['detalle', 'destino',     item.id_destino],
+      hotel:       ['detalle', 'hotel',        item.id_hotel],
+      restaurante: ['detalle', 'restaurante',  item.id_restaurante],
+      actividad:   ['detalle', 'actividad',    item.id_actividad],
+    };
+
+    this.router.navigate(rutas[item._tipo]);
+  }
+
+  cerrarResultados() {
+    // pequeño delay para que el click en el item se registre primero
+    setTimeout(() => { this.mostrarResultados = false; }, 150);
+  }
+
+  getTipoIcon(tipo: string): string {
+    return ({ destino: '📍', hotel: '🏨', restaurante: '🍽️', actividad: '🎯' } as any)[tipo] || '📌';
+  }
+
+  // ── Sin cambios ──────────────────────────────────────────
+
+  animarHero() {
+    const tl = gsap.timeline({ delay: 0.2 });
+    tl.fromTo('.hero-title',  { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' })
+      .fromTo('.hero-sub',    { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, '-=0.4')
+      .fromTo('.search-bar',  { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' }, '-=0.3')
+      .fromTo('.tipo-pill',   { y: 15, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: 'power3.out', stagger: 0.08 }, '-=0.2');
+  }
+
   animarScrollSections() {
     gsap.utils.toArray('.hotel-card').forEach((card: any, i: number) => {
       gsap.fromTo(card,
         { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          ease: 'power3.out',
-          delay: i * 0.1,
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            toggleActions: 'play none none none'
-          }
-        }
+        { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', delay: i * 0.1,
+          scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none none' } }
       );
     });
-
     gsap.fromTo('.banner-restaurantes',
       { y: 40, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.7,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.banner-restaurantes',
-          start: 'top 85%',
-          toggleActions: 'play none none none'
-        }
-      }
+      { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out',
+        scrollTrigger: { trigger: '.banner-restaurantes', start: 'top 85%', toggleActions: 'play none none none' } }
     );
   }
 
-  // ANIMACION 3: Carrusel auto-scroll
   iniciarCarrusel() {
     const track = this.destinosTrack?.nativeElement;
     if (!track) return;
-
     const mitad = track.scrollWidth / 2;
-
     this.scrollTween = gsap.to(track, {
-      x: -mitad,
-      duration: 45,
-      ease: 'none',
-      repeat: -1,
-      modifiers: {
-        x: gsap.utils.unitize(x => parseFloat(x) % mitad)
-      }
+      x: -mitad, duration: 45, ease: 'none', repeat: -1,
+      modifiers: { x: gsap.utils.unitize(x => parseFloat(x) % mitad) }
     });
   }
 
   cambiarTipo(tipo: string) {
     this.tipoActivo = tipo;
     this.router.navigate(['/buscar'], { queryParams: { tipo } });
-  }
-
-  filtrar() {
-    if (this.busqueda.trim().length > 1) {
-      this.router.navigate(['/buscar'], { queryParams: { q: this.busqueda } });
-    }
   }
 
   getImagenHotel(hotel: any): string {

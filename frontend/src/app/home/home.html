@@ -7,9 +7,40 @@
     <div class="hero-content">
       <h1 class="hero-title">Explora Colombia</h1>
       <p class="hero-sub">Descubre los mejores destinos, hoteles, restaurantes y actividades</p>
-      <div class="search-bar">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#999" stroke-width="2"/><path d="M17 17l4 4" stroke="#999" stroke-width="2" stroke-linecap="round"/></svg>
-        <input type="text" placeholder="Buscar destinos, hoteles, restaurantes..." [(ngModel)]="busqueda" (input)="filtrar()">
+      <div class="search-bar-wrap">
+        <div class="search-bar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="7" stroke="#999" stroke-width="2"/>
+            <path d="M17 17l4 4" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input
+            type="text"
+            placeholder="Buscar destinos, hoteles, restaurantes..."
+            [(ngModel)]="busqueda"
+            (input)="filtrar()"
+            (blur)="cerrarResultados()"
+            autocomplete="off">
+        </div>
+
+        <!-- Dropdown de resultados -->
+        <div class="search-dropdown" *ngIf="mostrarResultados && resultadosBusqueda.length > 0">
+          <div
+            *ngFor="let item of resultadosBusqueda"
+            class="search-result-item"
+            (mousedown)="irAResultado(item)">
+            <span class="result-icon">{{ getTipoIcon(item._tipo) }}</span>
+            <div class="result-info">
+              <span class="result-nombre">{{ item._nombre }}</span>
+              <span class="result-sub">{{ item._sub }}</span>
+            </div>
+            <span class="result-tipo">{{ item._tipo }}</span>
+          </div>
+        </div>
+
+        <div class="search-dropdown" *ngIf="mostrarResultados && resultadosBusqueda.length === 0">
+          <div class="search-empty">Sin resultados para "{{ busqueda }}"</div>
+        </div>
+
       </div>
       <div class="tipo-pills">
         <button *ngFor="let tipo of tipos" class="tipo-pill" [class.activo]="tipoActivo === tipo.valor" (click)="cambiarTipo(tipo.valor)">
