@@ -81,7 +81,7 @@ async def renovar_token(
     payload: dict = Depends(jwt_refresh_required),
     db: Session   = Depends(get_db),
 ):
-    current_email = payload["sub"]                  # sub ahora es el email
+    current_email = payload["sub"]              
     user = db.query(Usuario).filter(Usuario.email == current_email).first()
 
     if not user:

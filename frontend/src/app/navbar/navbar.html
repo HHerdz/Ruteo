@@ -15,8 +15,9 @@
         </div>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
       </div>
-      <div class="offcanvas-body px-0">
-        <ul class="navbar-nav">
+      <div class="offcanvas-body px-0 d-flex flex-column">
+
+        <ul class="navbar-nav flex-grow-1">
           <li class="nav-item">
             <a class="nav-link text-white px-4 py-3" routerLink="/home" routerLinkActive="fw-bold" [routerLinkActiveOptions]="{exact: true}">Inicio</a>
           </li>
@@ -45,6 +46,18 @@
             <a class="nav-link text-white px-4 py-3" routerLink="/viajes" routerLinkActive="fw-bold">Mis Viajes</a>
           </li>
         </ul>
+
+        <!-- Cerrar sesión al fondo del offcanvas -->
+        <div class="px-4 py-3" style="border-top: 1px solid rgba(255,255,255,0.2);">
+          <button
+            *ngIf="estaLogueado()"
+            (click)="cerrarSesion()"
+            class="btn w-100"
+            style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; font-size: 0.9rem; padding: 0.5rem;">
+            Cerrar sesión
+          </button>
+        </div>
+
       </div>
     </div>
   </div>
