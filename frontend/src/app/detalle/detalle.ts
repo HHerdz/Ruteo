@@ -27,24 +27,24 @@ export class DetalleComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // ================= DESTINOS =================
     'Ciudad Amurallada': [
-      'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=1200',
-      'https://images.unsplash.com/photo-1562967916-eb82221dfb92?w=1200',
-      'https://images.unsplash.com/photo-1596495578065-6e0763fa1178?w=1200',
-      'https://images.unsplash.com/photo-1605733160314-4fc7dac4bb16?w=1200'
+      'https://upload.wikimedia.org/wikipedia/commons/a/ab/Ciudad_Amurallada_Cartagena.JPG',
+      'https://upload.wikimedia.org/wikipedia/commons/d/d6/Ciudad_Amurallada,_Cartagena_de_Indias.jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/9/9f/Cartagena_skyline_from_the_city_walls.JPG',
+      'https://upload.wikimedia.org/wikipedia/commons/1/11/Centro_historico_de_Cartagena.jpg',
     ],
 
     'Cali Centro Histórico': [
-      'https://images.unsplash.com/photo-1597092404773-9f4e6b9b2a6d?w=1200',
-      'https://images.unsplash.com/photo-1626110585745-1c7c3f6f6f52?w=1200',
-      'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200',
-      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200'
+      'https://upload.wikimedia.org/wikipedia/commons/c/c2/Iglesia_de_La_Merced,_Cali.JPG',
+      'https://upload.wikimedia.org/wikipedia/commons/f/f1/Iglesia_y_Convento_de_la_Merced_en_Cali_-Panoramica-.JPG',
+      'https://upload.wikimedia.org/wikipedia/commons/d/d8/30-023_Iglesia_San_Francisco1_Cali.jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/e/e4/Iglesia_de_Plaza_San_Franciso.JPG',
     ],
 
-    'El Poblado': [
-      'https://images.unsplash.com/photo-1620050752110-39f5c91d6b58?w=1200',
-      'https://images.unsplash.com/photo-1611159063981-b8c8c4301869?w=1200',
-      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200',
-      'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=1200'
+   'El Poblado': [
+      'https://upload.wikimedia.org/wikipedia/commons/5/59/El_Poblado_neighborhood.jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/0/0b/El_Poblado_en_la_Noche-Medellin.jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/0/01/Colombia_-_Latin_Top_Jobs_Medellin_at_El_Poblado_-_panoramio.jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/1/1e/ParqueLleras1.jpg',
     ],
 
     'Pozo Azul de Paipa': [
@@ -415,22 +415,22 @@ export class DetalleComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // ── ACTIVIDADES ───────────────────────────────────────────────
     'Tour en chiva por la ciudad amurallada': [
-      'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d3/8b/2e/chiva-parrandera.jpg?w=900&h=500&s=1',
-      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200',
-      'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=1200'
+      'https://upload.wikimedia.org/wikipedia/commons/1/15/La_Chiva_Colombiana.jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/7/7e/La_Rumbera_(8333581712).jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/e/e5/Super_Offroad_Chivas_(5479991277).jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/0/05/Silvia_4897a.jpg',
     ],
     'Clase de salsa en el centro de Cali': [
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Cali_salsa.jpg/1200px-Cali_salsa.jpg',
-      'https://images.unsplash.com/photo-1545224144-b38cd309ef69?w=1200',
-      'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?w=1200',
-      'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1200'
+      'https://upload.wikimedia.org/wikipedia/commons/1/1d/Salsa_Tanzlehrer_Hernando_Flores_mit_einer_Gruppe_Anfängern.jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/9/94/Salsa_en_Cali.jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/b/bb/Show_de_Salsa.jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/2/2b/Salsa_dancing.jpg',
     ],
     'Tour en Metrocable línea L': [
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Medellin_Metrocable.jpg/1200px-Medellin_Metrocable.jpg',
-      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200',
-      'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200'
+      'https://upload.wikimedia.org/wikipedia/commons/2/20/Biblioteca_de_España_and_Metrocable_01.jpg',
+      'https://upload.wikimedia.org/wikipedia/commons/1/1e/Metro_cable_medellin.JPG',
+      'https://upload.wikimedia.org/wikipedia/commons/d/de/Telegrafico_medellin_cable_car.JPG',
+      'https://upload.wikimedia.org/wikipedia/commons/e/ea/Tanquemcable.JPG',
     ],
     'Baños termales en Paipa': [
       'https://hotelsochagota.com/wp-content/uploads/2017/11/11-1024x683.jpg',
@@ -720,4 +720,3 @@ export class DetalleComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
 }
-
