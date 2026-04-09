@@ -165,9 +165,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   getImagenHotel(hotel: any): string {
     const imagenes: any = {
-      'Hotel Casa La Fe': 'https://media-cdn.tripadvisor.com/media/photo-s/1a/f1/9b/b1/hotel-casa-la-fe.jpg',
-      'Hotel Dann Carlton Cali': 'https://a.otcdn.com/imglib/hotelphotos/7/8/026/hotel-dann-carlton-cali-20240509175854888700.webp',
-      'Hotel Dann Carlton Medellín': 'https://hotelesdann.com/wp-content/uploads/2020/04/Carlton-Medellin.jpg'
+      'Hotel Sofitel Legend Santa Clara': 'https://media-cdn.tripadvisor.com/media/photo-s/1a/f1/9b/b1/hotel-casa-la-fe.jpg',
+      'Hotel Caribe Cartagena': 'https://a.otcdn.com/imglib/hotelphotos/7/8/026/hotel-dann-carlton-cali-20240509175854888700.webp',
+      'Hotel Casa San Agustin': 'https://hotelesdann.com/wp-content/uploads/2020/04/Carlton-Medellin.jpg'
     };
     return imagenes[hotel.nom_hotel] || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600';
   }
